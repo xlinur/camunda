@@ -1,21 +1,15 @@
 package org.camunda.bpm.pa;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import org.camunda.bpm.admin.impl.web.SetupResource;
 import org.camunda.bpm.application.PostDeploy;
 import org.camunda.bpm.application.ProcessApplication;
 import org.camunda.bpm.application.impl.ServletProcessApplication;
+import org.camunda.bpm.engine.CaseService;
 import org.camunda.bpm.engine.ProcessEngine;
-import org.camunda.bpm.engine.RuntimeService;
-import org.camunda.bpm.engine.TaskService;
 import org.camunda.bpm.engine.impl.ProcessEngineImpl;
 import org.camunda.bpm.engine.rest.dto.identity.UserCredentialsDto;
 import org.camunda.bpm.engine.rest.dto.identity.UserDto;
 import org.camunda.bpm.engine.rest.dto.identity.UserProfileDto;
-import org.camunda.bpm.engine.runtime.ProcessInstance;
-import org.camunda.bpm.engine.task.Task;
 import org.camunda.bpm.pa.demo.InvoiceDemoDataGenerator;
 
 /**
@@ -33,93 +27,101 @@ public class DevProcessApplication extends ServletProcessApplication {
   }
 
   private void createCockpitDemoData(final ProcessEngine engine) throws Exception {
-    RuntimeService runtimeService = engine.getRuntimeService();
+//    RuntimeService runtimeService = engine.getRuntimeService();
+//
+//    Map<String, Object> vars1 = new HashMap<String, Object>();
+//    vars1.put("booleanVar", true);
+//    runtimeService.startProcessInstanceByKey("ProcessWithExclusiveGateway", "secondUserTask", vars1);
+//
+//    Map<String, Object> vars2 = new HashMap<String, Object>();
+//    vars2.put("booleanVar", false);
+//    runtimeService.startProcessInstanceByKey("ProcessWithExclusiveGateway", "firstUserTask", vars2);
+//
+//    runtimeService.startProcessInstanceByKey("multipleFailingServiceTasks", "aBusinessKey");
+//
+//    runtimeService.startProcessInstanceByKey("TwoParallelCallActivitiesCallingDifferentProcess");
+//    runtimeService.startProcessInstanceByKey("TwoParallelCallActivitiesCallingDifferentProcess");
+//    runtimeService.startProcessInstanceByKey("TwoParallelCallActivitiesCallingDifferentProcess");
+//
+//    runtimeService.startProcessInstanceByKey("TwoParallelCallActivitiesCallingSameProcess");
+//    runtimeService.startProcessInstanceByKey("TwoParallelCallActivitiesCallingSameProcess");
+//    runtimeService.startProcessInstanceByKey("TwoParallelCallActivitiesCallingSameProcess");
+//    runtimeService.startProcessInstanceByKey("TwoParallelCallActivitiesCallingSameProcess");
+//
+//    runtimeService.startProcessInstanceByKey("CallingCallActivity");
+//    runtimeService.startProcessInstanceByKey("CallingCallActivity");
+//    runtimeService.startProcessInstanceByKey("CallingCallActivity");
+//    runtimeService.startProcessInstanceByKey("CallingCallActivity");
+//    runtimeService.startProcessInstanceByKey("CallingCallActivity");
+//    runtimeService.startProcessInstanceByKey("CallingCallActivity");
+//    runtimeService.startProcessInstanceByKey("CallingCallActivity");
+//
+//    runtimeService.startProcessInstanceByKey("OrderProcess");
+//    runtimeService.startProcessInstanceByKey("FailingProcess");
+//    runtimeService.startProcessInstanceByKey("FailingProcess");
+//    runtimeService.startProcessInstanceByKey("CallActivity");
+//
+//    runtimeService.startProcessInstanceByKey("OrderProcess");
+//    runtimeService.startProcessInstanceByKey("OrderProcess");
+//    runtimeService.startProcessInstanceByKey("OrderProcess");
+//    runtimeService.startProcessInstanceByKey("OrderProcess");
+//
+//    runtimeService.startProcessInstanceByKey("FailingProcess");
+//    runtimeService.startProcessInstanceByKey("FailingProcess");
+//    runtimeService.startProcessInstanceByKey("FailingProcess");
+//    runtimeService.startProcessInstanceByKey("FailingProcess");
+//    runtimeService.startProcessInstanceByKey("FailingProcess");
+//    runtimeService.startProcessInstanceByKey("FailingProcess");
+//
+//    runtimeService.startProcessInstanceByKey("AnotherFailingProcess");
+//    runtimeService.startProcessInstanceByKey("AnotherFailingProcess");
+//    runtimeService.startProcessInstanceByKey("AnotherFailingProcess");
+//    runtimeService.startProcessInstanceByKey("AnotherFailingProcess");
+//    runtimeService.startProcessInstanceByKey("AnotherFailingProcess");
+//    runtimeService.startProcessInstanceByKey("AnotherFailingProcess");
+//
+//    runtimeService.startProcessInstanceByKey("CallActivity");
+//    runtimeService.startProcessInstanceByKey("CallActivity");
+//    runtimeService.startProcessInstanceByKey("CallActivity");
+//    runtimeService.startProcessInstanceByKey("CallActivity");
+//    runtimeService.startProcessInstanceByKey("CallActivity");
+//
+//    Map<String, Object> params = new HashMap<String, Object>();
+//    params.put("value1", "a");
+//    params.put("value2", "b");
+//    params.put("value3", "c");
+//
+//    runtimeService.startProcessInstanceByKey("cornercasesProcess", params);
+//    runtimeService.startProcessInstanceByKey("cornercasesProcess", params);
+//    runtimeService.startProcessInstanceByKey("cornercasesProcess", params);
+//    runtimeService.startProcessInstanceByKey("cornercasesProcess", params);
+//
+//    runtimeService.startProcessInstanceByKey("processWithSubProcess");
+//    runtimeService.startProcessInstanceByKey("processWithSubProcess");
+//    runtimeService.startProcessInstanceByKey("processWithSubProcess");
+//    runtimeService.startProcessInstanceByKey("processWithSubProcess");
+//    runtimeService.startProcessInstanceByKey("processWithSubProcess");
+//    runtimeService.startProcessInstanceByKey("processWithSubProcess");
+//
+//    runtimeService.startProcessInstanceByKey("executionProcess");
+//    runtimeService.startProcessInstanceByKey("executionProcess");
+//    runtimeService.startProcessInstanceByKey("executionProcess");
+//    runtimeService.startProcessInstanceByKey("executionProcess");
+//    runtimeService.startProcessInstanceByKey("executionProcess");
+//    runtimeService.startProcessInstanceByKey("executionProcess");
+//
+//    ProcessInstance pi = runtimeService.startProcessInstanceByKey("changeVariablesProcess");
+//    TaskService taskService = engine.getTaskService();
+//    Task task = taskService.createTaskQuery().processInstanceId(pi.getId()).singleResult();
+//    taskService.setVariableLocal(task.getId(), "localTaskVariable", "foo");
 
-    Map<String, Object> vars1 = new HashMap<String, Object>();
-    vars1.put("booleanVar", true);
-    runtimeService.startProcessInstanceByKey("ProcessWithExclusiveGateway", "secondUserTask", vars1);
+    CaseService caseService = engine.getCaseService();
 
-    Map<String, Object> vars2 = new HashMap<String, Object>();
-    vars2.put("booleanVar", false);
-    runtimeService.startProcessInstanceByKey("ProcessWithExclusiveGateway", "firstUserTask", vars2);
-
-    runtimeService.startProcessInstanceByKey("multipleFailingServiceTasks", "aBusinessKey");
-
-    runtimeService.startProcessInstanceByKey("TwoParallelCallActivitiesCallingDifferentProcess");
-    runtimeService.startProcessInstanceByKey("TwoParallelCallActivitiesCallingDifferentProcess");
-    runtimeService.startProcessInstanceByKey("TwoParallelCallActivitiesCallingDifferentProcess");
-
-    runtimeService.startProcessInstanceByKey("TwoParallelCallActivitiesCallingSameProcess");
-    runtimeService.startProcessInstanceByKey("TwoParallelCallActivitiesCallingSameProcess");
-    runtimeService.startProcessInstanceByKey("TwoParallelCallActivitiesCallingSameProcess");
-    runtimeService.startProcessInstanceByKey("TwoParallelCallActivitiesCallingSameProcess");
-
-    runtimeService.startProcessInstanceByKey("CallingCallActivity");
-    runtimeService.startProcessInstanceByKey("CallingCallActivity");
-    runtimeService.startProcessInstanceByKey("CallingCallActivity");
-    runtimeService.startProcessInstanceByKey("CallingCallActivity");
-    runtimeService.startProcessInstanceByKey("CallingCallActivity");
-    runtimeService.startProcessInstanceByKey("CallingCallActivity");
-    runtimeService.startProcessInstanceByKey("CallingCallActivity");
-
-    runtimeService.startProcessInstanceByKey("OrderProcess");
-    runtimeService.startProcessInstanceByKey("FailingProcess");
-    runtimeService.startProcessInstanceByKey("FailingProcess");
-    runtimeService.startProcessInstanceByKey("CallActivity");
-
-    runtimeService.startProcessInstanceByKey("OrderProcess");
-    runtimeService.startProcessInstanceByKey("OrderProcess");
-    runtimeService.startProcessInstanceByKey("OrderProcess");
-    runtimeService.startProcessInstanceByKey("OrderProcess");
-
-    runtimeService.startProcessInstanceByKey("FailingProcess");
-    runtimeService.startProcessInstanceByKey("FailingProcess");
-    runtimeService.startProcessInstanceByKey("FailingProcess");
-    runtimeService.startProcessInstanceByKey("FailingProcess");
-    runtimeService.startProcessInstanceByKey("FailingProcess");
-    runtimeService.startProcessInstanceByKey("FailingProcess");
-
-    runtimeService.startProcessInstanceByKey("AnotherFailingProcess");
-    runtimeService.startProcessInstanceByKey("AnotherFailingProcess");
-    runtimeService.startProcessInstanceByKey("AnotherFailingProcess");
-    runtimeService.startProcessInstanceByKey("AnotherFailingProcess");
-    runtimeService.startProcessInstanceByKey("AnotherFailingProcess");
-    runtimeService.startProcessInstanceByKey("AnotherFailingProcess");
-
-    runtimeService.startProcessInstanceByKey("CallActivity");
-    runtimeService.startProcessInstanceByKey("CallActivity");
-    runtimeService.startProcessInstanceByKey("CallActivity");
-    runtimeService.startProcessInstanceByKey("CallActivity");
-    runtimeService.startProcessInstanceByKey("CallActivity");
-
-    Map<String, Object> params = new HashMap<String, Object>();
-    params.put("value1", "a");
-    params.put("value2", "b");
-    params.put("value3", "c");
-
-    runtimeService.startProcessInstanceByKey("cornercasesProcess", params);
-    runtimeService.startProcessInstanceByKey("cornercasesProcess", params);
-    runtimeService.startProcessInstanceByKey("cornercasesProcess", params);
-    runtimeService.startProcessInstanceByKey("cornercasesProcess", params);
-
-    runtimeService.startProcessInstanceByKey("processWithSubProcess");
-    runtimeService.startProcessInstanceByKey("processWithSubProcess");
-    runtimeService.startProcessInstanceByKey("processWithSubProcess");
-    runtimeService.startProcessInstanceByKey("processWithSubProcess");
-    runtimeService.startProcessInstanceByKey("processWithSubProcess");
-    runtimeService.startProcessInstanceByKey("processWithSubProcess");
-
-    runtimeService.startProcessInstanceByKey("executionProcess");
-    runtimeService.startProcessInstanceByKey("executionProcess");
-    runtimeService.startProcessInstanceByKey("executionProcess");
-    runtimeService.startProcessInstanceByKey("executionProcess");
-    runtimeService.startProcessInstanceByKey("executionProcess");
-    runtimeService.startProcessInstanceByKey("executionProcess");
-
-    ProcessInstance pi = runtimeService.startProcessInstanceByKey("changeVariablesProcess");
-    TaskService taskService = engine.getTaskService();
-    Task task = taskService.createTaskQuery().processInstanceId(pi.getId()).singleResult();
-    taskService.setVariableLocal(task.getId(), "localTaskVariable", "foo");
+    caseService
+      .withCaseDefinitionByKey("Case_1")
+      .setVariable("aVariable", "abc")
+      .setVariable("anotherVariable", 123)
+      .create();
 
     new Thread(){
       public void run() {
