@@ -4,26 +4,30 @@
                   targetNamespace="Examples"
                   xmlns="http://www.omg.org/spec/CMMN/20131201/MODEL"
                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-             
-  <case id="Case_1" name="A wonderful case">
-    <casePlanModel id="aCasePlanModel">
 
-      <planItem id="PI_A" definitionRef="A" />
-      <planItem id="PI_B" definitionRef="B" />
-      <planItem id="PI_C" definitionRef="C" />
+  <case id="loanApplication" name="Loan Application Case">
 
-      <humanTask id="A" name="A HumanTask" />
-      <humanTask id="B" name="A very important HumanTask" />
+    <casePlanModel name="Loan Application" id="CasePlanModel_1">
 
-      <stage id="C" name="A Stage">
-        <planItem id="PI_D" definitionRef="D" />
-        <planItem id="PI_E" definitionRef="E" />
+      <planItem definitionRef="Stage_1" id="PI_Stage_1"/>
+      <planItem definitionRef="HumanTask_6" id="PI_HumanTask_6"/>
+
+      <humanTask name="Capture Applicant Data" id="HumanTask_1"/>
+      <humanTask name="Obtain Schufa-Information" id="HumanTask_2"/>
+      <humanTask name="Obtain Credit-worthiness" id="HumanTask_3"/>
+      <humanTask name="Review Documents" id="HumanTask_4"/>
+      <humanTask name="Request Missing Documents" id="HumanTask_5"/>
+      <humanTask name="Decide About Loan Application" id="HumanTask_6"/>
+
+      <stage name="Obtain Customer Data" id="Stage_1">
+        <planItem definitionRef="HumanTask_1" id="PI_HumanTask_1"/>
+        <planItem definitionRef="HumanTask_2" id="PI_HumanTask_2"/>
+        <planItem definitionRef="HumanTask_3" id="PI_HumanTask_3"/>
+        <planItem definitionRef="HumanTask_4" id="PI_HumanTask_4"/>
+        <planItem definitionRef="HumanTask_5" id="PI_HumanTask_5"/>
       </stage>
 
-      <humanTask id="D" name="Another very very important HumanTask" />
-      <humanTask id="E" name="Do not do it!" />
-
     </casePlanModel>
+
   </case>
 </definitions>
-

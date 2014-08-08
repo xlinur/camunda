@@ -118,7 +118,7 @@ public class DevProcessApplication extends ServletProcessApplication {
     CaseService caseService = engine.getCaseService();
 
     caseService
-      .withCaseDefinitionByKey("Case_1")
+      .withCaseDefinitionByKey("loanApplication")
       .setVariable("aVariable", "abc")
       .setVariable("anotherVariable", 123)
       .create();
