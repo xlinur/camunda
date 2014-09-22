@@ -4,7 +4,6 @@ import org.camunda.bpm.admin.impl.web.SetupResource;
 import org.camunda.bpm.application.PostDeploy;
 import org.camunda.bpm.application.ProcessApplication;
 import org.camunda.bpm.application.impl.ServletProcessApplication;
-import org.camunda.bpm.engine.CaseService;
 import org.camunda.bpm.engine.ProcessEngine;
 import org.camunda.bpm.engine.impl.ProcessEngineImpl;
 import org.camunda.bpm.engine.rest.dto.identity.UserCredentialsDto;
@@ -114,14 +113,14 @@ public class DevProcessApplication extends ServletProcessApplication {
 //    TaskService taskService = engine.getTaskService();
 //    Task task = taskService.createTaskQuery().processInstanceId(pi.getId()).singleResult();
 //    taskService.setVariableLocal(task.getId(), "localTaskVariable", "foo");
-
-    CaseService caseService = engine.getCaseService();
-
-    caseService
-      .withCaseDefinitionByKey("loanApplication")
-      .setVariable("aVariable", "abc")
-      .setVariable("anotherVariable", 123)
-      .create();
+//
+//    CaseService caseService = engine.getCaseService();
+//
+//    caseService
+//      .withCaseDefinitionByKey("loanApplication")
+//      .setVariable("aVariable", "abc")
+//      .setVariable("anotherVariable", 123)
+//      .create();
 
     new Thread(){
       public void run() {
