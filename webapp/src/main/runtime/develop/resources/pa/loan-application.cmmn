@@ -42,7 +42,15 @@
 
       <processTask name="Obtain Schufa-Information" id="obtainSchufaInfoProcessTask" processRef="obtainSchufa" />
 
-      <humanTask name="Decide About Loan Application" id="decideHumanTask" camunda:assignee="jonny1" />
+      <humanTask name="Decide About Loan Application" id="decideHumanTask" camunda:assignee="jonny1">
+        <defaultControl>
+          <manualActivationRule>
+            <condition>
+              <body>${false}</body>
+            </condition>
+          </manualActivationRule>
+        </defaultControl>
+      </humanTask>
       <humanTask name="Capture Application Data" id="captureAppDataHumanTask" camunda:assignee="jonny1" />
       <humanTask name="Obtain Credit-worthiness" id="obtainCreditWorthinessHumanTask" camunda:assignee="jonny1" />
       <humanTask name="Request Missing Documents" id="requestMissingDocumentsHumanTask" camunda:assignee="jonny1" />
