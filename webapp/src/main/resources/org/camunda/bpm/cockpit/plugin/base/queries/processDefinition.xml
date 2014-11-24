@@ -111,46 +111,53 @@
 
           and NAME_= #{queryVariableValue.name}
 
-        <if test="!queryVariableValue.type.equals('null')">
-        <!-- When operator is not-equals or type of value is null, type doesn't matter! -->
-          and TYPE_ = #{queryVariableValue.type}
-        </if>
-        <if test="queryVariableValue.textValue != null &amp;&amp; queryVariableValue.longValue == null &amp;&amp; queryVariableValue.doubleValue == null">
-          and TEXT_
-        <choose>
-          <when test="queryVariableValue.operator.equals('LIKE')">LIKE</when>
-          <otherwise><include refid="executionVariableOperator" /></otherwise>
-        </choose>
-          #{queryVariableValue.textValue}
-        </if>
-        <if test="queryVariableValue.textValue2 != null">
-          and TEXT2_
-        <choose>
-          <when test="queryVariableValue.operator.equals('LIKE')">LIKE</when>
-          <otherwise><include refid="executionVariableOperator" /></otherwise>
-        </choose>
-          #{queryVariableValue.textValue2}
-        </if>
-        <if test="queryVariableValue.longValue != null">
-          and LONG_
-        <include refid="executionVariableOperator" />
-        #{queryVariableValue.longValue}
-        </if>
-        <if test="queryVariableValue.doubleValue != null">
-        and DOUBLE_
-        <include refid="executionVariableOperator" />
-        #{queryVariableValue.doubleValue}
-        </if>
-        <!-- Null variable type -->
-        <if test="queryVariableValue.textValue == null &amp;&amp; queryVariableValue.textValue2 == null &amp;&amp; queryVariableValue.longValue == null &amp;&amp; queryVariableValue.doubleValue == null">
-          <choose>
-          <when test="queryVariableValue.operator.equals('NOT_EQUALS')">
-            and (TEXT_ is not null or TEXT2_ is not null or LONG_ is not null or DOUBLE_ is not null or BYTEARRAY_ID_ is not null)
-          </when>
-          <otherwise>
-        and TEXT_ is null and TEXT2_ is null and LONG_ is null and DOUBLE_ is null and BYTEARRAY_ID_ is null
-          </otherwise>
-        </choose>
+        <if test="queryVariableValue.valueConditions != null">
+          and 
+          <if test="queryVariableValue.operatorName.equals('NOT_EQUALS')">NOT</if><!-- NOT_EQUALS uses the same conditions as EQUALS -->
+          (
+          <foreach collection="queryVariableValue.valueConditions" item="valueCondition" separator="or">
+            <trim prefix="(" prefixOverrides="and" suffix=")">
+              <if test="!valueCondition.type.equals('null')">
+              <!-- when type of value is null, type doesn't matter! -->
+              and TYPE_ = #{valueCondition.type}
+              </if>
+               
+              <if test="valueCondition.textValue != null &amp;&amp; valueCondition.longValue == null &amp;&amp; valueCondition.doubleValue == null">
+                and TEXT_
+              <choose>
+                <when test="queryVariableValue.operatorName.equals('LIKE')">LIKE</when>
+                <otherwise><include refid="executionVariableOperator" /></otherwise>
+              </choose>
+                #{valueCondition.textValue}
+              </if>
+              <if test="valueCondition.textValue2 != null">
+                and TEXT2_
+              <choose>
+                <when test="queryVariableValue.operatorName.equals('LIKE')">LIKE</when>
+                <otherwise><include refid="executionVariableOperator" /></otherwise>
+              </choose>
+                #{valueCondition.textValue2}
+              </if>
+          
+              <if test="valueCondition.longValue != null">
+                and LONG_
+                <include refid="executionVariableOperator" />
+                #{valueCondition.longValue}
+              </if>
+          
+              <if test="valueCondition.doubleValue != null">
+                and DOUBLE_
+                <include refid="executionVariableOperator" />
+                #{valueCondition.doubleValue}
+              </if>
+        
+              <!-- Null variable type -->
+              <if test="valueCondition.textValue == null &amp;&amp; valueCondition.textValue2 == null &amp;&amp; valueCondition.longValue == null &amp;&amp; valueCondition.doubleValue == null">
+                and TEXT_ is null and TEXT2_ is null and LONG_ is null and DOUBLE_ is null and BYTEARRAY_ID_ is null
+              </if>
+            </trim>
+          </foreach>
+          )
         </if>
       )
       </foreach>
