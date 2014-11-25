@@ -156,7 +156,7 @@
           and NAME_= #{queryVariableValue.name}
 
         <if test="queryVariableValue.valueConditions != null">
-          and 
+          and
           <if test="queryVariableValue.operatorName.equals('NOT_EQUALS')">NOT</if><!-- NOT_EQUALS uses the same conditions as EQUALS -->
           (
           <foreach collection="queryVariableValue.valueConditions" item="valueCondition" separator="or">
@@ -165,7 +165,7 @@
               <!-- When operator is not-equals or type of value is null, type doesn't matter! -->
               and TYPE_ = #{valueCondition.type}
               </if>
-               
+
               <if test="valueCondition.textValue != null &amp;&amp; valueCondition.longValue == null &amp;&amp; valueCondition.doubleValue == null">
                 and TEXT_
               <choose>
@@ -182,19 +182,19 @@
               </choose>
                 #{valueCondition.textValue2}
               </if>
-          
+
               <if test="valueCondition.longValue != null">
                 and LONG_
                 <include refid="executionVariableOperator" />
                 #{valueCondition.longValue}
               </if>
-          
+
               <if test="valueCondition.doubleValue != null">
                 and DOUBLE_
                 <include refid="executionVariableOperator" />
                 #{valueCondition.doubleValue}
               </if>
-        
+
               <!-- Null variable type -->
               <if test="valueCondition.textValue == null &amp;&amp; valueCondition.textValue2 == null &amp;&amp; valueCondition.longValue == null &amp;&amp; valueCondition.doubleValue == null">
                 and TEXT_ is null and TEXT2_ is null and LONG_ is null and DOUBLE_ is null and BYTEARRAY_ID_ is null
@@ -245,21 +245,12 @@
 
   <sql id="executionVariableOperator">
     <choose>
-<<<<<<< HEAD
-   	  <when test="queryVariableValue.operator.equals('EQUALS')">=</when>
-   	  <when test="queryVariableValue.operator.equals('NOT_EQUALS')">&lt;&gt;</when>
-   	  <when test="queryVariableValue.operator.equals('GREATER_THAN')">&gt;</when>
-   	  <when test="queryVariableValue.operator.equals('GREATER_THAN_OR_EQUAL')">&gt;=</when>
-   	  <when test="queryVariableValue.operator.equals('LESS_THAN')">&lt;</when>
-   	  <when test="queryVariableValue.operator.equals('LESS_THAN_OR_EQUAL')">&lt;=</when>
-=======
    	  <when test="queryVariableValue.operatorName.equals('EQUALS')">=</when>
    	  <when test="queryVariableValue.operatorName.equals('NOT_EQUALS')">=</when><!-- Note: NOT_EQUALS is handled by negating the condition -->
    	  <when test="queryVariableValue.operatorName.equals('GREATER_THAN')">&gt;</when>
    	  <when test="queryVariableValue.operatorName.equals('GREATER_THAN_OR_EQUAL')">&gt;=</when>
    	  <when test="queryVariableValue.operatorName.equals('LESS_THAN')">&lt;</when>
    	  <when test="queryVariableValue.operatorName.equals('LESS_THAN_OR_EQUAL')">&lt;=</when>
->>>>>>> 1f96f1d... chore(plugin): add cockpit plugins
    </choose>
   </sql>
 </mapper>
