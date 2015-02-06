@@ -1,13 +1,71 @@
-/*
-* Admin login
-* validate users main page
-* logout 
-* */
 'use strict';
+
+var CamSDK = require('camunda-bpm-sdk-js');
+
+var resetUrl = 'http://localhost:8080/camunda/ensureCleanDb/default';
+var request = require('request');
+
+var users = [{
+    id:         'john',
+    password:   'MobyDick',
+    firstName:  'John',
+    lastName:   'Bonham',
+    email:      'john.bonham@led-zeppelin.com'
+  },
+  {
+    id:         'keith',
+    password:   'abcdefg',
+    firstName:  'Keith',
+    lastName:   'Moon',
+    email:      'keith.moon@the-who.com'
+  },
+  {
+    id:         'ringo',
+    password:   'cam123',
+    firstName:  'Ringo',
+    lastName:   'Starr',
+    email:      'ringo.starr@the-beatles.com'
+  }];
+
+
+request(resetUrl, function (err, res, body) {
+  if (err) {
+    throw err;
+  }
+
+  body = JSON.parse(body);
+  console.info('res body', body.clean);
+
+  var camClient = new CamSDK.Client({
+    mock: false,
+    apiUri: 'http://localhost:8080/engine-rest'
+  });
+
+  var userService = new camClient.resource('user');
+
+  users.forEach(function(u) {
+    userService.create({
+      id:         u.id,
+      password:   u.password,
+      firstName:  u.firstName,
+      lastName:   u.lastName,
+      email:      u.email
+    }, function created(err, user) {
+      if(err) {
+        throw err;
+      }
+
+      console.log(user);
+    });
+
+  });
+
+});
+
 
 var usersPage = require('../pages/users');
 
-describe('users page - ', function() {
+describe('Admin users page - ', function() {
 
   describe('start test', function() {
 
@@ -17,7 +75,7 @@ describe('users page - ', function() {
 
       // when
       usersPage.navigateToWebapp('Admin');
-      usersPage.authentication.userLogin('jonny1', 'jonny1');
+      usersPage.authentication.userLogin('admin', 'admin');
 
       // then
       usersPage.isActive();
@@ -45,13 +103,14 @@ describe('users page - ', function() {
       expect(usersPage.newUserButton().isEnabled()).toBe(true);
     });
 
+
     it('should select user name in list', function() {
 
       // when
-      usersPage.selectUserByNameLink(0);
+      usersPage.selectUserByNameLink(2);
 
       // then
-      usersPage.editUserProfile.isActive({ user: 'demo' });
+      usersPage.editUserProfile.isActive({ user: 'keith' });
     });
 
 
@@ -87,11 +146,11 @@ describe('users page - ', function() {
     it('should enter new user data', function() {
 
       // when
-      usersPage.newUser.createNewUser('Icke', 'password1234', 'password1234', 'Ädmün', 'Öttö', 'ädmün.öttö@wurstfarbik.de' );
+      usersPage.newUser.createNewUser('Icke', 'password1234', 'password1234', 'Cäm', 'Özdemir', 'cäm.özdemir@gruene.de' );
       usersPage.editUserProfile.navigateTo({ user: 'Icke' });
 
       // then
-      expect(usersPage.editUserProfile.pageHeader()).toBe('Ädmün Öttö');
+      expect(usersPage.editUserProfile.pageHeader()).toBe('Cäm Özdemir');
     });
 
 
@@ -103,7 +162,7 @@ describe('users page - ', function() {
 
       // then
       expect(usersPage.loggedInUser()).toBe('Icke');
-      expect(usersPage.userList().count()).toEqual(1);
+      expect(usersPage.userList().count()).toEqual(1);  //???
     });
 
 
@@ -120,7 +179,7 @@ describe('users page - ', function() {
     it('should validate profile page', function() {
 
       // given
-      usersPage.authentication.userLogin('jonny1', 'jonny1');
+      usersPage.authentication.userLogin('admin', 'admin');
 
       // when
       usersPage.selectUser(0);
@@ -139,7 +198,7 @@ describe('users page - ', function() {
       usersPage.editUserProfile.updateProfileButton().click();
 
       // then
-      expect(usersPage.editUserProfile.pageHeader()).toBe('Ädmüni Öttö');
+      expect(usersPage.editUserProfile.pageHeader()).toBe('Cämi Özdemir');
     });
 
   });
@@ -214,7 +273,7 @@ describe('users page - ', function() {
       usersPage.editUserGroups.selectUserNavbarItem('Groups');
 
       // then
-      expect(usersPage.editUserGroups.subHeader()).toBe("Ädmüni Öttö's Groups");
+      expect(usersPage.editUserGroups.subHeader()).toBe("Cämi Özdemir's Groups");
       expect(usersPage.editUserGroups.addGroupButton().isPresent()).toBeFalsy();
     });
 
@@ -232,7 +291,7 @@ describe('users page - ', function() {
     it('should navigate to Account menu', function() {
 
       // when
-      usersPage.authentication.userLogin('jonny1', 'jonny1');
+      usersPage.authentication.userLogin('admin', 'admin');
       usersPage.selectUser(0);
       usersPage.editUserAccount.selectUserNavbarItem('Account');
 
@@ -246,7 +305,7 @@ describe('users page - ', function() {
       usersPage.editUserAccount.deleteUser();
 
       // then
-      expect(usersPage.userList().count()).toEqual(5);
+      expect(usersPage.userList().count()).toEqual(4);
     });
 
   });
