@@ -129,6 +129,8 @@ public class TestServlet extends HttpServlet {
 
     UserProfileDto userProfileDto = new UserProfileDto();
     userProfileDto.setId("admin");
+    userProfileDto.setFirstName("Admin");
+    userProfileDto.setLastName("Nimda");
     user.setProfile(userProfileDto);
 
     new SetupResource().createInitialUser(processEngine.getName(), user);
