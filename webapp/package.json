@@ -12,13 +12,17 @@
     "tasklistBuildTarget": "target/webapp/app/tasklist",
     "tasklistSourceDir": "node_modules/camunda-tasklist-ui/client",
     "pluginBuildTarget": "target/webapp/plugin",
-    "pluginSourceDir": "src/main/resources-plugin"
+    "pluginSourceDir": "src/main/resources-plugin",
+    "libTargetDir": "target/webapp/lib"
   },
   "dependencies": {
     "camunda-admin-ui": "git://github.com/camunda/camunda-admin-ui#master",
     "camunda-cockpit-ui": "git://github.com/camunda/camunda-cockpit-ui#master",
     "camunda-commons-ui": "git://github.com/camunda/camunda-commons-ui#master",
-    "camunda-tasklist-ui": "git://github.com/camunda/camunda-tasklist-ui#master"
+    "camunda-tasklist-ui": "git://github.com/camunda/camunda-tasklist-ui#master",
+    "requirejs-angular-define": "git://github.com/camunda/requirejs-angular-define#master",
+    "angular": "1.2.29",
+    "requirejs": "2.1.22"
   },
   "devDependencies": {
     "brfs": "^1.4.2",
@@ -42,7 +46,6 @@
     "mocha-multi": "0.7.2",
     "mocha-proshot": "1.0.1",
     "request": "2.53.0",
-    "requirejs-angular-define": "git://github.com/camunda/requirejs-angular-define#master",
     "requirejs-text": "2.0.12",
     "source-map": "0.4.4",
     "xunit-file": "0.0.6"

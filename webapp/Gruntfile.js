@@ -27,7 +27,8 @@ module.exports = function(grunt) {
   // require('camunda-cockpit-ui/grunt/config/requirejs')(config, requireJsConf);
   // require('camunda-tasklist-ui/grunt/config/requirejs')(config, requireJsConf);
 
-  var copyConf = { };
+  var copyConf = require('./grunt/config/copy');
+  // var copyConf = { };
   require('camunda-admin-ui/grunt/config/copy')(config, copyConf);
   // require('camunda-cockpit-ui/grunt/config/copy')(config, copyConf);
   // require('camunda-tasklist-ui/grunt/config/copy')(config, copyConf);
