@@ -18,15 +18,19 @@ module.exports = function(grunt) {
     }
   };
 
+  var browserifyConf = { };
+
+  require('camunda-admin-ui/grunt/config/browserify')(config, browserifyConf);
+
   require('./grunt/config/requirejs')(config, requireJsConf);
-  require('camunda-admin-ui/grunt/config/requirejs')(config, requireJsConf);
-  require('camunda-cockpit-ui/grunt/config/requirejs')(config, requireJsConf);
-  require('camunda-tasklist-ui/grunt/config/requirejs')(config, requireJsConf);
+  // require('camunda-admin-ui/grunt/config/requirejs')(config, requireJsConf);
+  // require('camunda-cockpit-ui/grunt/config/requirejs')(config, requireJsConf);
+  // require('camunda-tasklist-ui/grunt/config/requirejs')(config, requireJsConf);
 
   var copyConf = { };
   require('camunda-admin-ui/grunt/config/copy')(config, copyConf);
-  require('camunda-cockpit-ui/grunt/config/copy')(config, copyConf);
-  require('camunda-tasklist-ui/grunt/config/copy')(config, copyConf);
+  // require('camunda-cockpit-ui/grunt/config/copy')(config, copyConf);
+  // require('camunda-tasklist-ui/grunt/config/copy')(config, copyConf);
 
   var lessConf = { };
   require('camunda-commons-ui/grunt/config/less')(config, lessConf, {
@@ -34,44 +38,44 @@ module.exports = function(grunt) {
     sourceDir: pkg.gruntConfig.adminSourceDir,
     buildTarget: pkg.gruntConfig.adminBuildTarget,
   });
-  require('camunda-commons-ui/grunt/config/less')(config, lessConf, {
-    appName: 'cockpit',
-    sourceDir: pkg.gruntConfig.cockpitSourceDir,
-    buildTarget: pkg.gruntConfig.cockpitBuildTarget,
-  });
-  require('camunda-commons-ui/grunt/config/less')(config, lessConf, {
-    appName: 'tasklist',
-    sourceDir: pkg.gruntConfig.tasklistSourceDir,
-    buildTarget: pkg.gruntConfig.tasklistBuildTarget,
-  });
+  // require('camunda-commons-ui/grunt/config/less')(config, lessConf, {
+  //   appName: 'cockpit',
+  //   sourceDir: pkg.gruntConfig.cockpitSourceDir,
+  //   buildTarget: pkg.gruntConfig.cockpitBuildTarget,
+  // });
+  // require('camunda-commons-ui/grunt/config/less')(config, lessConf, {
+  //   appName: 'tasklist',
+  //   sourceDir: pkg.gruntConfig.tasklistSourceDir,
+  //   buildTarget: pkg.gruntConfig.tasklistBuildTarget,
+  // });
 
   var localesConf = { };
-  require('camunda-commons-ui/grunt/config/localescompile')(config, localesConf, {
-    appName: 'tasklist',
-    sourceDir: pkg.gruntConfig.tasklistSourceDir,
-    buildTarget: pkg.gruntConfig.tasklistBuildTarget,
-  });
+  // require('camunda-commons-ui/grunt/config/localescompile')(config, localesConf, {
+  //   appName: 'tasklist',
+  //   sourceDir: pkg.gruntConfig.tasklistSourceDir,
+  //   buildTarget: pkg.gruntConfig.tasklistBuildTarget,
+  // });
 
   var watchConf = { };
   require('./grunt/config/watch')(config, watchConf);
-  require('camunda-tasklist-ui/grunt/config/watch')(config, watchConf);
-  require('camunda-cockpit-ui/grunt/config/watch')(config, watchConf);
+  // require('camunda-tasklist-ui/grunt/config/watch')(config, watchConf);
+  // require('camunda-cockpit-ui/grunt/config/watch')(config, watchConf);
   require('camunda-admin-ui/grunt/config/watch')(config, watchConf);
 
   // watch the SDK
-  watchConf.watchSdk = {
-    options: {
-      livereload: false
-    },
-    files: ['node_modules/camunda-commons-ui/node_modules/camunda-bpm-sdk-js/lib/**/*.js'],
-    tasks: ['grunt:buildSdk']
-  };
+  // watchConf.watchSdk = {
+  //   options: {
+  //     livereload: false
+  //   },
+  //   files: ['node_modules/camunda-commons-ui/node_modules/camunda-bpm-sdk-js/lib/**/*.js'],
+  //   tasks: ['grunt:buildSdk']
+  // };
 
   var gruntConf = {
-    buildSdk: {
-      gruntfile: 'node_modules/camunda-commons-ui/node_modules/camunda-bpm-sdk-js/Gruntfile.js',
-      tasks: ['browserify:distAngular', 'browserify:distTypeUtils']
-    }
+    // buildSdk: {
+    //   gruntfile: 'node_modules/camunda-commons-ui/node_modules/camunda-bpm-sdk-js/Gruntfile.js',
+    //   tasks: ['browserify:distAngular', 'browserify:distTypeUtils']
+    // }
   };
 
 
@@ -81,6 +85,8 @@ module.exports = function(grunt) {
     pkg:              pkg,
 
     requirejs:        requireJsConf,
+
+    browserify:       browserifyConf,
 
     copy:             copyConf,
 
@@ -122,18 +128,20 @@ module.exports = function(grunt) {
     if(typeof app !== 'undefined' && app !== 'tasklist') {
       grunt.task.run([
         'clean',
-        'grunt',
-        'requirejs',
+        // 'grunt',
+        // 'requirejs',
+        'browserify',
         'copy',
         'less'
       ]);
     } else {
       grunt.task.run([
         'clean',
-        'grunt',
-        'requirejs',
+        // 'grunt',
+        // 'requirejs',
+        'browserify',
         'copy',
-        'localescompile',
+        // 'localescompile',
         'less'
       ]);
     }
