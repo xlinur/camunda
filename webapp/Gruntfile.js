@@ -80,6 +80,11 @@ module.exports = function(grunt) {
   };
 
 
+  var uglifyConf = {};
+  require('./grunt/config/uglify')(config, uglifyConf);
+  require('camunda-admin-ui/grunt/config/uglify')(config, uglifyConf);
+
+
   grunt.initConfig({
     buildMode:        'dev',
 
@@ -94,6 +99,8 @@ module.exports = function(grunt) {
     less:             lessConf,
 
     localescompile:   localesConf,
+
+    uglify:           uglifyConf,
 
     clean:            require('./grunt/config/clean')(config),
 
@@ -126,26 +133,23 @@ module.exports = function(grunt) {
 
     grunt.config.data.buildMode = mode || 'prod';
 
-    if(typeof app !== 'undefined' && app !== 'tasklist') {
-      grunt.task.run([
-        'clean',
-        // 'grunt',
-        // 'requirejs',
-        'browserify',
-        'copy',
-        'less'
-      ]);
-    } else {
-      grunt.task.run([
-        'clean',
-        // 'grunt',
-        // 'requirejs',
-        'browserify',
-        'copy',
-        // 'localescompile',
-        'less'
-      ]);
+    var tasksToRun = [
+      'clean',
+      // 'requirejs',
+      'browserify',
+      'copy',
+      'less'
+    ];
+
+    if(typeof app === 'undefined' || app === 'tasklist') {
+      // tasksToRun.push('localescompile');
     }
+
+    if(grunt.config.data.buildMode === 'prod') {
+      tasksToRun.push('uglify');
+    }
+
+    grunt.task.run(tasksToRun);
 
   });
 
