@@ -143,7 +143,7 @@ module.exports = function(grunt) {
     ];
 
     if(typeof app === 'undefined' || app === 'tasklist') {
-      // tasksToRun.push('localescompile');
+      tasksToRun.push('localescompile');
     }
 
     if(grunt.config.data.buildMode === 'prod') {
