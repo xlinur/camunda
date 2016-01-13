@@ -21,6 +21,7 @@ module.exports = function(grunt) {
   var browserifyConf = { };
 
   require('camunda-admin-ui/grunt/config/browserify')(config, browserifyConf);
+  require('camunda-tasklist-ui/grunt/config/browserify')(config, browserifyConf);
 
   require('./grunt/config/requirejs')(config, requireJsConf);
   // require('camunda-admin-ui/grunt/config/requirejs')(config, requireJsConf);
@@ -31,7 +32,7 @@ module.exports = function(grunt) {
   // var copyConf = { };
   require('camunda-admin-ui/grunt/config/copy')(config, copyConf);
   // require('camunda-cockpit-ui/grunt/config/copy')(config, copyConf);
-  // require('camunda-tasklist-ui/grunt/config/copy')(config, copyConf);
+  require('camunda-tasklist-ui/grunt/config/copy')(config, copyConf);
 
   var lessConf = { };
   require('camunda-commons-ui/grunt/config/less')(config, lessConf, {
@@ -44,18 +45,18 @@ module.exports = function(grunt) {
   //   sourceDir: pkg.gruntConfig.cockpitSourceDir,
   //   buildTarget: pkg.gruntConfig.cockpitBuildTarget,
   // });
-  // require('camunda-commons-ui/grunt/config/less')(config, lessConf, {
-  //   appName: 'tasklist',
-  //   sourceDir: pkg.gruntConfig.tasklistSourceDir,
-  //   buildTarget: pkg.gruntConfig.tasklistBuildTarget,
-  // });
+  require('camunda-commons-ui/grunt/config/less')(config, lessConf, {
+    appName: 'tasklist',
+    sourceDir: pkg.gruntConfig.tasklistSourceDir,
+    buildTarget: pkg.gruntConfig.tasklistBuildTarget,
+  });
 
   var localesConf = { };
-  // require('camunda-commons-ui/grunt/config/localescompile')(config, localesConf, {
-  //   appName: 'tasklist',
-  //   sourceDir: pkg.gruntConfig.tasklistSourceDir,
-  //   buildTarget: pkg.gruntConfig.tasklistBuildTarget,
-  // });
+  require('camunda-commons-ui/grunt/config/localescompile')(config, localesConf, {
+    appName: 'tasklist',
+    sourceDir: pkg.gruntConfig.tasklistSourceDir,
+    buildTarget: pkg.gruntConfig.tasklistBuildTarget,
+  });
 
   var watchConf = { };
   require('./grunt/config/watch')(config, watchConf);
@@ -118,7 +119,7 @@ module.exports = function(grunt) {
 
     if(typeof app !== 'undefined') {
       console.log(' ------------  will build ' + app + ' -------------');
-      var objs = [requireJsConf, copyConf, lessConf, localesConf, watchConf, gruntConf];
+      var objs = [requireJsConf, browserifyConf, copyConf, lessConf, localesConf, watchConf, gruntConf];
       for(var i = 0; i < objs.length; i++) {
         var obj = objs[i];
         for (var key in obj) {
@@ -135,7 +136,7 @@ module.exports = function(grunt) {
 
     var tasksToRun = [
       'clean',
-      // 'requirejs',
+      'requirejs',
       'browserify',
       'copy',
       'less'
