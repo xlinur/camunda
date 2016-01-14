@@ -60,7 +60,7 @@ module.exports = function(grunt) {
 
   var watchConf = { };
   require('./grunt/config/watch')(config, watchConf);
-  // require('camunda-tasklist-ui/grunt/config/watch')(config, watchConf);
+  require('camunda-tasklist-ui/grunt/config/watch')(config, watchConf);
   // require('camunda-cockpit-ui/grunt/config/watch')(config, watchConf);
   require('camunda-admin-ui/grunt/config/watch')(config, watchConf);
 
@@ -84,6 +84,7 @@ module.exports = function(grunt) {
   var uglifyConf = {};
   require('./grunt/config/uglify')(config, uglifyConf);
   require('camunda-admin-ui/grunt/config/uglify')(config, uglifyConf);
+  require('camunda-tasklist-ui/grunt/config/uglify')(config, uglifyConf);
 
 
   grunt.initConfig({
@@ -119,7 +120,7 @@ module.exports = function(grunt) {
 
     if(typeof app !== 'undefined') {
       console.log(' ------------  will build ' + app + ' -------------');
-      var objs = [requireJsConf, browserifyConf, copyConf, lessConf, localesConf, watchConf, gruntConf];
+      var objs = [requireJsConf, browserifyConf, copyConf, lessConf, localesConf, watchConf, gruntConf, uglifyConf];
       for(var i = 0; i < objs.length; i++) {
         var obj = objs[i];
         for (var key in obj) {
