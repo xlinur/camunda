@@ -16,12 +16,17 @@
     "libTargetDir": "target/webapp/lib"
   },
   "dependencies": {
-    "camunda-admin-ui": "git://github.com/camunda/camunda-admin-ui#master",
-    "camunda-cockpit-ui": "git://github.com/camunda/camunda-cockpit-ui#master",
-    "camunda-commons-ui": "git://github.com/camunda/camunda-commons-ui#master",
-    "camunda-tasklist-ui": "git://github.com/camunda/camunda-tasklist-ui#master",
+    "camunda-admin-ui": "git://github.com/camunda/camunda-admin-ui#commonjs",
+    "camunda-commons-ui": "git://github.com/camunda/camunda-commons-ui#commonjs",
+    "camunda-tasklist-ui": "git://github.com/camunda/camunda-tasklist-ui#commonjs",
+    "camunda-bpm-sdk-js": "git://github.com/camunda/camunda-bpm-sdk-js#master",
     "requirejs-angular-define": "git://github.com/camunda/requirejs-angular-define#master",
     "angular": "1.2.29",
+    "angular-data-depend": "git://github.com/camunda-third-party/angular-data-depend#8e3b66914c611069e3698fd5d4275e6cf8055d01",
+    "angular-moment": "^1.0.0-beta.3",
+    "angular-route": "^1.2.29",
+    "jquery": "^2.1.1",
+    "moment": "^2.11.1",
     "requirejs": "2.1.22"
   },
   "devDependencies": {
