@@ -19,6 +19,7 @@
     "camunda-admin-ui": "git://github.com/camunda/camunda-admin-ui#commonjs",
     "camunda-commons-ui": "git://github.com/camunda/camunda-commons-ui#commonjs",
     "camunda-tasklist-ui": "git://github.com/camunda/camunda-tasklist-ui#commonjs",
+    "camunda-cockpit-ui": "git://github.com/camunda/camunda-cockpit-ui#commonjs",
     "camunda-bpm-sdk-js": "git://github.com/camunda/camunda-bpm-sdk-js#master",
     "requirejs-angular-define": "git://github.com/camunda/requirejs-angular-define#master",
     "angular": "1.2.29",
