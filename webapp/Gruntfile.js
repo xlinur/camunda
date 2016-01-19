@@ -25,12 +25,8 @@ module.exports = function(grunt) {
   require('camunda-cockpit-ui/grunt/config/browserify')(config, browserifyConf);
 
   require('./grunt/config/requirejs')(config, requireJsConf);
-  // require('camunda-admin-ui/grunt/config/requirejs')(config, requireJsConf);
-  // require('camunda-cockpit-ui/grunt/config/requirejs')(config, requireJsConf);
-  // require('camunda-tasklist-ui/grunt/config/requirejs')(config, requireJsConf);
 
   var copyConf = require('./grunt/config/copy');
-  // var copyConf = { };
   require('camunda-admin-ui/grunt/config/copy')(config, copyConf);
   require('camunda-cockpit-ui/grunt/config/copy')(config, copyConf);
   require('camunda-tasklist-ui/grunt/config/copy')(config, copyConf);
@@ -69,6 +65,7 @@ module.exports = function(grunt) {
   require('./grunt/config/uglify')(config, uglifyConf);
   require('camunda-admin-ui/grunt/config/uglify')(config, uglifyConf);
   require('camunda-tasklist-ui/grunt/config/uglify')(config, uglifyConf);
+  require('camunda-cockpit-ui/grunt/config/uglify')(config, uglifyConf);
 
 
   grunt.initConfig({
