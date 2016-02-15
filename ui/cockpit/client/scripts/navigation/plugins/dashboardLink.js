@@ -7,7 +7,7 @@ var dashboardLinkTemplate = fs.readFileSync(__dirname + '/dashboardLink.html', '
 var Configuration = function PluginConfiguration(ViewsProvider) {
 
   ViewsProvider.registerDefaultView('cockpit.navbar.action', {
-    id: 'dashboard-link',
+    id: 'dashboard',
     template: dashboardLinkTemplate,
     priority: 200
   });

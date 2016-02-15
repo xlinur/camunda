@@ -7,7 +7,7 @@ var repositoryLinkTemplate = fs.readFileSync(__dirname + '/repositoryLink.html',
 var Configuration = function PluginConfiguration(ViewsProvider) {
 
   ViewsProvider.registerDefaultView('cockpit.navbar.action', {
-    id: 'repository-link',
+    id: 'repository',
     template: repositoryLinkTemplate,
     priority: 150
   });

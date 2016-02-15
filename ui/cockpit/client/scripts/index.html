@@ -63,7 +63,7 @@
           class="navbar-nav"
           ng-controller="camHeaderViewsCtrl">
         <li ng-repeat="actionProvider in navbarActions"
-            ng-class="actionProvider.id">
+            ng-class="activeClass(actionProvider.id)">
             <view ng-cloak
                   provider="actionProvider"
                   vars="navbarVars">
