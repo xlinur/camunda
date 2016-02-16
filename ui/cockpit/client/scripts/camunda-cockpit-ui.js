@@ -113,6 +113,7 @@ var angular = require('angular');
     container['camunda-bpm-sdk-js'] = sdk;
     container['angular-data-depend'] = dataDepend;
     container['moment'] = require('camunda-commons-ui/vendor/moment');
+    container['events'] = require('events');
   };
 
 
