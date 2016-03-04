@@ -88,6 +88,13 @@ var $ = require('jquery');
           form = camFormScope[formName];
           form.$setPristine();
           formController.notifyFormInitialized();
+
+          $timeout(function() {
+            var focusElement = _camForm.formElement[0].querySelectorAll('input')[0];
+            if(focusElement) {
+              focusElement.focus();
+            }
+          });
         };
 
         var complete = function (callback) {

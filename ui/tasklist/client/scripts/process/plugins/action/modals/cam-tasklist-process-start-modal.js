@@ -6,6 +6,7 @@ var angular = require('camunda-bpm-sdk-js/vendor/angular');
     '$rootScope',
     '$scope',
     '$translate',
+    '$timeout',
     'debounce',
     'Notifications',
     'processData',
@@ -14,6 +15,7 @@ var angular = require('camunda-bpm-sdk-js/vendor/angular');
     $rootScope,
     $scope,
     $translate,
+    $timeout,
     debounce,
     Notifications,
     processData,
@@ -95,6 +97,15 @@ var angular = require('camunda-bpm-sdk-js/vendor/angular');
         return 0;
       });
 
+      if(page.total > 0) {
+        $timeout(function() {
+          var element = document.querySelectorAll('div.modal-content ul.processes a')[0];
+          if(element) {
+            element.focus();
+          }
+        });
+      }
+
     });
 
     // select process definition view //////////////////////////////////////////////////////
@@ -150,6 +161,13 @@ var angular = require('camunda-bpm-sdk-js/vendor/angular');
       $scope.PROCESS_TO_START_SELECTED = false;
       $scope.options = DEFAULT_OPTIONS;
       processStartData.set('currentProcessDefinitionId', { id: null });
+
+      $timeout(function() {
+        var element = document.querySelectorAll('div.modal-content ul.processes a')[0];
+        if(element) {
+          element.focus();
+        }
+      });
     };
 
     var executeAfterDestroy = [];
