@@ -4,10 +4,10 @@ var $ = require('jquery');
 window.jQuery = $;
 
 var commons = require('camunda-commons-ui/lib');
-var sdk = require('camunda-bpm-sdk-js/lib/angularjs/index');
+var sdk = require('camunda-commons-ui/vendor/camunda-bpm-sdk-angular');
 require('angular-data-depend');
 
-var angular = require('camunda-bpm-sdk-js/vendor/angular');
+var angular = require('camunda-commons-ui/vendor/angular');
 var dataDepend = require('angular-data-depend');
 
   /**
