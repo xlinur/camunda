@@ -210,7 +210,10 @@ var angular = require('camunda-commons-ui/vendor/angular');
             $scope.showNewPermissionFields = true;
 
             $timeout(function() {
-              $element[0].querySelector('.new-permission button').focus();
+              var element = $element[0].querySelector('.new-permission button');
+              if(element) {
+                element.focus();
+              }
             });
 
             return;
@@ -251,6 +254,13 @@ var angular = require('camunda-commons-ui/vendor/angular');
 
           control.$setValidity('authorization', true);
           control.$setPristine();
+
+          $timeout(function() {
+            var element = $element[0].querySelector('.new-permission button');
+            if(element) {
+              element.focus();
+            }
+          });
         };
 
         $scope.keyPressed = function ($event) {

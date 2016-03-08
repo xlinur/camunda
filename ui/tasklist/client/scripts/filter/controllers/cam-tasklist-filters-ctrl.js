@@ -1,5 +1,6 @@
 'use strict';
 var fs = require('fs');
+var $ = require('jquery');
 
 var template = fs.readFileSync(__dirname + '/../modals/cam-tasklist-filter-modal.html', 'utf8');
 
@@ -70,7 +71,7 @@ var template = fs.readFileSync(__dirname + '/../modals/cam-tasklist-filter-modal
         // wait for filter list refresh
         $timeout(function() {
           if(filter) {
-            document.querySelector('.task-filters .content h4[tooltip="'+filter.properties.description+'"] a').focus();
+            $('.task-filters .content h4 a:contains(\''+filter.name+'\')')[0].focus();
           } else {
             document.querySelector('.task-filters header button.btn-link').focus();
           }
