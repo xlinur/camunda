@@ -77,8 +77,12 @@ var template = fs.readFileSync(__dirname + '/../modals/cam-tasklist-filter-modal
 
       }).result.then(function() {
         filtersData.changed('filters');
+
+        // todo: focus the filter that got handed in when opening the modal
+        document.querySelector('.task-filters header button.btn-link').focus();
       }, function () {
         filtersData.changed('filters');
+        document.querySelector('.task-filters header button.btn-link').focus();
       });
 
     };
