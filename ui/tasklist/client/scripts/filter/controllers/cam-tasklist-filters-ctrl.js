@@ -8,11 +8,13 @@ var template = fs.readFileSync(__dirname + '/../modals/cam-tasklist-filter-modal
     '$modal',
     '$q',
     'camAPI',
+    '$timeout',
   function(
     $scope,
     $modal,
     $q,
-    camAPI
+    camAPI,
+    $timeout
   ) {
 
     var filtersData = $scope.filtersData = $scope.tasklistData.newChild($scope);
@@ -62,6 +64,20 @@ var template = fs.readFileSync(__dirname + '/../modals/cam-tasklist-filter-modal
 
     // open modal /////////////////////////////////////////////////////////////////////////////
 
+    var focusFilter = function(filter) {
+      // wait for modal to close
+      $timeout(function() {
+        // wait for filter list refresh
+        $timeout(function() {
+          if(filter) {
+            document.querySelector('.task-filters .content h4[tooltip="'+filter.properties.description+'"] a').focus();
+          } else {
+            document.querySelector('.task-filters header button.btn-link').focus();
+          }
+        });
+      });
+    };
+
     $scope.openModal = function ($event, filter) {
       $event.stopPropagation();
 
@@ -77,12 +93,10 @@ var template = fs.readFileSync(__dirname + '/../modals/cam-tasklist-filter-modal
 
       }).result.then(function() {
         filtersData.changed('filters');
-
-        // todo: focus the filter that got handed in when opening the modal
-        document.querySelector('.task-filters header button.btn-link').focus();
+        focusFilter(filter);
       }, function () {
         filtersData.changed('filters');
-        document.querySelector('.task-filters header button.btn-link').focus();
+        focusFilter(filter);
       });
 
     };
