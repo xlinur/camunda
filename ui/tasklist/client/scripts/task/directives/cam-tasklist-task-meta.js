@@ -87,6 +87,8 @@ var angular = require('camunda-commons-ui/vendor/angular');
             $scope.task[propName] = inlineFieldScope.varValue;
 
             updateTask();
+
+            document.querySelector('[cam-widget-inline-field].'+(propName.toLowerCase())+'-date').focus();
           };
         }
 
@@ -94,6 +96,8 @@ var angular = require('camunda-commons-ui/vendor/angular');
           return function() {
             $scope.task[propName] = null;
             updateTask();
+
+            document.querySelector('[cam-widget-inline-field].'+(propName.toLowerCase())+'-date').focus();
           };
         }
 
@@ -120,6 +124,7 @@ var angular = require('camunda-commons-ui/vendor/angular');
         function notifyOnCancelEditing(property) {
           return function (inlineFieldScope) {
             setEditingState(property, false);
+            document.querySelector('[cam-widget-inline-field].'+(property.toLowerCase())+'-date').focus();
           };
         }
 
