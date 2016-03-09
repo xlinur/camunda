@@ -284,7 +284,6 @@ var $ = require('jquery');
 
           $timeout(function() {
             var element;
-            console.log(scope.sortings.length, index);
             if(scope.sortings.length !== index) {
               element = document.querySelector('[cam-sorting-choices] li.sorting-choice:nth-child(0n+'+(index+1)+') a:first-child');
             } else {
