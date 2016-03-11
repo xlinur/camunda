@@ -8,9 +8,11 @@ var angular = require('camunda-commons-ui/vendor/angular');
 
   module.exports = [
     '$modal',
+    '$timeout',
     'camAPI',
   function(
     $modal,
+    $timeout,
     camAPI
   ) {
     var Task = camAPI.resource('task');
@@ -229,18 +231,34 @@ var angular = require('camunda-commons-ui/vendor/angular');
         var claim = $scope.claim = function() {
           var assignee = $scope.$root.authentication.name;
           Task.claim($scope.task.id, assignee, notify('claimed'));
+          var el = document.querySelector('[cam-tasklist-task] .tabbed-content ul li:first-child a');
+          if(el) {
+            el.focus();
+          }
         };
 
         var unclaim = $scope.unclaim = function() {
           Task.unclaim($scope.task.id, notify('unclaimed'));
+          var el = document.querySelector('[cam-tasklist-task] .tabbed-content ul li:first-child a');
+          if(el) {
+            el.focus();
+          }
         };
 
         var setAssignee = $scope.setAssignee = function(newAssignee) {
           Task.assignee($scope.task.id, newAssignee, notify('assigned'));
+          var el = document.querySelector('[cam-tasklist-task] .tabbed-content ul li:first-child a');
+          if(el) {
+            el.focus();
+          }
         };
 
         var resetAssignee = $scope.resetAssignee = function() {
           Task.assignee($scope.task.id, null, notify('assigneeReseted'));
+          var el = document.querySelector('[cam-tasklist-task] .tabbed-content ul li:first-child a');
+          if(el) {
+            el.focus();
+          }
         };
 
         $scope.editGroups = function() {

@@ -89,12 +89,7 @@ var $ = require('jquery');
           form.$setPristine();
           formController.notifyFormInitialized();
 
-          $timeout(function() {
-            var focusElement = _camForm.formElement[0].querySelectorAll('input')[0];
-            if(focusElement) {
-              focusElement.focus();
-            }
-          });
+          $scope.$root.$broadcast('embedded.form.rendered');
         };
 
         var complete = function (callback) {

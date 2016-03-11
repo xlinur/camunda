@@ -156,6 +156,15 @@ var angular = require('camunda-commons-ui/vendor/angular');
 
     $scope.$invalid = true;
 
+    $scope.$on('embedded.form.rendered', function() {
+      $timeout(function() {
+        var focusElement = document.querySelectorAll('.modal-body .form-container input')[0];
+        if(focusElement) {
+          focusElement.focus();
+        }
+      });
+    });
+
     $scope.back = function() {
       $scope.$invalid = true;
       $scope.PROCESS_TO_START_SELECTED = false;
