@@ -1,75 +1,101 @@
 'use strict';
 
 var fs = require('fs');
-
 var template = fs.readFileSync(__dirname + '/dashboard.html', 'utf8');
 
 var angular = require('camunda-commons-ui/vendor/angular');
+var each = angular.forEach;
 
-  var $ = angular.element;
+var Controller = [
+  '$scope',
+  'Views',
+  'Data',
+  'dataDepend',
+  'page',
+function (
+  $scope,
+  Views,
+  Data,
+  dataDepend,
+  page
+) {
+  var $rootScope = $scope.$root;
 
-  var Controller = [
-    '$scope',
-    '$rootScope',
-    'Views',
-    'Data',
-    'dataDepend',
-    'page',
-  function (
-    $scope,
-    $rootScope,
-    Views,
-    Data,
-    dataDepend,
-    page
-  ) {
+  var processData = $scope.processData = dataDepend.create($scope);
 
-    var processData = $scope.processData = dataDepend.create($scope);
+  Data.instantiateProviders('cockpit.dashboard.data', {
+    $scope: $scope,
+    processData: processData
+  });
 
-    $scope.dashboardVars = { read: [ 'processData' ] };
-    $scope.dashboardProviders = Views.getProviders({ component: 'cockpit.dashboard'});
-
-    $scope.scrollToPlugin = function (clickedPlugin) {
-      var targeted = $('[data-plugin-id="'  + clickedPlugin.id + '"]');
-      if (targeted[0]) {
-        targeted[0].scrollIntoView();
-      }
-    };
-
-    Data.instantiateProviders('cockpit.dashboard.data', {$scope: $scope, processData : processData});
-
-    // INITIALIZE PLUGINS
-    var dashboardPlugins = Views.getProviders({ component: 'cockpit.dashboard' });
-
-    var initData = {
-      $scope      : $scope,
-      processData : processData
-    };
-
-    for(var i = 0; i < dashboardPlugins.length; i++) {
-      if(typeof dashboardPlugins[i].initialize === 'function') {
-         dashboardPlugins[i].initialize(initData);
-      }
+  var procStats = $scope.procDefStats = {
+    definitions: {
+      value: 0,
+      label: [
+        'process definition',
+        'process definitions'
+      ]
+    },
+    instances: {
+      value: 0,
+      label: [
+        'running instance',
+        'running instances'
+      ]
+    },
+    incidents: {
+      value: 0,
+      label: [
+        'incident',
+        'incidents'
+      ]
+    },
+    failedJobs: {
+      value: 0,
+      label: [
+        'failed job',
+        'failed jobs'
+      ]
     }
+  };
 
-    $rootScope.showBreadcrumbs = false;
+  $scope.gimmeDaLabel = function (prop) {
+    return prop.label[(prop.value === 1) ? 0 : 1];
+  };
+  $scope.gimmeDaValue = function (count) {
+    return count === 0 ? 'No' : count;
+  };
 
-    // reset breadcrumbs
-    page.breadcrumbsClear();
+  // should I mention how much I love AngularJS?
+  $scope.procDefStatsKeys = Object.keys($scope.procDefStats);
 
-    page.titleSet([
-      'Camunda Cockpit',
-      'Dashboard'
-    ].join(' | '));
-  }];
-
-  var RouteConfig = [ '$routeProvider', function($routeProvider) {
-    $routeProvider.when('/dashboard', {
-      template: template,
-      controller: Controller,
-      authentication: 'required',
-      reloadOnSearch: false
+  processData.observe('processDefinitionStatistics', function (defStats) {
+    each(defStats, function (stats) {
+      procStats.instances.value += stats.instances || 0;
+      procStats.failedJobs.value += stats.failedJobs || 0;
+      procStats.definitions.value++;
+      procStats.incidents.value = stats.incidents.length;
     });
-  }];
+  });
 
-  module.exports = RouteConfig;
+  $rootScope.showBreadcrumbs = false;
+
+  // reset breadcrumbs
+  page.breadcrumbsClear();
+
+  page.titleSet([
+    'Camunda Cockpit',
+    'Dashboard'
+  ].join(' | '));
+}];
+
+var RouteConfig = [ '$routeProvider', function($routeProvider) {
+  $routeProvider.when('/dashboard', {
+    template: template,
+    controller: Controller,
+    authentication: 'required',
+    reloadOnSearch: false
+  });
+}];
+
+module.exports = RouteConfig;
