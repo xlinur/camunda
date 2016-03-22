@@ -5,7 +5,7 @@ var fs = require('fs');
 var template = fs.readFileSync(__dirname + '/process-definitions.html', 'utf8');
 
   module.exports = [ 'ViewsProvider', function (ViewsProvider) {
-    ViewsProvider.registerDefaultView('cockpit.dashboard', {
+    ViewsProvider.registerDefaultView('cockpit.processes.dashboard', {
       id: 'process-definition',
       label: 'Deployed Process Definitions',
       dashboardMenuLabel: 'BPMN Processes',

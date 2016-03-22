@@ -10,6 +10,10 @@ function($scope, $location, Views) {
 
   $scope.activeClass = function(link) {
     var path = $location.absUrl();
-    return path.indexOf(link) != -1 ? "active" : "";
+    var checked = link;
+    if (link === 'processes') {
+      checked = 'process';
+    }
+    return path.indexOf(checked) != -1 ? "active" : "";
   };
 }];

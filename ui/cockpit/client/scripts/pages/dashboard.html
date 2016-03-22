@@ -49,13 +49,19 @@
   <section>
     <header>
       <h1 class="section-title">
-        <a ng-href="#/">Reports</a>
+        <a ng-href="#/reports">Reports</a>
       </h1>
     </header>
     <div class="stats">
-      <div xcam-reports-type
-           report-data="reportData"
-           get-plugin-providers="getPluginProviders"></div>
+      <ul ng-show="reportPlugins.length">
+        <li ng-repeat="plugin in reportPlugins">
+          <pre>{{ plugin | json }}</pre>
+        </li>
+      </ul>
+      <div class="well">
+        <span class="glyphicon glyphicon-info-sign"></span>
+        No reports available.
+      </div>
     </div>
   </section>
 </div>

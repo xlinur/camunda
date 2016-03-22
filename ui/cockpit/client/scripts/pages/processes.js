@@ -27,7 +27,7 @@ var angular = require('camunda-commons-ui/vendor/angular');
     var processData = $scope.processData = dataDepend.create($scope);
 
     $scope.dashboardVars = { read: [ 'processData' ] };
-    $scope.dashboardProviders = Views.getProviders({ component: 'cockpit.dashboard'});
+    $scope.dashboardProviders = Views.getProviders({ component: 'cockpit.processes.dashboard'});
 
     $scope.scrollToPlugin = function (clickedPlugin) {
       var targeted = $('[data-plugin-id="'  + clickedPlugin.id + '"]');
@@ -39,7 +39,7 @@ var angular = require('camunda-commons-ui/vendor/angular');
     Data.instantiateProviders('cockpit.dashboard.data', {$scope: $scope, processData : processData});
 
     // INITIALIZE PLUGINS
-    var dashboardPlugins = Views.getProviders({ component: 'cockpit.dashboard' });
+    var dashboardPlugins = Views.getProviders({ component: 'cockpit.processes.dashboard' });
 
     var initData = {
       $scope      : $scope,

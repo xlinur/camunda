@@ -11,12 +11,14 @@ var Controller = [
   'Views',
   'Data',
   'dataDepend',
+  // 'decisionDefinition',
   'page',
 function (
   $scope,
   Views,
   Data,
   dataDepend,
+  // decisionDefinition,
   page
 ) {
   var $rootScope = $scope.$root;
@@ -70,6 +72,7 @@ function (
   $scope.procDefStatsKeys = Object.keys($scope.procDefStats);
 
   processData.observe('processDefinitionStatistics', function (defStats) {
+    console.info();
     each(defStats, function (stats) {
       procStats.instances.value += stats.instances || 0;
       procStats.failedJobs.value += stats.failedJobs || 0;
@@ -77,6 +80,31 @@ function (
       procStats.incidents.value = stats.incidents.length;
     });
   });
+
+
+
+
+
+
+
+
+  // var decisionData = $scope.decisionData = dataDepend.create($scope);
+
+  // decisionData.provide('decisionDefinition', decisionDefinition);
+
+
+  // decisionData.observe('allDefinitions', [ 'decisionDefinition', function(decisionDefinition) {
+  //   console.info('decisionDefinition', decisionDefinition);
+  // }]);
+
+
+  var reportPlugins = $scope.reportPlugins = Views.getProviders({
+    component: 'cockpit.report'
+  });
+  console.info('reportPlugins', reportPlugins);
+
+
+
 
   $rootScope.showBreadcrumbs = false;
 
