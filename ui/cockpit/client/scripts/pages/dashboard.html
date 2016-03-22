@@ -1,67 +1,16 @@
 <!-- # CE - camunda-cockpit-ui/client/scripts/pages/dashboard.html -->
 <div class="cam-dashboard">
-  <section>
+  <section ng-repeat="plugin in dashboardPlugins">
     <header>
       <h1 class="section-title">
-        <a ng-href="#/processes">Processes</a>
+        <a ng-if="plugin.pagePath"
+           ng-href="{{ plugin.pagePath }}">{{ plugin.label }}</a>
+        <span ng-if="!plugin.pagePath">{{ plugin.label }}</span>
       </h1>
     </header>
     <div class="stats">
-      <ul>
-        <!-- if you wonder.. it's not me, it's AngularJS -->
-        <li ng-repeat="propName in procDefStatsKeys"
-            ng-init="prop = procDefStats[propName]">
-          <span class="value">{{ gimmeDaValue(prop.value) }}</span>
-          {{ gimmeDaLabel(prop) }}
-        </li>
-      </ul>
-    </div>
-  </section>
-
-  <section>
-    <header>
-      <h1 class="section-title">
-        <a ng-href="#/">Decision tables</a>
-      </h1>
-    </header>
-    <div class="stats">
-      <dl>
-        <dt></dt>
-        <dd></dd>
-      </dl>
-    </div>
-  </section>
-
-  <section>
-    <header>
-      <h1 class="section-title">
-        <a ng-href="#/repository">Deployments</a>
-      </h1>
-    </header>
-    <div class="stats">
-      <dl>
-        <dt></dt>
-        <dd></dd>
-      </dl>
-    </div>
-  </section>
-
-  <section>
-    <header>
-      <h1 class="section-title">
-        <a ng-href="#/reports">Reports</a>
-      </h1>
-    </header>
-    <div class="stats">
-      <ul ng-show="reportPlugins.length">
-        <li ng-repeat="plugin in reportPlugins">
-          <pre>{{ plugin | json }}</pre>
-        </li>
-      </ul>
-      <div class="well">
-        <span class="glyphicon glyphicon-info-sign"></span>
-        No reports available.
-      </div>
+      <view data-plugin-id="{{ plugin.id }}"
+            provider="plugin"></view>
     </div>
   </section>
 </div>

@@ -5,7 +5,7 @@ var fs = require('fs');
 var template = fs.readFileSync(__dirname + '/decision-list.html', 'utf8');
 
   module.exports = [ 'ViewsProvider', function (ViewsProvider) {
-    ViewsProvider.registerDefaultView('cockpit.dashboard', {
+    ViewsProvider.registerDefaultView('cockpit.decisions.dashboard', {
       id: 'decision-list',
       label: 'Deployed Decision Tables',
       dashboardMenuLabel: 'DMN Decisions',
