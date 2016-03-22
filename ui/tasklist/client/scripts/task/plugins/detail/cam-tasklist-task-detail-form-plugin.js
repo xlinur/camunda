@@ -61,7 +61,9 @@ var angular = require('camunda-commons-ui/vendor/angular');
       $scope.options = angular.copy(DEFAULT_OPTIONS);
 
       if (task && task.id) {
-        $scope.params = { taskId : task.id };
+        $scope.params = {
+          taskId : task.id
+        };
       }
       else {
         $scope.params = null;
