@@ -8,7 +8,6 @@ var template = fs.readFileSync(__dirname + '/process-definitions.html', 'utf8');
     ViewsProvider.registerDefaultView('cockpit.processes.dashboard', {
       id: 'process-definition',
       label: 'Deployed Process Definitions',
-      dashboardMenuLabel: 'BPMN Processes',
       template: template,
       controller: [
               '$scope',

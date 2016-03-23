@@ -5,7 +5,7 @@ var fs = require('fs');
 var template = fs.readFileSync(__dirname + '/deployments.html', 'utf8');
 
 module.exports = [ 'ViewsProvider', function (ViewsProvider) {
-  ViewsProvider.registerDefaultView('cockpit.dashboard', {
+  ViewsProvider.registerDefaultView('cockpit.dashboard.section', {
     id: 'deployments',
     label: 'Deployments',
     template: template,
@@ -22,6 +22,7 @@ module.exports = [ 'ViewsProvider', function (ViewsProvider) {
       var service = camAPI.resource('deployment');
       service.count(function (err, count) {
         if (err) {
+          $scope.loadingError = err.message;
           $scope.loadingState = 'ERROR';
           throw err;
         }

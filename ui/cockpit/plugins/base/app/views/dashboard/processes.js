@@ -14,7 +14,7 @@ function (
   ViewsProvider/*,
   dataDepend*/
 ) {
-  ViewsProvider.registerDefaultView('cockpit.dashboard', {
+  ViewsProvider.registerDefaultView('cockpit.dashboard.section', {
     id: 'processes',
     label: 'Processes',
     template: template,

@@ -6,12 +6,11 @@ module.exports = [
   'Views',
 function($scope, $location, Views) {
   $scope.navbarVars = { read: [] };
-  $scope.navbarActions = Views.getProviders({ component: 'cockpit.navbar.action' });
-
-  $scope.activeClass = function(link) {
+  $scope.navbarActions = Views.getProviders({ component: 'cockpit.dashboard.section' });
+  $scope.activeClass = function(plugin) {
     var path = $location.absUrl();
-    var checked = link;
-    if (link === 'processes') {
+    var checked = plugin.id;
+    if (checked === 'processes') {
       checked = 'process';
     }
     return path.indexOf(checked) != -1 ? "active" : "";

@@ -5,7 +5,7 @@ var fs = require('fs');
 var template = fs.readFileSync(__dirname + '/reports.html', 'utf8');
 
 module.exports = [ 'ViewsProvider', function (ViewsProvider) {
-  ViewsProvider.registerDefaultView('cockpit.dashboard', {
+  ViewsProvider.registerDefaultView('cockpit.dashboard.section', {
     id: 'reports',
     label: 'Reports',
     pagePath: '#/reports',

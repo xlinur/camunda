@@ -9,10 +9,11 @@ module.exports = [
 function (
   ViewsProvider
 ) {
-  ViewsProvider.registerDefaultView('cockpit.dashboard', {
+  ViewsProvider.registerDefaultView('cockpit.dashboard.section', {
     id: 'decisions',
     label: 'Decisions',
     template: template,
+    pagePath: '#/decisions',
     controller: [
       '$scope',
       'camAPI',
@@ -25,6 +26,7 @@ function (
       var service = camAPI.resource('decision-definition');
       service.count(function (err, count) {
         if (err) {
+          $scope.loadingError = err.message;
           $scope.loadingState = 'ERROR';
           throw err;
         }
