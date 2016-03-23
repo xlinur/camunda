@@ -19,6 +19,10 @@ function (
     label: 'Processes',
     template: template,
     pagePath: '#/processes',
+    checkActive: function (path) {
+      // matches "#/process/", "#/processes" or "#/migration"
+      return path.indexOf('#/process') > -1 || path.indexOf('#/migration') > -1;
+    },
     controller: [
       '$scope',
       'Data',

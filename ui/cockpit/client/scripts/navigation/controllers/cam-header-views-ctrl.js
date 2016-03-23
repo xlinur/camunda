@@ -1,5 +1,13 @@
 'use strict';
 
+function checkActive(plugin, path) {
+  var checked = plugin.id;
+  if (checked === 'processes') {
+    checked = 'process';
+  }
+  return path.indexOf(plugin.id) > -1;
+}
+
 module.exports = [
   '$scope',
   '$location',
@@ -9,10 +17,8 @@ function($scope, $location, Views) {
   $scope.navbarActions = Views.getProviders({ component: 'cockpit.dashboard.section' });
   $scope.activeClass = function(plugin) {
     var path = $location.absUrl();
-    var checked = plugin.id;
-    if (checked === 'processes') {
-      checked = 'process';
-    }
-    return path.indexOf(checked) != -1 ? "active" : "";
+    return (typeof plugin.checkActive === 'function' ?
+                plugin.checkActive(path) :
+                checkActive(plugin, path)) ? 'active' : '';
   };
 }];
