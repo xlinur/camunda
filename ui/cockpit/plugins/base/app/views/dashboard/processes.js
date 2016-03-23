@@ -80,11 +80,10 @@ function (
         $scope.loadingState = 'LOADED';
 
         each(defStats, function (stats) {
-          console.info('stats', stats);
           procStats.instances.value += stats.instances || 0;
           procStats.failedJobs.value += stats.failedJobs || 0;
           procStats.definitions.value++;
-          procStats.incidents.value = stats.incidents.length;
+          procStats.incidents.value += stats.incidents.length;
         });
       });
     }],
