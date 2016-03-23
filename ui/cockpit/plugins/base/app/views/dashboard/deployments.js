@@ -28,7 +28,6 @@ module.exports = [ 'ViewsProvider', function (ViewsProvider) {
         }
         $scope.loadingState = 'LOADED';
         $scope.count = count || 0;
-        // $scope.$apply();
       });
     }],
 
