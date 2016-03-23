@@ -17,10 +17,15 @@ module.exports = [ 'ViewsProvider', function (ViewsProvider) {
       $scope,
       camAPI
     ) {
+      $scope.loadingState = 'LOADING';
       $scope.count = 0;
       var service = camAPI.resource('deployment');
       service.count(function (err, count) {
-        if (err) { throw err; }
+        if (err) {
+          $scope.loadingState = 'ERROR';
+          throw err;
+        }
+        $scope.loadingState = 'LOADED';
         $scope.count = count || 0;
         // $scope.$apply();
       });

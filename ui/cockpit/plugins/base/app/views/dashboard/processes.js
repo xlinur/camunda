@@ -72,12 +72,15 @@ function (
       $scope.gimmeDaValue = function (count) {
         return count === 0 ? 'No' : count;
       };
-
+      $scope.loadingState = 'LOADING';
       // should I mention how much I love AngularJS?
       $scope.procDefStatsKeys = Object.keys($scope.procDefStats);
 
       processData.observe('processDefinitionStatistics', function (defStats) {
+        $scope.loadingState = 'LOADED';
+
         each(defStats, function (stats) {
+          console.info('stats', stats);
           procStats.instances.value += stats.instances || 0;
           procStats.failedJobs.value += stats.failedJobs || 0;
           procStats.definitions.value++;
