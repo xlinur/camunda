@@ -5,7 +5,7 @@ var DeployedProcessesListPage = require('./deployed-processes-list');
 var DeployedProcessesPreviewsPage = require('./deployed-processes-previews');
 var AuthenticationPage = require('../../../../common/tests/pages/authentication');
 
-module.exports = Base.extend({
+var Page = Base.extend({
 
   url: '/camunda/app/cockpit/default/#/processes',
 
@@ -13,6 +13,8 @@ module.exports = Base.extend({
     return element.all(by.css('.dashboard-view'));
   }
 });
+
+module.exports = new Page();
 
 module.exports.deployedProcessesList = new DeployedProcessesListPage();
 module.exports.deployedProcessesPreviews = new DeployedProcessesPreviewsPage();
