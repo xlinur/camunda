@@ -11,7 +11,7 @@ module.exports = Base.extend({
   },
 
   processesPreviews: function() {
-    return this.previewsObject().all(by.repeater('pd in processdefinitionData'));
+    return this.previewsObject().all(by.repeater('pd in processDefinitionData'));
   },
 
   selectProcess: function(item) {
