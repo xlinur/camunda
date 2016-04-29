@@ -54,14 +54,6 @@
          class="well">
       <span class="glyphicon glyphicon-info-sign"></span>
       The current search parameters could not retrieve any groups. Try to <a ng-click="pageChange(1)">reset page number.</a>
-      <div class="text-right"
-           ng-show="availableOperations.create">
-        <a href="#/group-create"
-           class="btn btn-default">
-          Create new group
-          <span class="glyphicon glyphicon-plus-sign"></span>
-        </a>
-      </div>
     </div>
 
     <pagination ng-if="pages.total > pages.size"

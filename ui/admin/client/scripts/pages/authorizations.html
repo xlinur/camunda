@@ -39,11 +39,14 @@
         </thead>
 
         <tbody>
-          <tr ng-repeat="authorization in authorizations | orderBy:getIdentityId:false">
-            <td class="authorization-type" ng-if="!authorization.inUpdate || !!authorization.id">
+          <tr ng-repeat="authorization in authorizations | orderBy:getIdentityId:false"
+              ng-class="{editing: !!authorization.inUpdate}">
+            <td class="authorization-type"
+                ng-if="!authorization.inUpdate || !!authorization.id">
               {{getType(authorization)}}
             </td>
-            <td class="authorization-type" ng-if="!!authorization.inUpdate && !authorization.id">
+            <td class="authorization-type"
+                ng-if="!!authorization.inUpdate && !authorization.id">
               <select ng-model="authorization.type"
                       class="select-auth-type form-control"
                       ng-change="ensureValidUser(authorization)">
@@ -53,7 +56,8 @@
               </select>
             </td>
 
-            <td class="user group" ng-if="!authorization.inUpdate">
+            <td class="user group"
+                ng-if="!authorization.inUpdate">
               <span ng-show="!!authorization.userId"
                     tooltip="User">
                 <span class="glyphicon glyphicon-user"></span>
@@ -66,7 +70,8 @@
                 {{authorization.groupId}}
               </span>
             </td>
-            <td class="identity-id" ng-if="!!authorization.inUpdate">
+            <td class="identity-id"
+                ng-if="!!authorization.inUpdate">
               <div class="input-group">
                 <a class="input-group-addon"
                    ng-disabled="isIdentityIdDisabledFor(authorization)"
@@ -85,10 +90,12 @@
               </div>
             </td>
 
-            <td class="permissions" ng-if="!authorization.inUpdate">
+            <td class="permissions"
+                ng-if="!authorization.inUpdate">
               {{formatPermissions(authorization.permissions)}}
             </td>
-            <td class="permissions" ng-if="!!authorization.inUpdate">
+            <td class="permissions"
+                ng-if="!!authorization.inUpdate">
               <div class="input-group">
 
                 <div class="form-control-static"
@@ -123,21 +130,25 @@
               </div><!-- /input-group -->
             </td>
 
-            <td class="resource-id" ng-if="!authorization.inUpdate">
+            <td class="resource-id"
+                ng-if="!authorization.inUpdate">
               {{authorization.resourceId}}
             </td>
-            <td class="resource-id" ng-if="!!authorization.inUpdate">
+            <td class="resource-id"
+                ng-if="!!authorization.inUpdate">
               <input type="text"
                      id="inputResourceId"
                      ng-model="authorization.resourceId"
                      ng-class="{'ng-invalid': !authorization.resourceId}"
-                     class="in-place-edit form-control" />
+                     class="in-place-edit form-control"
+                        />
 
               <span ng-show="selectedResourceType==0"
                     class="text-muted">(cockpit or tasklist or *)</span>
             </td>
 
-            <td class="action" ng-if="!authorization.inUpdate">
+            <td class="action"
+                ng-if="!authorization.inUpdate">
               <a ng-click="updateAuthorization(authorization)">
                 Edit
               </a>
@@ -145,7 +156,8 @@
                 Delete
               </a>
             </td>
-            <td class="action" ng-if="!!authorization.inUpdate">
+            <td class="action"
+                ng-if="!!authorization.inUpdate">
               <div class="btn-group btn-group-xs">
                 <button type="submit"
                         class="btn btn-primary"
