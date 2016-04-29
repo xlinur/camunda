@@ -18,6 +18,19 @@
   </aside>
 
   <div class="section-content">
+    <header class="row">
+      <div class="col-xs-8">
+        <h3>Edit user {{user.firstName}} {{user.lastName}}</h3>
+      </div>
+      <div class="col-xs-4 text-right">
+        <a class="btn btn-default"
+           ng-click="openCreateGroupMembershipDialog()">
+          Add to a group
+          <span class="glyphicon glyphicon-plus-sign"></span>
+        </a>
+      </div>
+    </header>
+
     <div ng-if="show('profile')">
       <p ng-if="!profile">
         <span class="glyphicon glyphicon-loading"></span>
@@ -211,13 +224,6 @@
 
         <div class="h4">
           {{user.firstName}} {{user.lastName}}&#39;s Groups
-          <a show-if-authorized
-             auth-permission="CREATE"
-             auth-resource-name="group membership"
-             class="glyphicon glyphicon-plus-sign"
-             tooltip="Add {{user.firstName}} {{user.lastName}} to a group"
-             ng-click="openCreateGroupMembershipDialog()">
-          </a>
         </div>
 
         <div cam-widget-loader
@@ -256,18 +262,8 @@
                   <a ng-click="removeGroup(group.id)">Remove</a>
                 </td>
               </tr>
-              <tr>
-                <td colspan="3"></td>
-                <td>
-                  <a ng-click="openCreateGroupMembershipDialog()">
-                    Add to a group
-                    <span class="glyphicon glyphicon-plus-sign"></span>
-                  </a>
-                </td>
-              </tr>
             </tbody>
           </table>
-
         </div>
 
       </form>
