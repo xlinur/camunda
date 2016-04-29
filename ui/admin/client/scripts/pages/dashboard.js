@@ -6,13 +6,27 @@ var template = fs.readFileSync(__dirname + '/dashboard.html', 'utf8');
 
 var angular = require('camunda-commons-ui/vendor/angular');
 
-var Controller = ['$scope', 'page', function ($scope, page) {
 
-  $scope.$root.showBreadcrumbs = true;
+var Controller = [
+  '$scope',
+  'Views',
+  'page',
+function (
+  $scope,
+  Views,
+  page
+) {
+  var $rootScope = $scope.$root;
 
-  page.titleSet('Dashboard');
+  $scope.dashboardPlugins = Views.getProviders({
+    component: 'admin.dashboard.section'
+  });
+
+  $rootScope.showBreadcrumbs = true;
 
   page.breadcrumbsClear();
+
+  page.titleSet('Dashboard');
 }];
 
 module.exports = [ '$routeProvider', function($routeProvider) {
