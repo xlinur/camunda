@@ -16,9 +16,12 @@ function (
     pagePath: '#/system?section=system-settings-general',
     controller: [
       '$scope',
+      'Views',
     function(
-      $scope
+      $scope,
+      Views
     ) {
+      $scope.systemSettingsProviders = Views.getProviders({ component: 'admin.system'});
     }],
 
     priority: 0
