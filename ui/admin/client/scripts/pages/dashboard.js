@@ -8,7 +8,7 @@ var angular = require('camunda-commons-ui/vendor/angular');
 
 var Controller = ['$scope', 'page', function ($scope, page) {
 
-  $scope.$root.showBreadcrumbs = false;
+  $scope.$root.showBreadcrumbs = true;
 
   page.titleSet('Dashboard');
 
