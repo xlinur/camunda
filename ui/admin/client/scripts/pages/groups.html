@@ -2,6 +2,19 @@
 <section ng-cloak>
   <!-- <aside></aside> -->
   <div class="section-content">
+    <header class="row">
+      <div class="col-xs-8">
+        <h3>List of groups</h3>
+      </div>
+      <div class="col-xs-4 text-right"
+           ng-show="availableOperations.create">
+        <a href="#/group-create"
+           class="btn btn-default">
+          Create new group
+          <span class="glyphicon glyphicon-plus-sign"></span>
+        </a>
+      </div>
+    </header>
     <div cam-widget-loader
          loading-state="{{ loadingState }}">
       <table class="cam-table">
@@ -34,14 +47,6 @@
           </tr>
         </tbody>
       </table>
-      <div class="text-right"
-           ng-show="availableOperations.create">
-        <a href="#/group-create"
-           class="btn btn-default">
-          Create new group
-          <span class="glyphicon glyphicon-plus-sign"></span>
-        </a>
-      </div>
     </div>
 
     <div ng-show="loadingState === 'EMPTY' && pages.total && (!groupList || !groupList.length)"
