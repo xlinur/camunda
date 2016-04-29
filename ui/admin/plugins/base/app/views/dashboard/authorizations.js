@@ -14,13 +14,7 @@ function (
     label: 'Authorizations',
     template: template,
     pagePath: '#/authorization',
-    controller: [
-      '$scope',
-    function(
-      $scope
-    ) {
-    }],
-
+    controller: [function() {}],
     priority: 0
   });
 }];

@@ -14,13 +14,7 @@ function (
     label: 'Users',
     template: template,
     pagePath: '#/users',
-    controller: [
-      '$scope',
-    function(
-      $scope
-    ) {
-    }],
-
+    controller: [function() {}],
     priority: 0
   });
 }];

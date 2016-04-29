@@ -13,7 +13,7 @@ function (
     id: 'system',
     label: 'System',
     template: template,
-    pagePath: '#/system',
+    pagePath: '#/system?section=system-settings-general',
     controller: [
       '$scope',
     function(

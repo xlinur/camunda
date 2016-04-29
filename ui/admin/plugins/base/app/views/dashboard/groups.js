@@ -14,12 +14,7 @@ function (
     label: 'Groups',
     template: template,
     pagePath: '#/groups',
-    controller: [
-      '$scope',
-    function(
-      $scope
-    ) {
-    }],
+    controller: [function() {}],
 
     priority: 0
   });
