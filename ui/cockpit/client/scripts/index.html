@@ -98,8 +98,15 @@
       };
     </script>
 
-    <script type="application/javascript" data-main="$APP_ROOT/app/cockpit/camunda-cockpit-bootstrap" src="$APP_ROOT/lib/require.js"></script>
-
+    <script type="application/javascript"
+            src="$APP_ROOT/lib/require.js"></script>
+    <script type="text/javascript">
+require.config({
+  baseUrl: '$APP_ROOT/app/cockpit',
+  urlArgs: 'bust=' + ('${project.version}' === ['$', '{', 'project.version', '}'].join('') ? (new Date()).getTime() : '${project.version}')
+});
+require(['$APP_ROOT/app/cockpit/camunda-cockpit-bootstrap.js'], function () {});
+    </script>
 
     <!--[if lte IE 9]>
     <script type="text/javascript"
