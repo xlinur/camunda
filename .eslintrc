@@ -16,6 +16,7 @@
     "sourceType": "module"
   },
   "globals": {
+    "requirejs": false,
     "expect": false,
     "it": false,
     "describe": false,
