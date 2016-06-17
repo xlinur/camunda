@@ -91,6 +91,11 @@ module.exports = function(grunt) {
   require('./ui/tasklist/grunt/config/uglify')(config, uglifyConf);
   require('./ui/cockpit/grunt/config/uglify')(config, uglifyConf);
 
+  var eslintConf = {};
+  require('./ui/admin/grunt/config/eslint')(config, eslintConf);
+  require('./ui/tasklist/grunt/config/eslint')(config, eslintConf);
+  require('./ui/cockpit/grunt/config/eslint')(config, eslintConf);
+
 
   grunt.initConfig({
     buildMode:        'dev',
@@ -112,6 +117,8 @@ module.exports = function(grunt) {
     clean:            require('./grunt/config/clean')(config),
 
     watch:            watchConf,
+
+    eslint:           eslintConf,
 
     ensureLibs: {
       thirdParty: {}
