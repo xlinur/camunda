@@ -3,13 +3,13 @@ module.exports = function(config, eslintConf) {
 
   eslintConf.cockpit_scripts = {
     src: [
-      '<%= pkg.gruntConfig.cockpitSourceDir %>/scripts/camunda-cockpit-ui.js'
+      '<%= pkg.gruntConfig.cockpitSourceDir %>/scripts/**/*.js'
     ]
   };
 
   eslintConf.cockpit_plugins = {
     src: [
-      '<%= pkg.gruntConfig.pluginSourceDir %>/cockpit/plugins/cockpitPlugins.js'
+      '<%= pkg.gruntConfig.pluginSourceDir %>/cockpit/plugins/**/*.js'
     ]
   };
 
