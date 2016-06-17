@@ -10,15 +10,15 @@ var angular = require('camunda-commons-ui/vendor/angular'),
     decisionDefinitionModule = require('./decisionDefinition'),
     decisionInstanceModule = require('./decisionInstance');
 
-  var pagesModule = angular.module('cam.cockpit.pages', [
-    processDefinitionModule.name,
-    processInstanceModule.name,
-    decisionDefinitionModule.name,
-    decisionInstanceModule.name
-  ]);
+var pagesModule = angular.module('cam.cockpit.pages', [
+  processDefinitionModule.name,
+  processInstanceModule.name,
+  decisionDefinitionModule.name,
+  decisionInstanceModule.name
+]);
 
-  pagesModule.config(dashboard);
-  pagesModule.config(processes);
-  pagesModule.config(decisions);
+pagesModule.config(dashboard);
+pagesModule.config(processes);
+pagesModule.config(decisions);
 
-  module.exports = pagesModule;
+module.exports = pagesModule;
