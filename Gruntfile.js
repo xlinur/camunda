@@ -95,6 +95,7 @@ module.exports = function(grunt) {
   require('./ui/admin/grunt/config/eslint')(config, eslintConf);
   require('./ui/tasklist/grunt/config/eslint')(config, eslintConf);
   require('./ui/cockpit/grunt/config/eslint')(config, eslintConf);
+  require('./ui/common/grunt/config/eslint')(config, eslintConf);
 
 
   grunt.initConfig({
