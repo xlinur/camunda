@@ -152,18 +152,22 @@ grunt.registerTask('build', function(mode, app) {
 
     grunt.config.data.buildMode = mode || 'prod';
 
+    var tasksToRun = [];
+
     if(grunt.config.data.buildMode === 'prod') {
       tasksToRun.push('eslint');
+    } else {
+      tasksToRun.push('newer:eslint');
     }
 
 
-    var tasksToRun = [
+    tasksToRun.push(
       'clean',
       'ensureLibs',
       'persistify',
       'copy',
       'less'
-    ];
+    );
 
     if(typeof app === 'undefined' || app === 'tasklist') {
       tasksToRun.push('localescompile');
