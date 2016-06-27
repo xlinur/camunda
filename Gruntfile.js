@@ -152,6 +152,11 @@ grunt.registerTask('build', function(mode, app) {
 
     grunt.config.data.buildMode = mode || 'prod';
 
+    if(grunt.config.data.buildMode === 'prod') {
+      tasksToRun.push('eslint');
+    }
+
+
     var tasksToRun = [
       'clean',
       'ensureLibs',
