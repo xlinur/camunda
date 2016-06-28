@@ -84,6 +84,7 @@ module.exports = function(grunt) {
   require('./ui/tasklist/grunt/config/watch')(config, watchConf);
   require('./ui/cockpit/grunt/config/watch')(config, watchConf);
   require('./ui/admin/grunt/config/watch')(config, watchConf);
+  require('./ui/common/grunt/config/watch')(config, watchConf);
 
   var uglifyConf = {};
   require('./grunt/config/uglify')(config, uglifyConf);
@@ -137,7 +138,7 @@ grunt.registerTask('build', function(mode, app) {
 
     if(typeof app !== 'undefined') {
       console.log(' ------------  will build ' + app + ' -------------');
-      var objs = [browserifyConf, copyConf, lessConf, localesConf, watchConf, uglifyConf];
+      var objs = [browserifyConf, copyConf, lessConf, localesConf, watchConf, uglifyConf, eslintConf];
       for(var i = 0; i < objs.length; i++) {
         var obj = objs[i];
         for (var key in obj) {
