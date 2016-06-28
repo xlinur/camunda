@@ -14,10 +14,6 @@
       max-width: 100%;
       height: @line-height-computed;
     }
-
-    a.unclaim {
-      top: -4px;
-    }
   }
 
   [cam-widget-inline-field] {
@@ -32,6 +28,14 @@
 
     .view-value {
       max-width: 100%;
+    }
+  }
+
+  a {
+    &.unclaim,
+    &.reset-due-date,
+    &.reset-follow-up-date {
+      vertical-align: top;
     }
   }
 
