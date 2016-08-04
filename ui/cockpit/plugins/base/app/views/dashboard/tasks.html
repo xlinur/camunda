@@ -7,10 +7,14 @@
       <a href="#/tasks" ng-if="count.unfinished == 1">Open task</a>
       <span class="value">{{ count.unfinished | abbreviateNumber }}</span>
     </li>
-    <li>
+    <li class="value-and-sparkline">
       <a href="#/tasks" ng-if="count.finished == 0 || count.finished > 1">Completed tasks</a>
       <a href="#/tasks" ng-if="count.finished == 1">Completed task</a>
       <span class="value">{{ count.finished | abbreviateNumber }}</span>
+      <span cam-sparkline
+            values="sparklineData"
+            width="80"
+            height="32"></span>
     </li>
   </ul>
 </div>

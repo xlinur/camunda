@@ -51,6 +51,20 @@
     &:last-of-type {
       margin-bottom: 0;
     }
+
+    > a {
+      display: block;
+    }
+    &.value-and-sparkline {
+      overflow: hidden;
+      > span {
+        float: left;
+      }
+
+      > [cam-sparkline] {
+        float: right;
+      }
+    }
   }
 
   .section-title {
@@ -108,5 +122,29 @@
     h2 {
       font-size: 1.5em;
     }
+  }
+}
+
+
+// .text-and-sparkline {
+//   overflow: hidden;
+//   > .text {
+//     float: left;
+//   }
+// }
+
+// .value-and-sparkline {
+//   overflow: hidden;
+//   .value,
+//   .no-value {
+//     float: left;
+//   }
+// }
+
+[cam-sparkline] {
+
+  // float: right;
+  canvas {
+    vertical-align: inherit;
   }
 }

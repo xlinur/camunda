@@ -17,37 +17,6 @@ module.exports = [
       label: 'Processes',
       template: template,
       pagePath: '#/processes',
-      getSparklineData: ['camAPI', function(camAPI) {
-        console.info('camAPI????', camAPI);//es-lint-disable-line
-        return [
-          Math.round(Math.random() * 10000),
-          Math.round(Math.random() * 10000),
-          Math.round(Math.random() * 10000),
-          Math.round(Math.random() * 10000),
-          Math.round(Math.random() * 10000),
-          Math.round(Math.random() * 10000),
-          Math.round(Math.random() * 10000),
-          Math.round(Math.random() * 10000),
-          Math.round(Math.random() * 10000),
-          Math.round(Math.random() * 10000),
-          Math.round(Math.random() * 10000),
-          Math.round(Math.random() * 10000),
-          Math.round(Math.random() * 10000),
-          Math.round(Math.random() * 10000),
-          Math.round(Math.random() * 10000),
-          Math.round(Math.random() * 10000),
-          Math.round(Math.random() * 10000),
-          Math.round(Math.random() * 10000),
-          Math.round(Math.random() * 10000),
-          Math.round(Math.random() * 10000),
-          Math.round(Math.random() * 10000),
-          Math.round(Math.random() * 10000),
-          Math.round(Math.random() * 10000),
-          Math.round(Math.random() * 10000),
-          Math.round(Math.random() * 10000),
-          Math.round(Math.random() * 10000)
-        ];
-      }],
       checkActive: function(path) {
       // matches "#/process/", "#/processes" or "#/migration"
         return path.indexOf('#/process') > -1 || path.indexOf('#/migration') > -1;
@@ -67,6 +36,35 @@ module.exports = [
           Views,
           camAPI
         ) {
+          $scope.sparklineData = [
+            Math.round(Math.random() * 10000),
+            Math.round(Math.random() * 10000),
+            Math.round(Math.random() * 10000),
+            Math.round(Math.random() * 10000),
+            Math.round(Math.random() * 10000),
+            Math.round(Math.random() * 10000),
+            Math.round(Math.random() * 10000),
+            Math.round(Math.random() * 10000),
+            Math.round(Math.random() * 10000),
+            Math.round(Math.random() * 10000),
+            Math.round(Math.random() * 10000),
+            Math.round(Math.random() * 10000),
+            Math.round(Math.random() * 10000),
+            Math.round(Math.random() * 10000),
+            Math.round(Math.random() * 10000),
+            Math.round(Math.random() * 10000),
+            Math.round(Math.random() * 10000),
+            Math.round(Math.random() * 10000),
+            Math.round(Math.random() * 10000),
+            Math.round(Math.random() * 10000),
+            Math.round(Math.random() * 10000),
+            Math.round(Math.random() * 10000),
+            Math.round(Math.random() * 10000),
+            Math.round(Math.random() * 10000),
+            Math.round(Math.random() * 10000),
+            Math.round(Math.random() * 10000)
+          ];
+
           var processData = $scope.processData = dataDepend.create($scope);
           var abbreviate = $filter('abbreviateNumber');
 

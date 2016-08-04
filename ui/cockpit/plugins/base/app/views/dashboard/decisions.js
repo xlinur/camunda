@@ -16,37 +16,6 @@ module.exports = [
       label: 'Decisions',
       template: template,
       pagePath: '#/decisions',
-      getSparklineData: ['camAPI', function(camAPI) {
-        console.info('camAPI????', camAPI);//es-lint-disable-line
-        return [
-          Math.round(Math.random() * 10000),
-          Math.round(Math.random() * 10000),
-          Math.round(Math.random() * 10000),
-          Math.round(Math.random() * 10000),
-          Math.round(Math.random() * 10000),
-          Math.round(Math.random() * 10000),
-          Math.round(Math.random() * 10000),
-          Math.round(Math.random() * 10000),
-          Math.round(Math.random() * 10000),
-          Math.round(Math.random() * 10000),
-          Math.round(Math.random() * 10000),
-          Math.round(Math.random() * 10000),
-          Math.round(Math.random() * 10000),
-          Math.round(Math.random() * 10000),
-          Math.round(Math.random() * 10000),
-          Math.round(Math.random() * 10000),
-          Math.round(Math.random() * 10000),
-          Math.round(Math.random() * 10000),
-          Math.round(Math.random() * 10000),
-          Math.round(Math.random() * 10000),
-          Math.round(Math.random() * 10000),
-          Math.round(Math.random() * 10000),
-          Math.round(Math.random() * 10000),
-          Math.round(Math.random() * 10000),
-          Math.round(Math.random() * 10000),
-          Math.round(Math.random() * 10000)
-        ];
-      }],
       checkActive: function(path) {
         return path.indexOf('#/decision') > -1;
       },
@@ -59,6 +28,35 @@ module.exports = [
     ) {
           $scope.count = 0;
           $scope.loadingState = 'LOADING';
+
+          $scope.sparklineData = [
+            Math.round(Math.random() * 10000),
+            Math.round(Math.random() * 10000),
+            Math.round(Math.random() * 10000),
+            Math.round(Math.random() * 10000),
+            Math.round(Math.random() * 10000),
+            Math.round(Math.random() * 10000),
+            Math.round(Math.random() * 10000),
+            Math.round(Math.random() * 10000),
+            Math.round(Math.random() * 10000),
+            Math.round(Math.random() * 10000),
+            Math.round(Math.random() * 10000),
+            Math.round(Math.random() * 10000),
+            Math.round(Math.random() * 10000),
+            Math.round(Math.random() * 10000),
+            Math.round(Math.random() * 10000),
+            Math.round(Math.random() * 10000),
+            Math.round(Math.random() * 10000),
+            Math.round(Math.random() * 10000),
+            Math.round(Math.random() * 10000),
+            Math.round(Math.random() * 10000),
+            Math.round(Math.random() * 10000),
+            Math.round(Math.random() * 10000),
+            Math.round(Math.random() * 10000),
+            Math.round(Math.random() * 10000),
+            Math.round(Math.random() * 10000),
+            Math.round(Math.random() * 10000)
+          ];
 
 
           var decisionDefinitionService = camAPI.resource('decision-definition');

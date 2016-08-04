@@ -18,25 +18,6 @@ module.exports = [
       checkActive: function(path) {
         return path.indexOf('#/tasks') > -1;
       },
-      getSparklineData: ['camAPI', function(camAPI) {
-        console.info('camAPI????', camAPI);//es-lint-disable-line
-        return [
-          0,
-          0,
-          0,
-          0,
-          0,
-          0,
-          0,
-          0,
-          0,
-          0,
-          0,
-          10,
-          10,
-          10
-        ];
-      }],
       controller: [
         '$scope',
         'camAPI',
@@ -44,6 +25,35 @@ module.exports = [
           $scope,
           camAPI
         ) {
+          $scope.sparklineData = [
+            Math.round(Math.random() * 10000),
+            Math.round(Math.random() * 10000),
+            Math.round(Math.random() * 10000),
+            Math.round(Math.random() * 10000),
+            Math.round(Math.random() * 10000),
+            Math.round(Math.random() * 10000),
+            Math.round(Math.random() * 10000),
+            Math.round(Math.random() * 10000),
+            Math.round(Math.random() * 10000),
+            Math.round(Math.random() * 10000),
+            Math.round(Math.random() * 10000),
+            Math.round(Math.random() * 10000),
+            Math.round(Math.random() * 10000),
+            Math.round(Math.random() * 10000),
+            Math.round(Math.random() * 10000),
+            Math.round(Math.random() * 10000),
+            Math.round(Math.random() * 10000),
+            Math.round(Math.random() * 10000),
+            Math.round(Math.random() * 10000),
+            Math.round(Math.random() * 10000),
+            Math.round(Math.random() * 10000),
+            Math.round(Math.random() * 10000),
+            Math.round(Math.random() * 10000),
+            Math.round(Math.random() * 10000),
+            Math.round(Math.random() * 10000),
+            Math.round(Math.random() * 10000)
+          ];
+
           $scope.count = 0;
           $scope.loadingState = 'LOADING';
 
