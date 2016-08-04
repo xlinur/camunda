@@ -7,9 +7,15 @@
       <div class="inner">
         <header>
           <h1 class="section-title">
-            <a ng-if="plugin.pagePath"
+            <a class="text" ng-if="plugin.pagePath"
                ng-href="{{ plugin.pagePath }}">{{ plugin.label }}</a>
-            <span ng-if="!plugin.pagePath">{{ plugin.label }}</span>
+            <span class="text" ng-if="!plugin.pagePath">{{ plugin.label }}</span>
+
+            <span cam-sparkline
+                  ng-if="!!plugin.sparklineData"
+                  width="80"
+                  height="20"
+                  values="plugin.sparklineData"></span>
           </h1>
         </header>
 
@@ -25,7 +31,9 @@
              ng-if="miscPlugins.length">
       <div class="inner">
         <header>
-          <h1 class="section-title">More</h1>
+          <h1 class="section-title">
+            More
+          </h1>
         </header>
 
         <ul class="row">

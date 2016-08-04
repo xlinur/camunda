@@ -10,13 +10,24 @@ var template = fs.readFileSync(__dirname + '/processes.html', 'utf8');
 module.exports = [
   'ViewsProvider',
   function(
-  ViewsProvider
-) {
+    ViewsProvider
+  ) {
     ViewsProvider.registerDefaultView('cockpit.dashboard.section', {
       id: 'processes',
       label: 'Processes',
       template: template,
       pagePath: '#/processes',
+      getSparklineData: ['camAPI', function(camAPI) {
+        console.info('camAPI????', camAPI);//es-lint-disable-line
+        return [
+          Math.round(Math.random() * 100),
+          Math.round(Math.random() * 100),
+          Math.round(Math.random() * 100),
+          Math.round(Math.random() * 100),
+          Math.round(Math.random() * 100),
+          Math.round(Math.random() * 100)
+        ];
+      }],
       checkActive: function(path) {
       // matches "#/process/", "#/processes" or "#/migration"
         return path.indexOf('#/process') > -1 || path.indexOf('#/migration') > -1;
@@ -29,13 +40,13 @@ module.exports = [
         'Views',
         'camAPI',
         function(
-      $scope,
-      $filter,
-      Data,
-      dataDepend,
-      Views,
-      camAPI
-    ) {
+          $scope,
+          $filter,
+          Data,
+          dataDepend,
+          Views,
+          camAPI
+        ) {
           var processData = $scope.processData = dataDepend.create($scope);
           var abbreviate = $filter('abbreviateNumber');
 

@@ -5,10 +5,12 @@ var template = fs.readFileSync(__dirname + '/dashboard.html', 'utf8');
 
 var Controller = [
   '$scope',
+  '$injector',
   'Views',
   'page',
   function(
   $scope,
+  $injector,
   Views,
   page
 ) {
@@ -20,6 +22,14 @@ var Controller = [
       component: 'cockpit.dashboard.section'
     }).forEach(function(plugin) {
       (plugin.priority >= 0 ? $scope.mainPlugins : $scope.miscPlugins).push(plugin);
+      if (plugin.getSparklineData) {
+        if (typeof plugin.getSparklineData === 'function') {
+          plugin.sparklineData = plugin.getSparklineData();
+        }
+        else if (Array.isArray(plugin.getSparklineData)) {
+          plugin.sparklineData = $injector.invoke(plugin.getSparklineData);
+        }
+      }
     });
 
   // old plugins are still shown on the dashboard

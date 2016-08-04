@@ -18,6 +18,17 @@ module.exports = [
       checkActive: function(path) {
         return path.indexOf('#/tasks') > -1;
       },
+      getSparklineData: ['camAPI', function(camAPI) {
+        console.info('camAPI????', camAPI);//es-lint-disable-line
+        return [
+          Math.round(Math.random() * 100),
+          Math.round(Math.random() * 100),
+          Math.round(Math.random() * 100),
+          Math.round(Math.random() * 100),
+          Math.round(Math.random() * 100),
+          Math.round(Math.random() * 100)
+        ];
+      }],
       controller: [
         '$scope',
         'camAPI',

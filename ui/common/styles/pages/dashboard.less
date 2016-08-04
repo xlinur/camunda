@@ -54,13 +54,13 @@
   }
 
   .section-title {
-    font-size: 2em;
+    font-size: @font-size-base * 2;
     margin-top: 5px;
     font-weight: 100;
   }
 
   .stats {
-    font-size: 16px;
+    font-size: @font-size-base * 1.2;
     padding-top: @grid-gutter-width * 0.5;
   }
 
@@ -68,10 +68,10 @@
   .value,
   .no-value {
     display: block;
-    font-size: 2em;
+    font-size: @font-size-base * 2;
     font-weight: 100;
     .animate-spin {
-      font-size: 1em;
+      font-size: @font-size-base;
     }
   }
 
@@ -90,7 +90,7 @@
     border-top: 1px solid @custom-gray-light;
   }
   li.link {
-    padding-top: 15px;
+    padding-top: @grid-gutter-width * 0.5;
   }
 
   .misc {

@@ -16,6 +16,17 @@ module.exports = [
       label: 'Decisions',
       template: template,
       pagePath: '#/decisions',
+      getSparklineData: ['camAPI', function(camAPI) {
+        console.info('camAPI????', camAPI);//es-lint-disable-line
+        return [
+          Math.round(Math.random() * 100),
+          Math.round(Math.random() * 100),
+          Math.round(Math.random() * 100),
+          Math.round(Math.random() * 100),
+          Math.round(Math.random() * 100),
+          Math.round(Math.random() * 100)
+        ];
+      }],
       checkActive: function(path) {
         return path.indexOf('#/decision') > -1;
       },
