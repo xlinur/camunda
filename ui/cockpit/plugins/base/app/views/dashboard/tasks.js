@@ -21,12 +21,20 @@ module.exports = [
       getSparklineData: ['camAPI', function(camAPI) {
         console.info('camAPI????', camAPI);//es-lint-disable-line
         return [
-          Math.round(Math.random() * 100),
-          Math.round(Math.random() * 100),
-          Math.round(Math.random() * 100),
-          Math.round(Math.random() * 100),
-          Math.round(Math.random() * 100),
-          Math.round(Math.random() * 100)
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          10,
+          10,
+          10
         ];
       }],
       controller: [

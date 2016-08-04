@@ -1,12 +1,14 @@
 'use strict';
 
-function Sparkline(el, data, width, height) {
-  el.width = width;
-  el.height = height;
-  this.canvas = el;
+function Sparkline(data, width, height) {
+  this.canvas = document.createElement('canvas');
+  this.canvas.width = width;
+  this.canvas.height = height;
+
   if (data.length === 1) {
     data = [data[0], data[0]];
   }
+
   this.data = data;
 
   this.lineWidth = 1;
@@ -14,14 +16,6 @@ function Sparkline(el, data, width, height) {
 }
 
 var proto = Sparkline.prototype;
-
-proto.min = function() {
-  var val = 0;
-  this.data.forEach(function(d) {
-    val = Math.min(d, val);
-  });
-  return val;
-};
 
 proto.max = function() {
   var val = 0;
@@ -31,16 +25,39 @@ proto.max = function() {
   return val;
 };
 
+proto.min = function() {
+  var val = this.max();
+  this.data.forEach(function(d) {
+    val = Math.min(d, val);
+  });
+  return val;
+};
+
 proto.avg = function() {
-  return (this.min() + this.max()) * 0.5;
+  var tt = 0;
+  this.data.forEach(function(v) {
+    tt += v;
+  });
+  return tt / (this.data.length);
 };
 
 proto.draw = function() {
   var self = this;
-  var ctx = self.ctx;
-  var totalWidth = self.canvas.width;
-  var step = self.canvas.width / (self.data.length - 1);
   var lineWidth = self.lineWidth;
+
+  var ctx = self.ctx;
+  var avg = self.avg();
+  var min = self.min();
+  var max = self.max();
+
+  var padding = 2 * lineWidth;
+  var innerW = self.canvas.width - (2 * padding);
+  var innerH = self.canvas.height - (2 * padding);
+  var step = innerW / (self.data.length - 1);
+
+  function toPx(val) {
+    return (innerH - ((innerH / max) * val)) + padding;
+  }
 
   ctx.clearRect(0, 0, self.canvas.width, self.canvas.height);
 
@@ -49,20 +66,36 @@ proto.draw = function() {
   ctx.lineJoin = 'round';
   ctx.strokeStyle = '#000';
 
-  var max = this.max();
-  var h = this.canvas.height - (2 * lineWidth);
-  function toPx(val) {
-    return (h - ((h / max) * val)) + lineWidth;
-  }
-
+  // var _debug = [];
+  ctx.moveTo(innerW + padding, toPx(self.data[0]));
   ctx.beginPath();
-  ctx.moveTo(self.canvas.width, toPx(self.data[0]));
   self.data.forEach(function(d, i) {
-    var left = totalWidth - (step * i);
+    var right = (innerW - (step * i)) + padding;
     var top = toPx(d);
-    ctx.lineTo(left, top);
+    ctx.lineTo(right, top);
+    // _debug.push({
+    //   top: top,
+    //   right: right
+    // });
   });
   ctx.stroke();
+  // console.table(_debug);//es-lint-disable-line
+
+  ctx.beginPath();
+  ctx.fillStyle = '#0A0';
+  ctx.arc(innerW + padding, toPx(self.data[0]), lineWidth * 2, 0, 2 * Math.PI);
+  ctx.fill();
+
+  var avgH = toPx(avg);
+  ctx.beginPath();
+  ctx.lineWidth = 1;
+  ctx.strokeStyle = '#A00';
+  ctx.moveTo(0, avgH);
+  ctx.lineTo(innerW + padding, avgH);
+  ctx.stroke();
+
+  this.canvas.setAttribute('title', 'Min: ' + min + ', Max: ' + max + ', Avg: ' + avg);
+
   return self;
 };
 
@@ -78,22 +111,15 @@ module.exports = function() {
       height: '@'
     },
 
-    compile: function() {
-      return {
-        pre: function($scope) {
-          $scope.width = $scope.width || 80;
-          $scope.height = $scope.height || 20;
-        },
+    link: function($scope, $element) {
+      $scope.width = $scope.width || 80;
+      $scope.height = $scope.height || 20;
 
-        post: function($scope, $element) {
-          setTimeout(function() {
-            var sparkline = new Sparkline($element[0].querySelector('canvas'), $scope.values, $scope.width, $scope.height);
-            sparkline.draw();
-          }, 10);
-        }
-      };
+      var sparkline = new Sparkline($scope.values, $scope.width, $scope.height);
+
+      $element[0].appendChild(sparkline.draw().canvas);
     },
 
-    template: '<canvas width="{{ width }}" height="{{ height }}"></canvas>'
+    template: '<!-- sparkline canvas comes here -->'
   };
 };

@@ -19,12 +19,32 @@ module.exports = [
       getSparklineData: ['camAPI', function(camAPI) {
         console.info('camAPI????', camAPI);//es-lint-disable-line
         return [
-          Math.round(Math.random() * 100),
-          Math.round(Math.random() * 100),
-          Math.round(Math.random() * 100),
-          Math.round(Math.random() * 100),
-          Math.round(Math.random() * 100),
-          Math.round(Math.random() * 100)
+          Math.round(Math.random() * 10000),
+          Math.round(Math.random() * 10000),
+          Math.round(Math.random() * 10000),
+          Math.round(Math.random() * 10000),
+          Math.round(Math.random() * 10000),
+          Math.round(Math.random() * 10000),
+          Math.round(Math.random() * 10000),
+          Math.round(Math.random() * 10000),
+          Math.round(Math.random() * 10000),
+          Math.round(Math.random() * 10000),
+          Math.round(Math.random() * 10000),
+          Math.round(Math.random() * 10000),
+          Math.round(Math.random() * 10000),
+          Math.round(Math.random() * 10000),
+          Math.round(Math.random() * 10000),
+          Math.round(Math.random() * 10000),
+          Math.round(Math.random() * 10000),
+          Math.round(Math.random() * 10000),
+          Math.round(Math.random() * 10000),
+          Math.round(Math.random() * 10000),
+          Math.round(Math.random() * 10000),
+          Math.round(Math.random() * 10000),
+          Math.round(Math.random() * 10000),
+          Math.round(Math.random() * 10000),
+          Math.round(Math.random() * 10000),
+          Math.round(Math.random() * 10000)
         ];
       }],
       checkActive: function(path) {
