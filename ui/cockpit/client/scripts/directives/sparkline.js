@@ -1,9 +1,12 @@
 'use strict';
 
-function Sparkline(data, width, height) {
+function Sparkline(data, width, height, lineColor, dotColor) {
   this.canvas = document.createElement('canvas');
   this.canvas.width = width;
   this.canvas.height = height;
+
+  this.lineColor = lineColor;
+  this.dotColor = dotColor;
 
   if (data.length === 1) {
     data = [data[0], data[0]];
@@ -64,7 +67,7 @@ proto.draw = function() {
   ctx.lineWidth = lineWidth;
   ctx.lineCap = 'round';
   ctx.lineJoin = 'round';
-  ctx.strokeStyle = '#000';
+  ctx.strokeStyle = self.lineColor;
 
   // var _debug = [];
   ctx.moveTo(innerW + padding, toPx(self.data[0]));
@@ -82,10 +85,10 @@ proto.draw = function() {
   // console.table(_debug);//es-lint-disable-line
 
   ctx.beginPath();
-  ctx.fillStyle = '#0A0';
+  ctx.fillStyle = self.dotColor;
   ctx.arc(innerW + padding, toPx(self.data[0]), lineWidth * 2, 0, 2 * Math.PI);
   ctx.fill();
-
+  /*
   var avgH = toPx(avg);
   ctx.beginPath();
   ctx.lineWidth = 1;
@@ -93,7 +96,7 @@ proto.draw = function() {
   ctx.moveTo(0, avgH);
   ctx.lineTo(innerW + padding, avgH);
   ctx.stroke();
-
+  */
   this.canvas.setAttribute('title', 'Min: ' + min + ', Max: ' + max + ', Avg: ' + avg);
 
   return self;
@@ -115,7 +118,7 @@ module.exports = function() {
       $scope.width = $scope.width || 80;
       $scope.height = $scope.height || 20;
 
-      var sparkline = new Sparkline($scope.values, $scope.width, $scope.height);
+      var sparkline = new Sparkline($scope.values, $scope.width, $scope.height, '#000', '#b5152b');
 
       $element[0].appendChild(sparkline.draw().canvas);
     },
