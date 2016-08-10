@@ -22,6 +22,10 @@ module.exports = function(pluginDependencies) {
 
   var appNgModule = angular.module(APP_NAME, ngDependencies);
 
+  appNgModule.controller('camHubCtrl', ['$scope', function($scope) {
+    console.info('$scope', $scope);//es-lint-disable-line
+  }]);
+
   var ModuleConfig = [
     '$routeProvider',
     'UriProvider',
@@ -67,9 +71,6 @@ module.exports = function(pluginDependencies) {
   if (top !== window) {
     window.parent.postMessage({ type: 'loadamd' }, '*');
   }
-
-
-
 };
 
 module.exports.exposePackages = function(container) {
