@@ -6,7 +6,7 @@ var commons = require('camunda-commons-ui/lib');
 var sdk = require('camunda-commons-ui/vendor/camunda-bpm-sdk-angular');
 var dataDepend = require('angular-data-depend');
 
-var APP_NAME = 'cam.cockpit';
+var APP_NAME = 'cam.hub';
 
 var angular = require('camunda-commons-ui/vendor/angular');
 
@@ -16,15 +16,6 @@ module.exports = function(pluginDependencies) {
     'ng',
     'ngResource',
     commons.name,
-    require('./repository/main').name,
-    require('./batches/main').name,
-    require('./reports/main').name,
-    require('./directives/main').name,
-    require('./filters/main').name,
-    require('./pages/main').name,
-    require('./resources/main').name,
-    require('./services/main').name,
-    require('./navigation/main').name
   ].concat(pluginDependencies.map(function(el) {
     return el.ngModuleName;
   }));
@@ -49,18 +40,18 @@ module.exports = function(pluginDependencies) {
         return uri;
       }
 
-      UriProvider.replace(':appName', 'cockpit');
+      UriProvider.replace(':appName', 'hub');
       UriProvider.replace('app://', getUri('href'));
       UriProvider.replace('adminbase://', getUri('app-root') + '/app/admin/');
-      UriProvider.replace('cockpit://', getUri('cockpit-api'));
-      UriProvider.replace('admin://', getUri('cockpit-api') + '../admin/');
-      UriProvider.replace('plugin://', getUri('cockpit-api') + 'plugin/');
+      UriProvider.replace('hub://', getUri('hub-api'));
+      UriProvider.replace('admin://', getUri('hub-api') + '../admin/');
+      UriProvider.replace('plugin://', getUri('hub-api') + 'plugin/');
       UriProvider.replace('engine://', getUri('engine-api'));
 
       UriProvider.replace(':engine', [ '$window', function($window) {
         var uri = $window.location.href;
 
-        var match = uri.match(/\/app\/cockpit\/(\w+)(|\/)/);
+        var match = uri.match(/\/app\/hub\/(\w+)(|\/)/);
         if (match) {
           return match[1];
         } else {
@@ -71,26 +62,7 @@ module.exports = function(pluginDependencies) {
 
   appNgModule.config(ModuleConfig);
 
-  appNgModule.config([
-    'camDateFormatProvider',
-    function(
-      camDateFormatProvider
-    ) {
-      var formats = {
-        monthName: 'MMMM',
-        day: 'DD',
-        abbr: 'lll',
-        normal: 'YYYY-MM-DD[T]HH:mm:ss', // yyyy-MM-dd'T'HH:mm:ss => 2013-01-23T14:42:45
-        long: 'LLLL',
-        short: 'LL'
-      };
-
-      for (var f in formats) {
-        camDateFormatProvider.setDateFormat(formats[f], f);
-      }
-    }]);
-
-  angular.bootstrap(document.documentElement, [ appNgModule.name, 'cam.cockpit.custom' ]);
+  angular.bootstrap(document.documentElement, [ appNgModule.name, 'cam.hub.custom' ]);
 
   if (top !== window) {
     window.parent.postMessage({ type: 'loadamd' }, '*');

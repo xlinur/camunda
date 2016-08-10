@@ -16,16 +16,24 @@ module.exports = function(grunt) {
 
   var browserifyConf = { };
 
+  require('./ui/hub/grunt/config/browserify')(config, browserifyConf);
   require('./ui/admin/grunt/config/browserify')(config, browserifyConf);
   require('./ui/tasklist/grunt/config/browserify')(config, browserifyConf);
   require('./ui/cockpit/grunt/config/browserify')(config, browserifyConf);
 
   var copyConf = require('./grunt/config/copy');
+  require('./ui/hub/grunt/config/copy')(config, copyConf);
   require('./ui/admin/grunt/config/copy')(config, copyConf);
   require('./ui/cockpit/grunt/config/copy')(config, copyConf);
   require('./ui/tasklist/grunt/config/copy')(config, copyConf);
 
   var lessConf = { };
+  require('./grunt/config/less')(config, lessConf, {
+    appName: 'hub',
+    sourceDir: pkg.gruntConfig.hubSourceDir,
+    buildTarget: pkg.gruntConfig.hubBuildTarget
+  });
+
   require('./grunt/config/less')(config, lessConf, {
     appName: 'admin',
     sourceDir: pkg.gruntConfig.adminSourceDir,
@@ -81,6 +89,7 @@ module.exports = function(grunt) {
       tasks: ['less']
     }
   };
+  require('./ui/hub/grunt/config/watch')(config, watchConf);
   require('./ui/tasklist/grunt/config/watch')(config, watchConf);
   require('./ui/cockpit/grunt/config/watch')(config, watchConf);
   require('./ui/admin/grunt/config/watch')(config, watchConf);
@@ -88,11 +97,13 @@ module.exports = function(grunt) {
 
   var uglifyConf = {};
   require('./grunt/config/uglify')(config, uglifyConf);
+  require('./ui/hub/grunt/config/uglify')(config, uglifyConf);
   require('./ui/admin/grunt/config/uglify')(config, uglifyConf);
   require('./ui/tasklist/grunt/config/uglify')(config, uglifyConf);
   require('./ui/cockpit/grunt/config/uglify')(config, uglifyConf);
 
   var eslintConf = {};
+  require('./ui/hub/grunt/config/eslint')(config, eslintConf);
   require('./ui/admin/grunt/config/eslint')(config, eslintConf);
   require('./ui/tasklist/grunt/config/eslint')(config, eslintConf);
   require('./ui/cockpit/grunt/config/eslint')(config, eslintConf);
