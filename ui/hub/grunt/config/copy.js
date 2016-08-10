@@ -35,41 +35,41 @@ module.exports = function(config, copyConf) {
     return content;
   }
 
-  copyConf.cockpit_index = {
+  copyConf.hub_index = {
       options: {
         process: fileProcessing
       },
       files: [
         {
           expand: true,
-          cwd: '<%= pkg.gruntConfig.cockpitSourceDir %>/scripts/',
+          cwd: '<%= pkg.gruntConfig.hubSourceDir %>/scripts/',
           src: [
             'index.html',
-            'camunda-cockpit-bootstrap.js'
+            'camunda-hub-bootstrap.js'
           ],
-          dest: '<%= pkg.gruntConfig.cockpitBuildTarget %>/'
+          dest: '<%= pkg.gruntConfig.hubBuildTarget %>/'
         }
       ]
   };
 
-  copyConf.cockpit_assets = {
+  copyConf.hub_assets = {
       files: [
         // custom styles and/or other css files
         {
           expand: true,
-          cwd: '<%= pkg.gruntConfig.cockpitSourceDir %>/styles',
+          cwd: '<%= pkg.gruntConfig.hubSourceDir %>/styles',
           src: ['*.css'],
-          dest: '<%= pkg.gruntConfig.cockpitBuildTarget %>/styles/'
+          dest: '<%= pkg.gruntConfig.hubBuildTarget %>/styles/'
         },
 
         // images, fonts & stuff
         {
           expand: true,
-          cwd: '<%= pkg.gruntConfig.cockpitSourceDir %>/',
+          cwd: '<%= pkg.gruntConfig.hubSourceDir %>/',
           src:  [
             '{fonts,images}/**/*.*'
           ],
-          dest: '<%= pkg.gruntConfig.cockpitBuildTarget %>/assets'
+          dest: '<%= pkg.gruntConfig.hubBuildTarget %>/assets'
         },
 
         // commons-ui images
@@ -79,17 +79,17 @@ module.exports = function(config, copyConf) {
           src:  [
             '*.*'
           ],
-          dest: '<%= pkg.gruntConfig.cockpitBuildTarget %>/assets/images'
+          dest: '<%= pkg.gruntConfig.hubBuildTarget %>/assets/images'
         },
 
         // dojo & dojox
         {
           expand: true,
-          cwd: '<%= pkg.gruntConfig.cockpitSourceDir %>/vendor/dojo',
+          cwd: '<%= pkg.gruntConfig.hubSourceDir %>/vendor/dojo',
           src:  [
             '**/*.*'
           ],
-          dest: '<%= pkg.gruntConfig.cockpitBuildTarget %>/assets/vendor'
+          dest: '<%= pkg.gruntConfig.hubBuildTarget %>/assets/vendor'
         },
 
         // bootstrap fonts
@@ -99,7 +99,7 @@ module.exports = function(config, copyConf) {
           src: [
             '*.{eot,ttf,svg,woff,woff2}'
           ],
-          dest: '<%= pkg.gruntConfig.cockpitBuildTarget %>/fonts/'
+          dest: '<%= pkg.gruntConfig.hubBuildTarget %>/fonts/'
         },
         // bpmn fonts
         {
@@ -108,21 +108,21 @@ module.exports = function(config, copyConf) {
           src: [
             '*.{eot,ttf,svg,woff}'
           ],
-          dest: '<%= pkg.gruntConfig.cockpitBuildTarget %>/fonts/'
+          dest: '<%= pkg.gruntConfig.hubBuildTarget %>/fonts/'
         },
         // open sans
         {
           expand: true,
           cwd: '<%= pkg.gruntConfig.commonsUiDir %>/vendor/fonts',
           src: ['*.{eot,svg,ttf,woff,woff2}'],
-          dest: '<%= pkg.gruntConfig.cockpitBuildTarget %>/fonts/'
+          dest: '<%= pkg.gruntConfig.hubBuildTarget %>/fonts/'
         },
         // dmn
         {
           expand: true,
           cwd: '<%= pkg.gruntConfig.commonsUiDir %>/node_modules/dmn-js/fonts',
           src: ['*.{eot,svg,ttf,woff,woff2}'],
-          dest: '<%= pkg.gruntConfig.cockpitBuildTarget %>/fonts/'
+          dest: '<%= pkg.gruntConfig.hubBuildTarget %>/fonts/'
         },
 
         // placeholder shims
@@ -130,18 +130,18 @@ module.exports = function(config, copyConf) {
           expand: true,
           cwd: '<%= pkg.gruntConfig.commonsUiDir %>/vendor',
           src: ['placeholders.*'],
-          dest: '<%= pkg.gruntConfig.cockpitBuildTarget %>/scripts/'
+          dest: '<%= pkg.gruntConfig.hubBuildTarget %>/scripts/'
         }
       ]
     };
 
-  copyConf.cockpit_config = {
+  copyConf.hub_config = {
       files: [
         {
           expand: true,
-          cwd: '<%= pkg.gruntConfig.cockpitSourceDir %>/scripts',
+          cwd: '<%= pkg.gruntConfig.hubSourceDir %>/scripts',
           src: ['config.js'],
-          dest: '<%= pkg.gruntConfig.cockpitBuildTarget %>/scripts/'
+          dest: '<%= pkg.gruntConfig.hubBuildTarget %>/scripts/'
         }
       ]
   };

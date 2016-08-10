@@ -15,7 +15,7 @@ module.exports = function(pluginDependencies) {
   var ngDependencies = [
     'ng',
     'ngResource',
-    commons.name,
+    commons.name
   ].concat(pluginDependencies.map(function(el) {
     return el.ngModuleName;
   }));

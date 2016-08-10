@@ -1,15 +1,15 @@
 module.exports = function(config, eslintConf) {
   'use strict';
 
-  eslintConf.cockpit_scripts = {
+  eslintConf.hub_scripts = {
     src: [
-      '<%= pkg.gruntConfig.cockpitSourceDir %>/scripts/**/*.js'
+      '<%= pkg.gruntConfig.hubSourceDir %>/scripts/**/*.js'
     ]
   };
 
-  eslintConf.cockpit_plugins = {
+  eslintConf.hub_plugins = {
     src: [
-      '<%= pkg.gruntConfig.pluginSourceDir %>/cockpit/plugins/**/*.js'
+      '<%= pkg.gruntConfig.pluginSourceDir %>/hub/plugins/**/*.js'
     ]
   };
 
