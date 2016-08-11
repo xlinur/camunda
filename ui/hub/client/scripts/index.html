@@ -36,8 +36,6 @@
     <!-- styles -->
     <link href="$APP_ROOT/app/hub/styles/styles.css?bust=$GRUNT_CACHE_BUST"
           rel="stylesheet" />
-    <link href="$APP_ROOT/app/hub/styles/styles-components.css?bust=$GRUNT_CACHE_BUST"
-          rel="stylesheet" />
     <link rel="stylesheet"
           type="text/css"
           href="$APP_ROOT/app/hub/styles/user-styles.css?bust=$GRUNT_CACHE_BUST">
@@ -87,7 +85,49 @@
     </div>
 
     <!-- content -->
-    <div ng-controller="camHubCtrl">
+    <div ng-controller="camHubCtrl"
+         class="container-fluid hub-page">
+      <div class="row">
+        <div class="col-sm-3 user-badge">
+          <div class="user-badge-portrait">
+          </div>
+          <h3 class="user-badge-name">
+            <a href="#"
+               class="user-badge-account-link"></a>
+          </h3>
+        </div>
+        <div class="col-sm-9">
+          <div class="row">
+            <a href="#"
+               class="app-link col-sm-4">
+              <div class="app-label-wrapper">
+                <h3>Cockpit</h3>
+              </div>
+              <div class="app-link-description">
+                Operators use Cockpit to inspect running and completed process instances and take care of incidents.
+              </div>
+            </a>
+            <a href="#"
+               class="app-link col-sm-4">
+              <div class="app-label-wrapper">
+                <h3>Tasklist</h3>
+              </div>
+              <div class="app-link-description">
+                End Users use Tasklist to organize and work on tasks they are supposed to complete.
+              </div>
+            </a>
+            <a href="#"
+               class="app-link col-sm-4">
+              <div class="app-label-wrapper">
+                <h3>Admin</h3>
+              </div>
+              <div class="app-link-description">
+                Administrators use Admin to manage your users, organize them in groups and grant permissions.
+              </div>
+            </a>
+          </div>
+        </div>
+      </div>
     </div>
 
     <!-- footer -->

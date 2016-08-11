@@ -26,8 +26,7 @@ module.exports = function(config, watchConf) {
         '<%= pkg.gruntConfig.hubSourceDir %>/scripts/**/*.{css,less}'
       ],
       tasks: [
-        'less:hub_styles',
-        'less:hub_styles_components'
+        'less:hub_styles'
       ]
   };
 
