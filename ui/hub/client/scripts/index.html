@@ -61,73 +61,18 @@
          current-app="hub"
          ng-cloak
          brand-name="Camunda Hub">
-      <ul cam-if-logged-in
-          ng-controller="camHeaderViewsCtrl">
-        <li ng-repeat="actionProvider in menuActions"
-            ng-if="actionProvider.pagePath && actionProvider.accessible"
-            ng-class="activeClass(actionProvider)">
-          <a ng-href="{{ actionProvider.pagePath }}">{{ actionProvider.label }}</a>
-        </li>
-
-        <li class="dropdown"
-            ng-if="dropdownActions.length">
-          <a class="dropdown-toggle"
-             href>More <i class="caret"></i></a>
-          <ul class="dropdown-menu">
-            <li ng-repeat="actionProvider in dropdownActions"
-                ng-if="actionProvider.pagePath && actionProvider.accessible"
-                ng-class="activeClass(actionProvider)">
-              <a ng-href="{{ actionProvider.pagePath }}">{{ actionProvider.label }}</a>
-            </li
-          </ul>
-        </li>
-      </ul>
     </div>
 
     <!-- content -->
-    <div ng-controller="camHubCtrl"
-         class="container-fluid hub-page">
-      <div class="row">
-        <div class="col-sm-3 user-badge">
-          <div class="user-badge-portrait">
-          </div>
-          <h3 class="user-badge-name">
-            <a href="#"
-               class="user-badge-account-link"></a>
-          </h3>
-        </div>
-        <div class="col-sm-9">
-          <div class="row">
-            <a href="#"
-               class="app-link col-sm-4">
-              <div class="app-label-wrapper">
-                <h3>Cockpit</h3>
-              </div>
-              <div class="app-link-description">
-                Operators use Cockpit to inspect running and completed process instances and take care of incidents.
-              </div>
-            </a>
-            <a href="#"
-               class="app-link col-sm-4">
-              <div class="app-label-wrapper">
-                <h3>Tasklist</h3>
-              </div>
-              <div class="app-link-description">
-                End Users use Tasklist to organize and work on tasks they are supposed to complete.
-              </div>
-            </a>
-            <a href="#"
-               class="app-link col-sm-4">
-              <div class="app-label-wrapper">
-                <h3>Admin</h3>
-              </div>
-              <div class="app-link-description">
-                Administrators use Admin to manage your users, organize them in groups and grant permissions.
-              </div>
-            </a>
-          </div>
-        </div>
-      </div>
+    <div class="container-fluid hub-page"
+         ng-view>
+      <style type="text/css">
+        .app-splash { position: absolute; width: 100%; height: 100%; top: 0; left: 0; display: table; }
+        .app-splash > div { display: table-cell; vertical-align: middle; text-align: center; }
+      </style>
+      <div class="app-splash"><div>
+        <img src="$APP_ROOT/app/hub/assets/images/camunda-animated-logo-140.gif" />
+      </div></div><!-- / .app-splash -->
     </div>
 
     <!-- footer -->

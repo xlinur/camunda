@@ -1,30 +1,31 @@
 'use strict';
-
+/* jshint browserify: true */
 var $ = window.jQuery = window.$ = require('jquery');
 
 var commons = require('camunda-commons-ui/lib');
 var sdk = require('camunda-commons-ui/vendor/camunda-bpm-sdk-angular');
-var dataDepend = require('angular-data-depend');
 
 var APP_NAME = 'cam.hub';
 
 var angular = require('camunda-commons-ui/vendor/angular');
+var pagesModule = require('./pages/main');
+var directivesModule = require('./directives/main');
+var servicesModule = require('./services/main');
 
 module.exports = function(pluginDependencies) {
 
   var ngDependencies = [
     'ng',
     'ngResource',
-    commons.name
+    commons.name,
+    pagesModule.name,
+    directivesModule.name,
+    servicesModule.name
   ].concat(pluginDependencies.map(function(el) {
     return el.ngModuleName;
   }));
 
   var appNgModule = angular.module(APP_NAME, ngDependencies);
-
-  appNgModule.controller('camHubCtrl', ['$scope', function($scope) {
-    console.info('$scope', $scope);//es-lint-disable-line
-  }]);
 
   var ModuleConfig = [
     '$routeProvider',
@@ -33,7 +34,7 @@ module.exports = function(pluginDependencies) {
       $routeProvider,
       UriProvider
     ) {
-      $routeProvider.otherwise({ redirectTo: '/dashboard' });
+      $routeProvider.otherwise({ redirectTo: '/welcome' });
 
       function getUri(id) {
         var uri = $('base').attr(id);
@@ -78,9 +79,6 @@ module.exports.exposePackages = function(container) {
   container.jquery = $;
   container['camunda-commons-ui'] = commons;
   container['camunda-bpm-sdk-js'] = sdk;
-  container['angular-data-depend'] = dataDepend;
-  container['moment'] = require('camunda-commons-ui/vendor/moment');
-  container['events'] = require('events');
 };
 
 

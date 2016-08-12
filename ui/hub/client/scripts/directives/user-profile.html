@@ -1,0 +1,48 @@
+<form name="userProfile"
+      class="user-profile"
+      ng-submit="submit()">
+  <div class="user-profile--picture">
+    <input type="hidden" />
+  </div>
+
+  <div class="form-group">
+    <label>Username</label>
+    <div class="form-control-static">{{ username }}</div>
+  </div>
+
+  <div class="form-group">
+    <label for="user-profile-firstname">First name</label>
+    <input class="form-control"
+           id="user-profile-firstname"
+           type="text"
+           name="firstName"
+           ng-model="user.firstName"
+           placeholder="Max" />
+  </div>
+
+  <div class="form-group">
+    <label for="user-profile-lastname">Last name</label>
+    <input class="form-control"
+           id="user-profile-lastname"
+           type="text"
+           name="lastName"
+           ng-model="user.lastName"
+           placeholder="Mustermann" />
+  </div>
+
+  <div class="form-group">
+    <label for="user-profile-email">Email</label>
+    <input class="form-control"
+           id="user-profile-email"
+           type="text"
+           name="email"
+           ng-model="user.email"
+           placeholder="max.mustermann@camunda.org" />
+  </div>
+
+  <div class="form-group text-right actions">
+    <button type="submit"
+            ng-disabled="userProfile.$pristine && !processing"
+            class="btn btn-primary">Update</button>
+  </div>
+</form>

@@ -1,0 +1,53 @@
+<div class="row">
+  <div class="col-sm-4"
+       user-profile
+       username="$root.authentication.name">
+  </div>
+
+  <div class="col-sm-8"
+       ng-init="authorized = $root.authentication.authorizedApps">
+    <div class="row">
+      <a ng-if="authorized.indexOf('cockpit') > -1"
+         href="#"
+         ng-class="'col-sm-' + (12 / authorized.length)"
+         class="app-link">
+        <div class="app-label-wrapper">
+          <h3>Cockpit</h3>
+        </div>
+        <div class="app-link-description">
+          Operators use Cockpit to inspect running and completed process instances and take care of incidents.
+        </div>
+      </a>
+      <a ng-if="authorized.indexOf('tasklist') > -1"
+         href="#"
+         ng-class="'col-sm-' + (12 / authorized.length)"
+         class="app-link">
+        <div class="app-label-wrapper">
+          <h3>Tasklist</h3>
+        </div>
+        <div class="app-link-description">
+          End Users use Tasklist to organize and work on tasks they are supposed to complete.
+        </div>
+      </a>
+      <a ng-if="authorized.indexOf('admin') > -1"
+         href="#"
+         ng-class="'col-sm-' + (12 / authorized.length)"
+         class="app-link">
+        <div class="app-label-wrapper">
+          <h3>Admin</h3>
+        </div>
+        <div class="app-link-description">
+          Administrators use Admin to manage your users, organize them in groups and grant permissions.
+        </div>
+      </a>
+    </div>
+  </div>
+</div>
+
+<hr/>
+
+<div custom-links></div>
+
+
+
+<!-- <pre>{{ $root.authentication | json }}</pre> -->

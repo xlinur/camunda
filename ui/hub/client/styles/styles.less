@@ -11,69 +11,79 @@
 
 /* ---------------------------------------------------------------- */
 
-.hub-badge() {
-  @media (min-width: @screen-sm) {
-    &:before {
-      z-index: 1;
-      position: relative;
-      content: '';
-      display: block;
-      padding-top: 100%;
-      width: 100%;
-      background-color: @custom-gray-light;
-    }
-  }
-}
-
-.hub-badge-label() {
-  @media (min-width: @screen-sm) {
-    width: 100%;
-    margin: -1.5vw 0 0 0;
-    text-align: center;
-    position: absolute;
-    top: 50%;
-    z-index: 2;
-    font-size: 3vw;
-  }
+form .form-control,
+form .form-control-static,
+form .btn {
+  font-size: 18px;
 }
 
 /* ---------------------------------------------------------------- */
 
-.hub-page {
-  margin: (@grid-gutter-width * 0.5) 0;
-}
+// .hub-badge() {
+//   &:before {
+//     z-index: 1;
+//     position: relative;
+//     content: '';
+//     display: block;
+//     padding-top: 100%;
+//     width: 100%;
+//   }
+// }
+
+// .hub-badge-label() {
+//   width: 100%;
+//   margin: -1.5vw 0 0 0;
+//   text-align: center;
+//   position: absolute;
+//   top: 50%;
+//   z-index: 2;
+//   font-size: 3vw;
+// }
 
 /* ---------------------------------------------------------------- */
 
-.user-badge {
-  .hub-badge();
-}
+// .hub-page {
+//   margin-top: (@grid-gutter-width * 0.5);
+// }
 
 /* ---------------------------------------------------------------- */
-.app-links {
-  @media (max-width: @screen-sm) {
-    margin-left: 0;
-    margin-right: 0;
-  }
-}
 
-.app-link {
-  h3 {
-    .hub-badge-label;
-  }
-  .hub-badge;
-}
+// .user-badge {
+//   .hub-badge();
+// }
 
-.app-label-wrapper {
-  padding-top: 100%;
-  background-color: bisque;
-  margin-top: -100%;
-  position: relative;
-}
+/* ---------------------------------------------------------------- */
 
-.app-link-description {
-  margin-top: @line-height-computed;
-  @media (min-width: @screen-sm) {
-    font-size: 1.5vw;
-  }
-}
+// @media (min-width: @screen-sm) {
+//   .app-links {
+//     margin-left: 0;
+//     margin-right: 0;
+//   }
+
+//   .app-link {
+//     h3 {
+//       .hub-badge-label;
+//       background-color: rgba(255, 255, 255, 0.85);
+//     }
+//     .hub-badge;
+//   }
+
+//   .app-label-wrapper {
+//     padding-top: 100%;
+//     margin-top: -100%;
+//     position: relative;
+//     background-image: url('../assets/images/camunda.plain.svg');
+//     background-size: contain;
+//   }
+
+//   .app-link-description {
+//     margin-top: @line-height-computed;
+//     font-size: 1.5vw;
+//   }
+// }
+
+
+/* ---------------------------------------------------------------- */
+
+@import "./../scripts/directives/user-profile";
+@import "./../scripts/directives/custom-links";
