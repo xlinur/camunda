@@ -1,0 +1,25 @@
+.user-profile--picture {
+  &:before {
+    content: '';
+    padding-top: 100%;
+    display: block;
+  }
+  background: url('./../assets/images/default-profile.svg') no-repeat @custom-gray-light;
+  background-size: cover;
+  width: 100%;
+  border-radius: 100%;
+  position: relative;
+  max-width: 220px;
+  max-height: 220px;
+  margin: 0 auto;
+}
+
+.user-initials {
+  text-align: center;
+  font-weight: 100;
+  position: absolute;
+  top: 75%;
+  width: 100%;
+  font-size: 24px;
+  margin-top: -12px;
+}

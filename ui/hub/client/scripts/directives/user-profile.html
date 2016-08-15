@@ -1,8 +1,20 @@
 <form name="userProfile"
       class="user-profile"
       ng-submit="submit()">
-  <div class="user-profile--picture">
+  <div class="user-profile--picture"
+       ng-style="{'background-color': portraitBGColor};">
     <input type="hidden" />
+    <h2 class="user-initials">
+      {{ user.firstName[0] }}{{ user.lastName[0] }}
+    </h2>
+    <!-- <div class="help-block">
+
+    </div>
+    <input id="user-profile-portrait"
+           type="file"
+           name="portrait"
+           ng-model="user.portrait"
+           style="display: none" /> -->
   </div>
 
   <div class="form-group">
@@ -16,6 +28,7 @@
            id="user-profile-firstname"
            type="text"
            name="firstName"
+           required
            ng-model="user.firstName"
            placeholder="Max" />
   </div>
@@ -26,6 +39,7 @@
            id="user-profile-lastname"
            type="text"
            name="lastName"
+           required
            ng-model="user.lastName"
            placeholder="Mustermann" />
   </div>
@@ -42,7 +56,7 @@
 
   <div class="form-group text-right actions">
     <button type="submit"
-            ng-disabled="userProfile.$pristine && !processing"
+            ng-disabled="userProfile.$invalid || userProfile.$pristine || processing"
             class="btn btn-primary">Update</button>
   </div>
 </form>

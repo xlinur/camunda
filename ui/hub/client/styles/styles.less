@@ -19,69 +19,45 @@ form .btn {
 
 /* ---------------------------------------------------------------- */
 
-// .hub-badge() {
-//   &:before {
-//     z-index: 1;
-//     position: relative;
-//     content: '';
-//     display: block;
-//     padding-top: 100%;
-//     width: 100%;
-//   }
-// }
+.hub-page {
+  padding-top: @grid-gutter-width * 0.5;
+}
 
-// .hub-badge-label() {
-//   width: 100%;
-//   margin: -1.5vw 0 0 0;
-//   text-align: center;
-//   position: absolute;
-//   top: 50%;
-//   z-index: 2;
-//   font-size: 3vw;
-// }
+
+.app-label-wrapper {
+  &:before {
+    content: '';
+    display: block;
+    padding-top: 100%;
+  }
+  position: relative;
+  margin: 0 auto 10px auto;
+  max-width: 220px;
+  max-height: 220px;
+  background-color: @gray-light;
+  > h3 {
+    // font-size: 24px;
+    margin-top: -12px;
+    position: absolute;
+    top: 50%;
+    width: 100%;
+    text-align: center;
+    color: @body-bg;
+  }
+}
+
+.app-link-description {
+  max-width: 220px;
+  margin: 0 auto;
+}
+
+.app-link:hover .app-label-wrapper {
+  background-color: @link-hover-color;
+}
 
 /* ---------------------------------------------------------------- */
 
-// .hub-page {
-//   margin-top: (@grid-gutter-width * 0.5);
-// }
-
-/* ---------------------------------------------------------------- */
-
-// .user-badge {
-//   .hub-badge();
-// }
-
-/* ---------------------------------------------------------------- */
-
-// @media (min-width: @screen-sm) {
-//   .app-links {
-//     margin-left: 0;
-//     margin-right: 0;
-//   }
-
-//   .app-link {
-//     h3 {
-//       .hub-badge-label;
-//       background-color: rgba(255, 255, 255, 0.85);
-//     }
-//     .hub-badge;
-//   }
-
-//   .app-label-wrapper {
-//     padding-top: 100%;
-//     margin-top: -100%;
-//     position: relative;
-//     background-image: url('../assets/images/camunda.plain.svg');
-//     background-size: contain;
-//   }
-
-//   .app-link-description {
-//     margin-top: @line-height-computed;
-//     font-size: 1.5vw;
-//   }
-// }
-
+@import "./../scripts/pages/welcome";
 
 /* ---------------------------------------------------------------- */
 

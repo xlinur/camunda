@@ -31,6 +31,6 @@
        id="rect4136"
        transform="translate(-7.6293945e-6,852.36216)"
        d="M 100 37 A 41 41 0 0 0 59 78 A 41 41 0 0 0 74.431641 110 L 51 110 C 37.15 110 26 121.15 26 135 L 26 200 L 174 200 L 174 135 C 174 121.15 162.85 110 149 110 L 125.61914 110 A 41 41 0 0 0 141 78 A 41 41 0 0 0 100 37 z "
-       style="stroke-width:4;stroke-linecap:round;stroke-miterlimit:4;stroke-dasharray:none;fill:#ffffff;fill-opacity:0" />
+       style="stroke:0;fill:#ffffff;fill-opacity:1" />
   </g>
 </svg>
