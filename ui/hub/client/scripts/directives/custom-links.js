@@ -3,14 +3,16 @@
 var fs = require('fs');
 var template = fs.readFileSync(__dirname + '/custom-links.html', 'utf8');
 
-module.exports = [function() {
+module.exports = ['customLinks', function(customLinks) {
   return {
     restrict: 'A',
 
     template: template,
 
-    link: function($scope, $element, $attr) {
-      console.info('custom links directive link', $scope, $element, $attr);//es-lint-disable-line
+    replace: true,
+
+    link: function($scope) {
+      $scope.links = customLinks;
     }
   };
 }];

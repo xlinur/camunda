@@ -1,52 +1,59 @@
 <div class="row">
-  <div class="col-sm-4"
+  <div class="col-sm-4 col-xs-8"
        user-profile
        username="$root.authentication.name">
   </div>
 
-  <div class="col-sm-8"
+  <div class="col-sm-8 col-xs-4"
        ng-init="authorized = $root.authentication.authorizedApps">
     <div class="row">
-      <a ng-if="authorized.indexOf('cockpit') > -1"
-         href="#"
-         ng-class="'col-sm-' + (12 / authorized.length)"
-         class="app-link">
-        <div class="app-label-wrapper">
+      <h3 class="col-xs-12">Your apps</h3>
+      <div ng-if="canAccessApp('cockpit')"
+           ng-class="'col-sm-' + columnWidth()"
+           class="cockpit-app app-link">
+        <a class="app-label-wrapper"
+           href="./../../cockpit/default/#">
           <h3>Cockpit</h3>
-        </div>
+        </a>
         <div class="app-link-description">
           Operators use Cockpit to inspect running and completed process instances and take care of incidents.
         </div>
-      </a>
-      <a ng-if="authorized.indexOf('tasklist') > -1"
-         href="#"
-         ng-class="'col-sm-' + (12 / authorized.length)"
-         class="app-link">
-        <div class="app-label-wrapper">
+        <a class="app-user-docs"
+           href="https://docs.camunda.org/manual/7.5/webapps/cockpit/">User documentation</a>
+      </div>
+      <div ng-if="canAccessApp('tasklist')"
+           ng-class="'col-sm-' + columnWidth()"
+           class="tasklist-app app-link">
+        <a class="app-label-wrapper"
+           href="./../../cockpit/default/#">
           <h3>Tasklist</h3>
-        </div>
+        </a>
         <div class="app-link-description">
           End Users use Tasklist to organize and work on tasks they are supposed to complete.
         </div>
-      </a>
-      <a ng-if="authorized.indexOf('admin') > -1"
-         href="#"
-         ng-class="'col-sm-' + (12 / authorized.length)"
-         class="app-link">
-        <div class="app-label-wrapper">
+        <a class="app-user-docs"
+           href="https://docs.camunda.org/manual/7.5/webapps/tasklist/">User documentation</a>
+      </div>
+      <div ng-if="canAccessApp('admin')"
+           ng-class="'col-sm-' + columnWidth()"
+           class="admin-app app-link">
+        <a class="app-label-wrapper"
+           href="./../../cockpit/default/#">
           <h3>Admin</h3>
-        </div>
+        </a>
         <div class="app-link-description">
           Administrators use Admin to manage your users, organize them in groups and grant permissions.
         </div>
-      </a>
+        <a class="app-user-docs"
+           href="https://docs.camunda.org/manual/7.5/webapps/admin/">User documentation</a>
+      </div>
     </div>
+
+    <hr/>
+
+    <div custom-links></div>
   </div>
 </div>
-
-<hr/>
-
-<div custom-links></div>
 
 
 
