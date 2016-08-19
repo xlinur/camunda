@@ -1,5 +1,51 @@
 <!-- # CE - camunda-cockpit-ui/client/scripts/pages/dashboard.html -->
 <div class="ctn-view dashboard container-fluid">
+  <form name="timeRange"
+        class="form-inline time-range row">
+    <div class="col-xs-4 col-sm-8 time-range-selection">
+      <span class="form-control-static">Every</span>
+      <input class="form-control"
+             type="number"
+             size="2"
+             name="amount"
+             ng-model="selection.amount"
+             required
+             step="{{ durationEl.step }}"
+             min="{{ durationEl.min }}"
+             max="{{ durationEl.max }}"
+             ng-change="updateDuration()" />
+
+      <select class="form-control"
+              name="unit"
+              ng-model="selection.unit"
+              ng-change="updateDuration()">
+        <option value="seconds" selected>Sec.</option>
+        <option value="minutes">Min.</option>
+        <option value="hours">Hours</option>
+        <option value="days">Day</option>
+        <!-- <option value="weeks">Week</option>
+        <option value="months">Month</option>
+        <option value="years">Year</option> -->
+      </select>
+
+      <span class="form-control-static">Until</span>
+      <input class="form-control"
+             type="text"
+             name="start"
+             size="16"
+             ng-model="selection.start"
+             placeholder="From"
+             ng-change="updateDuration()" />
+    </div>
+    <div class="col-xs-8 col-sm-4 text-right form-control-static">
+      <span tooltip="{{ display.diff }}">
+        <span class="time-range-end">{{ display.start }}</span>
+        -
+        <span class="time-range-end">{{ display.end }}</span>
+      </span>
+    </div>
+  </form>
+
   <div class="sections row">
     <section ng-repeat="plugin in mainPlugins"
              ng-if="!plugin.noDashboardSection && plugin.accessible"
@@ -34,6 +80,21 @@
        data-plugin-id="{{ plugin.id }}">
     <view vars="dashboardVars"
           provider="plugin"></view>
+  </div>
+
+  <div class="row">
+    <div class="col-xs-4">
+      durationEl
+      <pre>{{ durationEl | json }}</pre>
+    </div>
+    <div class="col-xs-4">
+      selection
+      <pre>{{ selection | json }}</pre>
+    </div>
+    <div class="col-xs-4">
+      display
+      <pre>{{ display | json }}</pre>
+    </div>
   </div>
 </div>
 <!-- / CE - camunda-cockpit-ui/client/scripts/pages/dashboard.html -->
