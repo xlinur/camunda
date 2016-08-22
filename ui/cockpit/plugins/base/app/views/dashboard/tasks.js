@@ -5,6 +5,24 @@ var fs = require('fs');
 var template = fs.readFileSync(__dirname + '/tasks.html', 'utf8');
 var series = require('camunda-bpm-sdk-js').utils.series;
 
+
+var moment = require('moment');
+function mockData(opts, done) {
+  var data = [];
+  var until = opts.start ? moment(opts.start) : moment();
+  var count = 100;//Math.round(Math.random() * 100) * 2;
+  for (var c = count; c >= 0; c--) {
+    data.push({
+      timestamp: until.subtract(opts.count, opts.unit).toISOString(),
+      value: Math.round(Math.random() * 100)
+    });
+  }
+
+  setTimeout(function() {
+    done(null, data);
+  }, 100);
+}
+
 module.exports = [
   'ViewsProvider',
   function(
@@ -25,34 +43,23 @@ module.exports = [
           $scope,
           camAPI
         ) {
-          $scope.sparklineData = [
-            Math.round(Math.random() * 10000),
-            Math.round(Math.random() * 10000),
-            Math.round(Math.random() * 10000),
-            Math.round(Math.random() * 10000),
-            Math.round(Math.random() * 10000),
-            Math.round(Math.random() * 10000),
-            Math.round(Math.random() * 10000),
-            Math.round(Math.random() * 10000),
-            Math.round(Math.random() * 10000),
-            Math.round(Math.random() * 10000),
-            Math.round(Math.random() * 10000),
-            Math.round(Math.random() * 10000),
-            Math.round(Math.random() * 10000),
-            Math.round(Math.random() * 10000),
-            Math.round(Math.random() * 10000),
-            Math.round(Math.random() * 10000),
-            Math.round(Math.random() * 10000),
-            Math.round(Math.random() * 10000),
-            Math.round(Math.random() * 10000),
-            Math.round(Math.random() * 10000),
-            Math.round(Math.random() * 10000),
-            Math.round(Math.random() * 10000),
-            Math.round(Math.random() * 10000),
-            Math.round(Math.random() * 10000),
-            Math.round(Math.random() * 10000),
-            Math.round(Math.random() * 10000)
-          ];
+          $scope.sparklineData = [];
+          function fetchData(selection) {
+            mockData(selection, function(err, data) {
+              $scope.$apply(function() {
+                $scope.sparklineData = data.map(function(d) {
+                  return d.value;
+                });
+              });
+            });
+          }
+          $scope.$on('stats-time-range-change', function(evt, selection) {
+            fetchData(selection);
+          });
+          fetchData({
+            unit: 'minutes',
+            count: 200
+          });
 
           $scope.count = 0;
           $scope.loadingState = 'LOADING';

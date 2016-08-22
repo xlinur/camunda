@@ -152,9 +152,43 @@
 // }
 
 [cam-sparkline] {
-
   // float: right;
   canvas {
     vertical-align: inherit;
+  }
+}
+
+
+.switch {
+  .checked,
+  .unchecked {
+    .btn;
+    .btn-sm;
+  }
+
+  [type=checkbox] {
+    display: none;
+
+    & ~ .control-label {
+      .checked {
+        .btn-default;
+        font-weight: 400;
+      }
+      .unchecked {
+        .btn-primary;
+        font-weight: 700;
+      }
+    }
+
+    &:checked ~ .control-label {
+      .checked {
+        .btn-primary;
+        font-weight: 700;
+      }
+      .unchecked {
+        .btn-default;
+        font-weight: 400;
+      }
+    }
   }
 }

@@ -8,17 +8,22 @@ function Sparkline(data, width, height, lineColor, dotColor) {
   this.lineColor = lineColor;
   this.dotColor = dotColor;
 
+  this.lineWidth = 1;
+  this.ctx = this.canvas.getContext('2d');
+
+  this.setData(data);
+}
+
+var proto = Sparkline.prototype;
+
+proto.setData = function(data) {
   if (data.length === 1) {
     data = [data[0], data[0]];
   }
 
   this.data = data;
-
-  this.lineWidth = 1;
-  this.ctx = this.canvas.getContext('2d');
-}
-
-var proto = Sparkline.prototype;
+  return this.draw();
+};
 
 proto.max = function() {
   var val = 0;
@@ -44,13 +49,20 @@ proto.avg = function() {
   return tt / (this.data.length);
 };
 
+proto.legend = function() {
+  var avg = Math.round(this.avg() * 100) / 100;
+  var min = this.min();
+  var max = this.max();
+  return 'Min: ' + min + ', Max: ' + max + ', Avg: ' + avg;
+};
+
 proto.draw = function() {
   var self = this;
   var lineWidth = self.lineWidth;
 
   var ctx = self.ctx;
-  var avg = self.avg();
-  var min = self.min();
+  // var avg = self.avg();
+  // var min = self.min();
   var max = self.max();
 
   var padding = 2 * lineWidth;
@@ -78,7 +90,8 @@ proto.draw = function() {
     ctx.lineTo(right, top);
     // _debug.push({
     //   top: top,
-    //   right: right
+    //   right: right,
+    //   d: d
     // });
   });
   ctx.stroke();
@@ -97,7 +110,7 @@ proto.draw = function() {
   ctx.lineTo(innerW + padding, avgH);
   ctx.stroke();
   */
-  this.canvas.setAttribute('title', 'Min: ' + min + ', Max: ' + max + ', Avg: ' + avg);
+  // this.canvas.setAttribute('title', 'Min: ' + min + ', Max: ' + max + ', Avg: ' + avg);
 
   return self;
 };
@@ -117,10 +130,13 @@ module.exports = function() {
     link: function($scope, $element) {
       $scope.width = $scope.width || 80;
       $scope.height = $scope.height || 20;
-
       var sparkline = new Sparkline($scope.values, $scope.width, $scope.height, '#000', '#b5152b');
-
-      $element[0].appendChild(sparkline.draw().canvas);
+      function draw() {
+        sparkline.setData($scope.values);
+      }
+      $scope.$watch('values', draw, true);
+      draw();
+      $element[0].appendChild(sparkline.canvas);
     },
 
     template: '<!-- sparkline canvas comes here -->'
