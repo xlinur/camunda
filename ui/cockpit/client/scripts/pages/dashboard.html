@@ -1,20 +1,21 @@
 <!-- # CE - camunda-cockpit-ui/client/scripts/pages/dashboard.html -->
 <div class="ctn-view dashboard container-fluid">
-  <div cam-dashboard-time-query selection="selection" now="now"></div>
-
-
   <div class="sections row">
     <section class="col-md-8 col-xs-12 metrics">
       <div class="inner">
         <header class="row">
-          <h1 class="col-xs-4">Metrics</h1>
+          <h1 class="col-xs-4 section-title">Metrics</h1>
 
-          <div class="col-xs-8"></div>
+          <div class="col-xs-8 text-right">
+            <div cam-dashboard-time-query
+                 selection="selection"
+                 now="now"></div>
+          </div>
         </header>
 
         <div class="row">
           <div class="col-sm-6">
-            <h2><a>Started Process Instances</a></h2>
+            <div><a>Started Process Instances</a></div>
             <span class="value">2k</span>
             <span class="heat heat-on"
                   tooltip="...">
@@ -23,7 +24,7 @@
           </div>
 
           <div class="col-sm-6">
-            <h2><a>Processed Decisions</a></h2>
+            <div><a>Processed Decisions</a></div>
             <span class="value">1.5k</span>
             <span class="heat heat-off"
                   tooltip="...">
@@ -43,7 +44,7 @@
     <section class="col-md-4 col-xs-12 state">
       <div class="inner">
         <header>
-          <h1>State</h1>
+          <h1 class="section-title">State</h1>
         </header>
 
         <div class="row">
