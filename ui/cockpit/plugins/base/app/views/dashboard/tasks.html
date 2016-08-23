@@ -15,11 +15,11 @@
       <span class="value">{{ count.finished | abbreviateNumber }}</span>
 
       <span class="sparkline-wrapper"
-            tooltip="Min: {{ (sparkline.min() || 0) | abbreviateNumber }}, Max: {{ sparkline.max() | abbreviateNumber }}, Avg.: {{ sparkline.avg(100) | abbreviateNumber }}">
+            tooltip="Min: {{ sparkline.min() | abbreviateNumber }}, Max: {{ sparkline.max() | abbreviateNumber }}, Avg.: {{ sparkline.avg(100) | abbreviateNumber }}">
         <span cam-sparkline
               values="sparklineData"
               width="160"
-              height="32"></span>
+              height="40"></span>
       </span>
     </li>
   </ul>
