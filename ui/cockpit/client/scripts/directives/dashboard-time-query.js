@@ -3,12 +3,13 @@
 var fs = require('fs');
 
 var template = fs.readFileSync(__dirname + '/dashboard-time-query.html', 'utf8');
-
+// var moment = require('moment');
 
 module.exports = function() {
   return {
     scope: {
-      selection: '='
+      selection: '=',
+      now: '='
     },
 
     replace: true,
@@ -22,22 +23,19 @@ module.exports = function() {
         diff: null
       };
 
-      // function updateDisplay(data) {
-      //   var start = new Date(data[0].timestamp);
-      //   var end = new Date(data[data.length - 1].timestamp);
-
-      //   $scope.display.start = moment(start).format(dateFormat);
-      //   $scope.display.end = moment(end).format(dateFormat);
-
-      //   $scope.display.diff = moment.duration(Math.abs(start.getTime() - end.getTime())).humanize();
-      // }
-
       function parseSampling(val) {
         var parts = val.split('-');
         return {
           unit: parts[0],
           count: parseInt(parts[1], 10)
         };
+      }
+      var parsed = parseSampling($scope.selection.sampling);
+      if ($scope.selection.count !== parsed.count) {
+        $scope.selection.count = parsed.count;
+      }
+      if ($scope.selection.unit !== parsed.unit) {
+        $scope.selection.unit = parsed.unit;
       }
 
       $scope.querying = false;
@@ -46,21 +44,9 @@ module.exports = function() {
         var sampling = parseSampling($scope.selection.sampling);
         $scope.selection.unit = sampling.unit;
         $scope.selection.count = sampling.count;
-        // mockData({
-        //   unit: sampling.unit,
-        //   count: sampling.count,
-        //   start: ($scope.selection.start ? moment($scope.selection.start, dateFormat) : moment()).format('YYYY-MM-DD[T]HH:mm:ss')
-        // }, function(err, data) {
-        //   $scope.querying = false;
-        //   if (err) { return; }
-        //   $scope.$apply(function() {
-        //     updateDisplay(data);
-        //   });
-        // });
       }
 
       $scope.updateDuration = updateDuration;
-      // updateDuration();
     }]
   };
 };

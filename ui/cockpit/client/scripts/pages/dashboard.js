@@ -8,11 +8,13 @@ var moment = require('moment');
 var Controller = [
   '$scope',
   '$injector',
+  '$interval',
   'Views',
   'page',
   function(
   $scope,
   $injector,
+  $interval,
   Views,
   page
 ) {
@@ -46,30 +48,53 @@ var Controller = [
     page.titleSet('Dashboard');
 
   // ----------------------------------------------------------------------------------------
-    var dateDisplayFormat = 'YYYY-MM-DD HH:mm';
+    var dateDisplayFormat = 'YYYY-MM-DD HH:mm:ss';
     var dateQueryFormat = 'YYYY-MM-DD[T]HH:mm:ss';
+
+    $scope.now = moment().format(dateDisplayFormat);
+
+    var autoRefresh;
+    function stopAutoRefresh() {
+      if (autoRefresh) {
+        $interval.cancel(autoRefresh);
+        autoRefresh = undefined;
+      }
+    }
+
+
+
     $scope.selection = {
       start: null,
-      sampling: 'minutes-15'
+      sampling: 'seconds-15'
     };
+
     $scope.$watch('selection', function() {
-      $scope.$broadcast('stats-time-range-change', {
-        start: ($scope.selection.start ? moment($scope.selection.start, dateDisplayFormat) : moment()).format(dateQueryFormat),
+      var options = {
+        start: ($scope.selection.start && !$scope.selection.autoRefresh ? moment($scope.selection.start, dateDisplayFormat) : moment()).format(dateQueryFormat),
         unit: $scope.selection.unit,
         count: $scope.selection.count
-      });
+      };
 
-      // mockData({
-      //   unit: $scope.selection.unit,
-      //   count: $scope.selection.count,
-      //   start: ($scope.selection.start ? moment($scope.selection.start, dateDisplayFormat) : moment()).format('YYYY-MM-DD[T]HH:mm:ss')
-      // }, function(err, data) {
-      //   $scope.querying = false;
-      //   if (err) { return; }
-      //   console.info('data...', data);//es-lint-disable-line
-      // });
+      $scope.$broadcast('stats-time-range-change', options);
 
+      stopAutoRefresh();
+      if ($scope.selection.autoRefresh) {
+        $scope.now = moment().format(dateDisplayFormat);
+        var millis = moment.duration(options.count, options.unit).asMilliseconds();
+
+        autoRefresh = $interval(function() {
+          $scope.now = moment().format(dateDisplayFormat);
+
+          options.start = moment().format(dateQueryFormat);
+
+          $scope.$broadcast('stats-refresh', options);
+        }, Math.max(millis, 1000));
+      }
     }, true);
+
+    $scope.$on('$destroy', function() {
+      stopAutoRefresh();
+    });
   }];
 
 var RouteConfig = [ '$routeProvider', function($routeProvider) {

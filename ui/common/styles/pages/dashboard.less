@@ -62,16 +62,6 @@
     > a {
       display: block;
     }
-    &.value-and-sparkline {
-      overflow: hidden;
-      > span {
-        float: left;
-      }
-
-      > [cam-sparkline] {
-        float: right;
-      }
-    }
   }
 
   .section-title {
@@ -136,59 +126,28 @@
 }
 
 
-// .text-and-sparkline {
-//   overflow: hidden;
-//   > .text {
-//     float: left;
-//   }
-// }
-
-// .value-and-sparkline {
-//   overflow: hidden;
-//   .value,
-//   .no-value {
-//     float: left;
-//   }
-// }
-
-[cam-sparkline] {
-  // float: right;
-  canvas {
-    vertical-align: inherit;
+.text-and-sparkline {
+  overflow: hidden;
+  > .text {
+    float: left;
   }
 }
 
+.value-and-sparkline {
+  overflow: hidden;
 
-.switch {
-  .checked,
-  .unchecked {
-    .btn;
-    .btn-sm;
+  .value,
+  .no-value {
+    float: left;
   }
 
-  [type=checkbox] {
-    display: none;
+  .sparkline-wrapper {
+    float: right;
+  }
+}
 
-    & ~ .control-label {
-      .checked {
-        .btn-default;
-        font-weight: 400;
-      }
-      .unchecked {
-        .btn-primary;
-        font-weight: 700;
-      }
-    }
-
-    &:checked ~ .control-label {
-      .checked {
-        .btn-primary;
-        font-weight: 700;
-      }
-      .unchecked {
-        .btn-default;
-        font-weight: 400;
-      }
-    }
+[cam-sparkline] {
+  canvas {
+    vertical-align: inherit;
   }
 }

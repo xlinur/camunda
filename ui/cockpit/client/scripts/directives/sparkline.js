@@ -41,12 +41,16 @@ proto.min = function() {
   return val;
 };
 
-proto.avg = function() {
+proto.avg = function(round) {
   var tt = 0;
   this.data.forEach(function(v) {
     tt += v;
   });
-  return tt / (this.data.length);
+  var avg = tt / (this.data.length);
+  if (round) {
+    return Math.round(avg * round) / round;
+  }
+  return avg;
 };
 
 proto.legend = function() {
@@ -61,9 +65,8 @@ proto.draw = function() {
   var lineWidth = self.lineWidth;
 
   var ctx = self.ctx;
-  // var avg = self.avg();
-  // var min = self.min();
   var max = self.max();
+  var avg = self.avg();
 
   var padding = 2 * lineWidth;
   var innerW = self.canvas.width - (2 * padding);
@@ -101,7 +104,7 @@ proto.draw = function() {
   ctx.fillStyle = self.dotColor;
   ctx.arc(innerW + padding, toPx(self.data[0]), lineWidth * 2, 0, 2 * Math.PI);
   ctx.fill();
-  /*
+
   var avgH = toPx(avg);
   ctx.beginPath();
   ctx.lineWidth = 1;
@@ -109,8 +112,6 @@ proto.draw = function() {
   ctx.moveTo(0, avgH);
   ctx.lineTo(innerW + padding, avgH);
   ctx.stroke();
-  */
-  // this.canvas.setAttribute('title', 'Min: ' + min + ', Max: ' + max + ', Avg: ' + avg);
 
   return self;
 };
@@ -130,15 +131,20 @@ module.exports = function() {
     link: function($scope, $element) {
       $scope.width = $scope.width || 80;
       $scope.height = $scope.height || 20;
+      $scope.tooltip = '';
+
       var sparkline = new Sparkline($scope.values, $scope.width, $scope.height, '#000', '#b5152b');
-      function draw() {
+      $scope.$watch('values', function() {
         sparkline.setData($scope.values);
-      }
-      $scope.$watch('values', draw, true);
-      draw();
+
+        if ($scope.$parent) {
+          $scope.$parent.sparkline = sparkline;
+        }
+      }, true);
+
       $element[0].appendChild(sparkline.canvas);
     },
 
-    template: '<!-- sparkline canvas comes here -->'
+    template: '<!-- sparkline comes here -->'
   };
 };

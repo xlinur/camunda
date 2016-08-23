@@ -1,7 +1,11 @@
 <!-- # CE - camunda-cockpit-ui/client/scripts/pages/dashboard.html -->
 <div class="ctn-view dashboard container-fluid">
-  <div cam-dashboard-time-query selection="selection"></div>
-
+  <div cam-dashboard-time-query selection="selection" now="now"></div>
+  <!--
+  <div class="row">
+    <div class="col-xs-12"><pre>{{ selection | json }}</pre></div>
+  </div>
+  -->
   <div class="sections row">
     <section ng-repeat="plugin in mainPlugins"
              ng-if="!plugin.noDashboardSection && plugin.accessible"
@@ -12,12 +16,6 @@
             <a class="text" ng-if="plugin.pagePath"
                ng-href="{{ plugin.pagePath }}">{{ plugin.label }}</a>
             <span class="text" ng-if="!plugin.pagePath">{{ plugin.label }}</span>
-
-            <span cam-sparkline
-                  ng-if="!!plugin.sparklineData"
-                  width="80"
-                  height="20"
-                  values="plugin.sparklineData"></span>
           </h1>
         </header>
 
@@ -36,17 +34,6 @@
        data-plugin-id="{{ plugin.id }}">
     <view vars="dashboardVars"
           provider="plugin"></view>
-  </div>
-
-  <div class="row">
-    <div class="col-xs-6">
-      selection
-      <pre>{{ selection | json }}</pre>
-    </div>
-    <div class="col-xs-6">
-      display
-      <pre>{{ display | json }}</pre>
-    </div>
   </div>
 </div>
 <!-- / CE - camunda-cockpit-ui/client/scripts/pages/dashboard.html -->

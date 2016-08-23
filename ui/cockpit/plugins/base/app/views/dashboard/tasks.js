@@ -44,7 +44,7 @@ module.exports = [
           camAPI
         ) {
           $scope.sparklineData = [];
-          function fetchData(selection) {
+          function fetchData(evt, selection) {
             mockData(selection, function(err, data) {
               $scope.$apply(function() {
                 $scope.sparklineData = data.map(function(d) {
@@ -53,10 +53,9 @@ module.exports = [
               });
             });
           }
-          $scope.$on('stats-time-range-change', function(evt, selection) {
-            fetchData(selection);
-          });
-          fetchData({
+          $scope.$on('stats-time-range-change', fetchData);
+          $scope.$on('stats-refresh', fetchData);
+          fetchData({}, {
             unit: 'minutes',
             count: 200
           });
