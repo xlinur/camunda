@@ -7,7 +7,8 @@
   overflow: hidden;
   border: 1px solid;
 
-  > h3 {
+  .app-name {
+    .h3;
     margin-top: -12px;
     position: absolute;
     top: 50%;
@@ -20,28 +21,8 @@
     content: '';
     display: block;
     padding-top: 100%;
-    opacity: 0.5;
-    background-color: @gray-light;
-    background-position: center;
-    transition: transform 0.532s ease;
-    background-size: cover;
-  }
-
-  &:hover:before {
-    transform: scale(1.36, 1.36);
   }
 }
-
-.cockpit-app .app-label-wrapper:before {
-  background-image: url('./../assets/images/screenshot-cockpit.png');
-}
-.tasklist-app .app-label-wrapper:before {
-  background-image: url('./../assets/images/screenshot-tasklist.png');
-}
-.admin-app .app-label-wrapper:before {
-  background-image: url('./../assets/images/screenshot-admin.png');
-}
-
 
 
 .app-link-description,

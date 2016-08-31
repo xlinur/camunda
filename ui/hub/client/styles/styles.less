@@ -20,8 +20,31 @@ form .btn {
 /* ---------------------------------------------------------------- */
 
 .hub-page {
-  padding-top: @grid-gutter-width * 0.5;
+  background-color: @custom-gray-light;
+  position: absolute;
+  min-height: ~"calc(100% - (@{header-height} + @{footer-height}))";
+  width: 100%;
+  padding-top: 0;
+  padding-bottom: 0;
+
+  section {
+    padding-top: @grid-gutter-width * 0.5;
+    padding-bottom: @grid-gutter-width * 0.5;
+    > .inner {
+      background-color: @body-bg;
+      padding: @grid-gutter-width * 0.5;
+    }
+  }
+  .section-title {
+    font-size: 2em;
+    margin-top: 5px;
+    padding-bottom: 10px;
+    font-weight: 100;
+    margin-bottom: @grid-gutter-width * 0.5;
+    border-bottom: 1px solid @custom-gray-light;
+  }
 }
+
 
 /* ---------------------------------------------------------------- */
 

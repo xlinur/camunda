@@ -1,64 +1,94 @@
-<form name="userProfile"
-      class="user-profile"
-      ng-submit="submit()">
-  <h3>Your profile</h3>
+<div>
+  <form name="userProfile"
+        class="user-profile"
+        ng-submit="submitProfile()">
+    <h3 class="section-title">Your profile</h3>
 
-  <div class="user-profile--picture"
-       ng-style="{'background-color': portraitBGColor};">
-    <input type="hidden" />
-    <h2 class="user-initials">
-      {{ user.firstName[0] }}{{ user.lastName[0] }}
-    </h2>
-    <!-- <div class="help-block">
-
+    <div class="form-group">
+      <label>Username</label>
+      <div class="form-control-static">{{ username }}</div>
     </div>
-    <input id="user-profile-portrait"
-           type="file"
-           name="portrait"
-           ng-model="user.portrait"
-           style="display: none" /> -->
-  </div>
 
-  <div class="form-group">
-    <label>Username</label>
-    <div class="form-control-static">{{ username }}</div>
-  </div>
+    <div class="form-group">
+      <label for="user-profile-firstname">First name</label>
+      <input class="form-control"
+             id="user-profile-firstname"
+             type="text"
+             name="firstName"
+             required
+             ng-model="user.firstName"
+             placeholder="Max" />
+    </div>
 
-  <div class="form-group">
-    <label for="user-profile-firstname">First name</label>
-    <input class="form-control"
-           id="user-profile-firstname"
-           type="text"
-           name="firstName"
-           required
-           ng-model="user.firstName"
-           placeholder="Max" />
-  </div>
+    <div class="form-group">
+      <label for="user-profile-lastname">Last name</label>
+      <input class="form-control"
+             id="user-profile-lastname"
+             type="text"
+             name="lastName"
+             required
+             ng-model="user.lastName"
+             placeholder="Mustermann" />
+    </div>
 
-  <div class="form-group">
-    <label for="user-profile-lastname">Last name</label>
-    <input class="form-control"
-           id="user-profile-lastname"
-           type="text"
-           name="lastName"
-           required
-           ng-model="user.lastName"
-           placeholder="Mustermann" />
-  </div>
+    <div class="form-group">
+      <label for="user-profile-email">Email</label>
+      <input class="form-control"
+             id="user-profile-email"
+             type="text"
+             name="email"
+             ng-model="user.email"
+             placeholder="max.mustermann@camunda.org" />
+    </div>
 
-  <div class="form-group">
-    <label for="user-profile-email">Email</label>
-    <input class="form-control"
-           id="user-profile-email"
-           type="text"
-           name="email"
-           ng-model="user.email"
-           placeholder="max.mustermann@camunda.org" />
-  </div>
+    <div class="form-group text-right actions">
+      <button type="submit"
+              ng-disabled="userProfile.$invalid || userProfile.$pristine || processing"
+              class="btn btn-primary">Update</button>
+    </div>
+  </form>
 
-  <div class="form-group text-right actions">
-    <button type="submit"
-            ng-disabled="userProfile.$invalid || userProfile.$pristine || processing"
-            class="btn btn-primary">Update</button>
-  </div>
-</form>
+  <hr class="narrow" />
+
+  <form name="changePassword"
+        class="change-password"
+        ng-submit="submitPassword()">
+    <h3 class="section-title">Your password</h3>
+
+    <div class="form-group">
+      <label for="user-password-current">Current password</label>
+      <input class="form-control"
+             id="user-password-current"
+             type="password"
+             name="current"
+             required
+             ng-model="password.current" />
+    </div>
+
+    <div class="form-group">
+      <label for="user-password-new">New password</label>
+      <input class="form-control"
+             id="user-password-new"
+             type="password"
+             name="new"
+             required
+             ng-model="password.new" />
+    </div>
+
+    <div class="form-group">
+      <label for="user-password-confirmation">Confirm new password</label>
+      <input class="form-control"
+             id="user-password-confirmation"
+             type="password"
+             name="confirmation"
+             required
+             ng-model="password.confirmation" />
+    </div>
+
+    <div class="form-group text-right actions">
+      <button type="submit"
+              ng-disabled="changePassword.$invalid || changePassword.$pristine || processing || password.new !== password.confirmation"
+              class="btn btn-primary">Change password</button>
+    </div>
+  </form>
+</div>
