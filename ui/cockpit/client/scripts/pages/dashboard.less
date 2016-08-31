@@ -1,3 +1,41 @@
-form.time-range {
-  padding-top: 4px;
+.dashboard {
+  form.time-range {
+    //padding-top: 4px;
+    .form-control {
+      width: auto;
+    }
+    .control-label,
+    .form-control,
+    .checkbox {
+      vertical-align: middle;
+      display: inline-block;
+    }
+  }
+
+  section.now,
+  section.metrics {
+    padding-left: 0;
+    padding-right: 0;
+  }
+
+  header {
+    overflow: hidden;
+  }
+
+  header .nav.nav-tabs {
+    margin-top: 0;
+    float: right;
+  }
+
+  section > .inner {
+    min-height: auto;
+  }
+
+  // .section-link {
+  //   display: block;
+  // }
+
+  .entry {
+    margin-bottom: 10px;
+  }
 }
