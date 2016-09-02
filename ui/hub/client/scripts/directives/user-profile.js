@@ -17,6 +17,11 @@ module.exports = ['camAPI', 'Notifications', function(camAPI, Notifications) {
     replace: true,
 
     link: function($scope) {
+      $scope.visibleForm = null;
+      $scope.showForm = function(name) {
+        $scope.visibleForm = name || null;
+      };
+
       $scope.processing = false;
       $scope.user = {
         id: $scope.username
@@ -28,18 +33,26 @@ module.exports = ['camAPI', 'Notifications', function(camAPI, Notifications) {
         confirmation: null
       };
 
-      var userResource = camAPI.resource('user');
+      var groupResource = camAPI.resource('group');
+      groupResource.list(function(err, groups) {
+        if (err) { throw err; }
+        $scope.user.groups = groups;
+      });
 
+
+      var userResource = camAPI.resource('user');
       userResource.profile({
         id: $scope.user.id
       }, function(err, data) {
         angular.extend($scope.user, data);
+        $scope.$root.userFullName = data.firstName + ' ' + data.lastName;
       });
 
       $scope.submitProfile = function() {
         $scope.processing = true;
         userResource.updateProfile($scope.user, function(err) {
           $scope.processing = false;
+
           if (!err) {
             $scope.userProfile.$setPristine();
 
@@ -50,6 +63,8 @@ module.exports = ['camAPI', 'Notifications', function(camAPI, Notifications) {
               exclusive: [ 'http' ],
               duration: 5000
             });
+
+            $scope.showForm();
           }
           else {
             Notifications.addMessage({
@@ -72,6 +87,7 @@ module.exports = ['camAPI', 'Notifications', function(camAPI, Notifications) {
           authenticatedUserPassword: $scope.password.current
         }, function(err) {
           $scope.processing = false;
+
           if (!err) {
             $scope.changePassword.$setPristine();
             $scope.password = {
@@ -87,6 +103,8 @@ module.exports = ['camAPI', 'Notifications', function(camAPI, Notifications) {
               exclusive: [ 'http' ],
               duration: 5000
             });
+
+            $scope.showForm();
           }
           else {
             Notifications.addMessage({
