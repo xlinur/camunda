@@ -1,0 +1,112 @@
+<div class="row welcome-page">
+  <div class="col-sm-8 col-xs-12">
+    <section ng-init="authorized = $root.authentication.authorizedApps"
+             class="webapps">
+      <div class="inner"
+           ng-init="cols = columnWidth()">
+        <div class="row">
+          <div class="col-xs-12">
+            <h3 class="section-title">Your apps</h3>
+          </div>
+        </div>
+
+
+
+
+        <div class="row">
+          <div ng-if="canAccessApp('cockpit')"
+               ng-class="'col-xs-' + cols"
+               class="cockpit-app">
+            <a class="app-label-wrapper"
+               href="./../../cockpit/default/#">
+            </a>
+            <h3 class="app-name">
+              <a href="./../../cockpit/default/#">Cockpit</a>
+            </h3>
+          </div>
+
+
+          <div ng-if="canAccessApp('tasklist')"
+               ng-class="'col-xs-' + cols"
+               class="tasklist-app">
+            <a class="app-label-wrapper"
+               href="./../../tasklist/default/#">
+            </a>
+            <h3 class="app-name">
+              <a href="./../../tasklist/default/#">Tasklist</a>
+            </h3>
+          </div>
+
+
+          <div ng-if="canAccessApp('admin')"
+               ng-class="'col-xs-' + cols"
+               class="admin-app">
+            <a class="app-label-wrapper"
+               href="./../../admin/default/#">
+            </a>
+            <h3 class="app-name">
+              <a href="./../../admin/default/#">Admin</a>
+            </h3>
+          </div>
+        </div>
+
+
+
+
+        <div class="row app-link-description">
+          <div ng-if="canAccessApp('cockpit')"
+               ng-class="'col-xs-' + cols">
+            Operators use Cockpit to inspect running and completed process instances and take care of incidents.
+          </div>
+
+
+          <div ng-if="canAccessApp('tasklist')"
+               ng-class="'col-xs-' + cols">
+            End Users use Tasklist to organize and work on tasks they are supposed to complete.
+          </div>
+
+
+          <div ng-if="canAccessApp('admin')"
+               ng-class="'col-xs-' + cols">
+            Administrators use Admin to manage your users, organize them in groups and grant permissions.
+          </div>
+        </div>
+
+
+
+
+        <div class="row app-user-docs">
+          <div ng-if="canAccessApp('cockpit')"
+               ng-class="'col-xs-' + cols">
+            <a href="https://docs.camunda.org/manual/7.5/webapps/cockpit/">User documentation &raquo;</a>
+          </div>
+
+
+          <div ng-if="canAccessApp('tasklist')"
+               ng-class="'col-xs-' + cols">
+            <a href="https://docs.camunda.org/manual/7.5/webapps/tasklist/">User documentation &raquo;</a>
+          </div>
+
+
+          <div ng-if="canAccessApp('admin')"
+               ng-class="'col-xs-' + cols">
+            <a href="https://docs.camunda.org/manual/7.5/webapps/admin/">User documentation &raquo;</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <div class="inner" custom-links></div>
+    </section>
+  </div>
+
+
+  <section class="col-sm-4 col-xs-12"
+           id="user-profile">
+    <div class="inner">
+      <div user-profile
+           username="$root.authentication.name"></div>
+    </div>
+  </section>
+</div>
