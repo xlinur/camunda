@@ -13,7 +13,6 @@ var angular = require('camunda-commons-ui/vendor/angular'),
     stateCircle = require('./stateCircle'),
     variable = require('./variable'),
     focus = require('./focus'),
-    dashboardTimeQuery = require('./dashboard-time-query'),
     viewPills = require('./viewPills'),
     sparkline = require('./sparkline'),
     selectActivity = require('./selectActivity'),
@@ -35,7 +34,6 @@ directivesModule.directive('ctnCollapsableParent', sidebarContainer);
 directivesModule.directive('stateCircle', stateCircle);
 directivesModule.directive('variable', variable);
 directivesModule.directive('focus', focus);
-directivesModule.directive('camDashboardTimeQuery', dashboardTimeQuery);
 directivesModule.directive('viewPills', viewPills);
 directivesModule.directive('camSelectActivity', selectActivity);
 directivesModule.directive('camSparkline', sparkline);

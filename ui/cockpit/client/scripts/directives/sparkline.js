@@ -17,6 +17,7 @@ function Sparkline(data, width, height, lineColor, dotColor) {
 var proto = Sparkline.prototype;
 
 proto.setData = function(data) {
+  data = data || [];
   if (data.length === 1) {
     data = [data[0], data[0]];
   }
@@ -25,28 +26,28 @@ proto.setData = function(data) {
   return this.draw();
 };
 
-proto.max = function() {
+proto.max = function(index) {
   var val = 0;
-  this.data.forEach(function(d) {
+  this.data[index].forEach(function(d) {
     val = Math.max(d, val);
   });
   return val;
 };
 
-proto.min = function() {
-  var val = this.max();
-  this.data.forEach(function(d) {
+proto.min = function(index) {
+  var val = this.max(index);
+  this.data[index].forEach(function(d) {
     val = Math.min(d, val);
   });
   return val;
 };
 
-proto.avg = function(round) {
+proto.avg = function(index, round) {
   var tt = 0;
-  this.data.forEach(function(v) {
+  this.data[index].forEach(function(v) {
     tt += v;
   });
-  var avg = tt / (this.data.length);
+  var avg = tt / (this.data[index].length);
   if (round) {
     return Math.round(avg * round) / round;
   }
@@ -63,55 +64,57 @@ proto.legend = function() {
 proto.draw = function() {
   var self = this;
   var lineWidth = self.lineWidth;
-
   var ctx = self.ctx;
-  var max = self.max();
-  var avg = self.avg();
-
   var padding = 2 * lineWidth;
   var innerW = self.canvas.width - (2 * padding);
   var innerH = self.canvas.height - (2 * padding);
   var step = innerW / (self.data.length - 1);
 
-  function toPx(val) {
-    return (innerH - ((innerH / max) * val)) + padding;
-  }
 
   ctx.clearRect(0, 0, self.canvas.width, self.canvas.height);
 
-  ctx.lineWidth = lineWidth;
-  ctx.lineCap = 'round';
-  ctx.lineJoin = 'round';
-  ctx.strokeStyle = self.lineColor;
+  this.data.forEach(function(data, index) {
+    var max = self.max(index);
+    var avg = self.avg(index);
 
-  // var _debug = [];
-  ctx.moveTo(innerW + padding, toPx(self.data[0]));
-  ctx.beginPath();
-  self.data.forEach(function(d, i) {
-    var right = (innerW - (step * i)) + padding;
-    var top = toPx(d);
-    ctx.lineTo(right, top);
-    // _debug.push({
-    //   top: top,
-    //   right: right,
-    //   d: d
-    // });
+    function toPx(val) {
+      return (innerH - ((innerH / max) * val)) + padding;
+    }
+
+    ctx.lineWidth = lineWidth;
+    ctx.lineCap = 'round';
+    ctx.lineJoin = 'round';
+    ctx.strokeStyle = self.lineColor;
+
+    // var _debug = [];
+    ctx.moveTo(innerW + padding, toPx(data[0]));
+    ctx.beginPath();
+    data.forEach(function(d, i) {
+      var right = (innerW - (step * i)) + padding;
+      var top = toPx(d);
+      ctx.lineTo(right, top);
+      // _debug.push({
+      //   top: top,
+      //   right: right,
+      //   d: d
+      // });
+    });
+    ctx.stroke();
+    // console.table(_debug);//es-lint-disable-line
+
+    ctx.beginPath();
+    ctx.fillStyle = self.dotColor;
+    ctx.arc(innerW + padding, toPx(self.data[0]), lineWidth * 2, 0, 2 * Math.PI);
+    ctx.fill();
+
+    var avgH = toPx(avg);
+    ctx.beginPath();
+    ctx.lineWidth = 1;
+    ctx.strokeStyle = '#A00';
+    ctx.moveTo(0, avgH);
+    ctx.lineTo(innerW + padding, avgH);
+    ctx.stroke();
   });
-  ctx.stroke();
-  // console.table(_debug);//es-lint-disable-line
-
-  ctx.beginPath();
-  ctx.fillStyle = self.dotColor;
-  ctx.arc(innerW + padding, toPx(self.data[0]), lineWidth * 2, 0, 2 * Math.PI);
-  ctx.fill();
-
-  var avgH = toPx(avg);
-  ctx.beginPath();
-  ctx.lineWidth = 1;
-  ctx.strokeStyle = '#A00';
-  ctx.moveTo(0, avgH);
-  ctx.lineTo(innerW + padding, avgH);
-  ctx.stroke();
 
   return self;
 };
@@ -129,8 +132,8 @@ module.exports = function() {
     },
 
     link: function($scope, $element) {
-      $scope.width = $scope.width || 80;
-      $scope.height = $scope.height || 20;
+      $scope.width = $scope.width || $element[0].clientWidth || 80;
+      $scope.height = $scope.height || $element[0].clientHeight || 20;
       $scope.tooltip = '';
 
       var sparkline = new Sparkline($scope.values, $scope.width, $scope.height, '#000', '#b5152b');

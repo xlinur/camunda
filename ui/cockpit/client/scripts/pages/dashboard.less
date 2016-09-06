@@ -31,11 +31,19 @@
     min-height: auto;
   }
 
-  // .section-link {
-  //   display: block;
-  // }
-
   .entry {
     margin-bottom: 10px;
+  }
+
+  view.row {
+    display: block;
+  }
+
+
+  .metrics [cam-sparkline] {
+    min-height: 120px;
+    canvas {
+      background-color: @custom-gray-lighter;
+    }
   }
 }

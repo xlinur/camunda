@@ -1,10 +1,11 @@
 <!-- # CE - camunda-cockpit-ui/client/scripts/pages/dashboard.html -->
 <div class="ctn-view dashboard container-fluid">
   <div class="sections row">
-    <div class="col-sm-8 col-xs-12">
+    <div class="col-xs-12 col-sm-8 col-lg-10">
 
 
-      <section class="now">
+      <section class="now"
+               ng-class="{'loading': loading}">
         <div class="inner">
           <header>
             <div class="row">
@@ -13,16 +14,36 @@
           </header>
 
           <div class="row stats">
-            <div class="col-xs-6 col-lg-4 entry">
-              <a class="section-link">Open Incidents</a>
-
-              <span class="value">120</span>
+            <div class="col-xs-6 col-lg-3">
+              <div>Running Process Inst.</div>
+              <span class="value">
+                {{ (!data.actual.runningProcessInstances ? 0 : '') }}
+                {{ data.actual.runningProcessInstances | abbreviateNumber }}
+              </span>
             </div>
 
-            <div class="col-xs-6 col-lg-4 entry">
-              <a class="section-link">Open Tasks</a>
+            <div class="col-xs-6 col-lg-3">
+              <div>Open Incidents</div>
+              <span class="value">
+                {{ (!data.actual.openIncidents ? 0 : '') }}
+                {{ data.actual.openIncidents | abbreviateNumber }}
+              </span>
+            </div>
 
-              <span class="value">345</span>
+            <div class="col-xs-6 col-lg-3">
+              <div>Open Cases</div>
+              <span class="value">
+                {{ (!data.actual.caseInstances ? 0 : '') }}
+                {{ data.actual.caseInstances | abbreviateNumber }}
+              </span>
+            </div>
+
+            <div class="col-xs-6 col-lg-3">
+              <div>Open Human Tasks</div>
+              <span class="value">
+                {{ (!data.actual.tasks ? 0 : '') }}
+                {{ data.actual.tasks | abbreviateNumber }}
+              </span>
             </div>
           </div>
         </div>
@@ -37,122 +58,84 @@
 
               <div class="col-xs-8 text-right">
                 <ul class="nav nav-tabs">
-                  <li><a href="#">Today</a></li>
+                  <li ng-class="{active: metricsPeriod === 'day'}">
+                    <a ng-click="setMetricsPeriod('day')">Today</a>
+                  </li>
 
-                  <li><a href="#">This week</a></li>
+                  <li ng-class="{active: metricsPeriod === 'week'}">
+                    <a ng-click="setMetricsPeriod('week')">This week</a>
+                  </li>
 
-                  <li class="active"><a href="#">This month</a></li>
+                  <li ng-class="{active: metricsPeriod === 'month'}">
+                    <a ng-click="setMetricsPeriod('month')">This month</a>
+                  </li>
                 </ul>
               </div>
             </div>
           </header>
 
-          <!--
+
           <div class="row stats">
-             <div class="col-xs-6 col-lg-4 entry">
-              <div>
-                <a class="section-link">Started Process Instances</a>
-
-                <span class="glyphicon"
-                      ng-class="{'glyphicon-eye-open': startedProcessInstances, 'glyphicon-eye-close': !startedProcessInstances}"
-                      ng-click="toggleMetrics('startedProcessInstances')"></span>
-              </div>
-
-              <span class="value">2k</span>
-
-              <span tooltip="..."
-                    class="heat heat-on glyphicon glyphicon-arrow-up"></span>
-            </div>
-
-            <div class="col-xs-6 col-lg-4 entry">
-              <div>
-                <a class="section-link">Processed Decisions</a>
-
-                <span class="glyphicon"
-                      ng-class="{'glyphicon-eye-open': processedDecisions, 'glyphicon-eye-close': !processedDecisions}"
-                      ng-click="toggleMetrics('processedDecisions')"></span>
-              </div>
-
-              <span class="value">1.5k</span>
-
-              <span tooltip="..."
-                    class="heat heat-off glyphicon glyphicon-arrow-down"></span>
-            </div>
-
-            <div class="col-xs-6 col-lg-4 entry">
-              <div>
-                <a class="section-link">Completed Human Tasks</a>
-
-                <span class="glyphicon"
-                      ng-class="{'glyphicon-eye-open': completedHumantasks, 'glyphicon-eye-close': !completedHumantasks}"
-                      ng-click="toggleMetrics('completedHumantasks')"></span>
-              </div>
-
-              <span class="value">1.2k</span>
-
-              <span tooltip="..."
-                    class="heat heat-off glyphicon glyphicon-arrow-right"></span>
+            <div ng-repeat="plugin in metricsPlugins"
+                 data-plugin-id="{{ plugin.id }}"
+                 class="col-md-6 col-lg-4 entry">
+              <h4>{{ plugin.label }}</h4>
+              <view vars="metricsVars"
+                    provider="plugin"
+                    period="metricsPeriod"
+                    class="row"></view>
             </div>
           </div>
-        </div>
-        -->
 
-        <div ng-repeat="plugin in metricsPlugins">
-          <view data-plugin-id="{{ plugin.id }}"
-                provider="plugin"></view>
+
         </div>
       </section>
     </div>
 
-    <section class="col-sm-4 col-xs-12 deployed">
+
+    <section class="col-xs-12 col-sm-4 col-lg-2 deployed"
+             ng-class="{'loading': loading}">
       <div class="inner">
         <header>
           <h1 class="section-title">Deployed</h1>
         </header>
 
         <div class="row stats">
-          <div class="col-xs-6 col-sm-12 col-lg-6 entry">
-            <a class="section-link">Process Definitions</a>
-            <span class="value">22</span>
+          <div class="col-sm-12 col-md-6 col-lg-12">
+            <div>Process Definitions</div>
+            <span class="value">
+              {{ (!data.deployed.processDefinitions ? 0 : '') }}
+              {{ data.deployed.processDefinitions | abbreviateNumber }}
+            </span>
           </div>
 
-          <div class="col-xs-6 col-sm-12 col-lg-6 entry">
-            <a class="section-link">Decision Definitions</a>
-            <span class="value">38</span>
+          <div class="col-sm-12 col-md-6 col-lg-12">
+            <div>Decision Definitions</div>
+            <span class="value">
+              {{ (!data.deployed.decisionDefinitions ? 0 : '') }}
+              {{ data.deployed.decisionDefinitions | abbreviateNumber }}
+            </span>
           </div>
 
-          <div class="col-xs-6 col-sm-12 col-lg-6 entry">
-            <a class="section-link">Case Definitions</a>
-            <span class="value">14</span>
+          <div class="col-sm-12 col-md-6 col-lg-12">
+            <div>Case Definitions</div>
+            <span class="value">
+              {{ (!data.deployed.caseDefinitions ? 0 : '') }}
+              {{ data.deployed.caseDefinitions | abbreviateNumber }}
+            </span>
+          </div>
+
+          <div class="col-sm-12 col-md-6 col-lg-12">
+            <div>Deployments</div>
+            <span class="value">
+              {{ (!data.deployed.deploymentDefinitions ? 0 : '') }}
+              {{ data.deployed.deploymentDefinitions | abbreviateNumber }}
+            </span>
           </div>
         </div>
       </div>
     </section>
   </div>
-
-
-  <!-- <div class="sections row">
-    <section ng-repeat="plugin in mainPlugins"
-             ng-if="!plugin.noDashboardSection && plugin.accessible"
-             class="col-sm-6 col-md-4 col-lg-3">
-      <div class="inner">
-        <header>
-          <h1 class="section-title">
-            <a class="text" ng-if="plugin.pagePath"
-               ng-href="{{ plugin.pagePath }}">{{ plugin.label }}</a>
-            <span class="text" ng-if="!plugin.pagePath">{{ plugin.label }}</span>
-          </h1>
-        </header>
-
-        <div class="stats">
-          <view data-plugin-id="{{ plugin.id }}"
-                provider="plugin"></view>
-        </div>
-      </div>
-    </section>
-  </div>
-
-  <hr ng-if="deprecateDashboardProviders.length" /> -->
 
   <div ng-repeat="plugin in deprecateDashboardProviders"
        class="deprecate-dashboard-view row"
