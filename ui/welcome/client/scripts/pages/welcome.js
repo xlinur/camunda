@@ -15,7 +15,7 @@ var RouteConfig = [ '$routeProvider', function($routeProvider) {
       };
 
       $scope.columnWidth = function() {
-        return 12 / auth.authorizedApps.length;
+        return 12 / (auth.authorizedApps.length - 1);
       };
     }],
     authentication: 'required',

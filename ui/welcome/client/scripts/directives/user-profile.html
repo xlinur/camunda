@@ -21,7 +21,7 @@
         ng-if="user.groups.length">
 
     <div ng-if="user.groups.length">
-      <h4>Member of</h4>
+      <h4>Groups</h4>
       <ul class="user-profile-groups">
         <li ng-repeat="group in user.groups"
             ng-class="'group-' + group.id + ' type-' + group.type.toLowerCase()">{{ group.name }}</li>
