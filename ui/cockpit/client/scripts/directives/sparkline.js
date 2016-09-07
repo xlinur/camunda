@@ -1,28 +1,37 @@
 'use strict';
 
-function Sparkline(data, width, height, lineColor, dotColor) {
+function Sparkline(width, height, lineColors, dotColor) {
   this.canvas = document.createElement('canvas');
   this.canvas.width = width;
   this.canvas.height = height;
 
-  this.lineColor = lineColor;
+  this.lineColors = lineColors;
   this.dotColor = dotColor;
 
   this.lineWidth = 1;
   this.ctx = this.canvas.getContext('2d');
-
-  this.setData(data);
 }
 
 var proto = Sparkline.prototype;
 
 proto.setData = function(data) {
-  data = data || [];
-  if (data.length === 1) {
-    data = [data[0], data[0]];
-  }
+  data = data || [[{value: 0}, {value: 0}]];
 
-  this.data = data;
+  this.rawData = data;
+  this.data = data.map(function(set) {
+    if (!set || !set.length) {
+      set = [{value: 0}];
+    }
+
+    if (set.length === 1) {
+      set = [set[0], set[0]];
+    }
+
+    return set.map(function(item) {
+      return item.value ? item.value : item;
+    });
+  });
+
   return this.draw();
 };
 
@@ -68,12 +77,12 @@ proto.draw = function() {
   var padding = 2 * lineWidth;
   var innerW = self.canvas.width - (2 * padding);
   var innerH = self.canvas.height - (2 * padding);
-  var step = innerW / (self.data.length - 1);
 
 
   ctx.clearRect(0, 0, self.canvas.width, self.canvas.height);
 
-  this.data.forEach(function(data, index) {
+  this.data.forEach(function(set, index) {
+    var step = innerW / (set.length - 1);
     var max = self.max(index);
     var avg = self.avg(index);
 
@@ -84,12 +93,12 @@ proto.draw = function() {
     ctx.lineWidth = lineWidth;
     ctx.lineCap = 'round';
     ctx.lineJoin = 'round';
-    ctx.strokeStyle = self.lineColor;
+    ctx.strokeStyle = self.lineColors[index];
 
     // var _debug = [];
-    ctx.moveTo(innerW + padding, toPx(data[0]));
+    ctx.moveTo(innerW + padding, toPx(set[0]));
     ctx.beginPath();
-    data.forEach(function(d, i) {
+    set.forEach(function(d, i) {
       var right = (innerW - (step * i)) + padding;
       var top = toPx(d);
       ctx.lineTo(right, top);
@@ -104,7 +113,7 @@ proto.draw = function() {
 
     ctx.beginPath();
     ctx.fillStyle = self.dotColor;
-    ctx.arc(innerW + padding, toPx(self.data[0]), lineWidth * 2, 0, 2 * Math.PI);
+    ctx.arc(innerW + padding, toPx(set[0]), lineWidth * 2, 0, 2 * Math.PI);
     ctx.fill();
 
     var avgH = toPx(avg);
@@ -127,16 +136,18 @@ module.exports = function() {
 
     scope: {
       values: '=',
+      colors: '=',
       width: '@',
       height: '@'
     },
 
     link: function($scope, $element) {
+      $scope.colors = $scope.colors || ['#333'];
       $scope.width = $scope.width || $element[0].clientWidth || 80;
       $scope.height = $scope.height || $element[0].clientHeight || 20;
       $scope.tooltip = '';
 
-      var sparkline = new Sparkline($scope.values, $scope.width, $scope.height, '#000', '#b5152b');
+      var sparkline = new Sparkline($scope.width, $scope.height, $scope.colors, '#b5152b');
       $scope.$watch('values', function() {
         sparkline.setData($scope.values);
 
