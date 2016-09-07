@@ -25,8 +25,6 @@ var angular = require('angular'),
 
     // process instance
     variableInstancesTab = require('./processInstance/variableInstancesTab'),
-    variableInstanceUploadDialog = require('./processInstance/variableInstanceUploadDialog'),
-    variableInstanceInspectDialog = require('./processInstance/variableInstanceInspectDialog'),
     incidentsTab = require('./processInstance/incidentsTab'),
     calledProcessInstanceTable = require('./processInstance/calledProcessInstanceTable'),
     userTasksTable = require('./processInstance/userTasksTable'),
@@ -37,7 +35,6 @@ var angular = require('angular'),
     cancelProcessInstanceAction = require('./processInstance/cancelProcessInstanceAction'),
     cancelProcessInstanceDialog = require('./processInstance/cancelProcessInstanceDialog'),
     addVariableAction = require('./processInstance/addVariableAction'),
-    addVariableDialog = require('./processInstance/addVariableDialog'),
     updateSuspensionStateActionPI = require('./processInstance/updateSuspensionStateAction'),
     updateSuspensionStateDialogPI = require('./processInstance/updateSuspensionStateDialog'),
     activityInstanceStatisticsOverlayPI = require('./processInstance/activityInstanceStatisticsOverlay'),
@@ -62,8 +59,6 @@ ngModule.controller('UpdateProcessDefinitionSuspensionStateController', updateSu
 ngModule.config(activityInstanceStatisticsOverlay);
 
 variableInstancesTab(ngModule);
-ngModule.controller('VariableInstanceUploadController', variableInstanceUploadDialog);
-ngModule.controller('VariableInstanceInspectController', variableInstanceInspectDialog);
 ngModule.config(incidentsTab);
 calledProcessInstanceTable(ngModule);
 userTasksTable(ngModule);
@@ -74,7 +69,6 @@ ngModule.controller('ExternalTaskRetryController', externalTaskRetryDialog);
 cancelProcessInstanceAction(ngModule);
 ngModule.controller('CancelProcessInstanceController', cancelProcessInstanceDialog);
 ngModule.config(addVariableAction);
-ngModule.controller('AddVariableController', addVariableDialog);
 ngModule.config(updateSuspensionStateActionPI);
 ngModule.controller('UpdateProcessInstanceSuspensionStateController', updateSuspensionStateDialogPI);
 ngModule.config(activityInstanceStatisticsOverlayPI);

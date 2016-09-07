@@ -16,38 +16,38 @@ var Controller = [
     // setup ///////////////////////////////////////////////////////////
 
     var ProcessDefinition = camAPI.resource('process-definition');
+    var CaseDefinition = camAPI.resource('case-definition');
     var diagramData = $scope.taskData.newChild($scope);
 
     // provider ////////////////////////////////////////////////////////
 
-    diagramData.provide('bpmn20xml', ['processDefinition', function(processDefinition) {
-      var deferred = $q.defer();
-
-      if (!processDefinition) {
-        return deferred.resolve(null);
+    diagramData.provide('xml', ['processDefinition', 'caseDefinition', function(processDefinition, caseDefinition) {
+      if (!processDefinition && !caseDefinition) {
+        return $q.when(null);
       }
 
-      ProcessDefinition.xml(processDefinition, function(err, res) {
-        if(err) {
-          deferred.reject(err);
-        }
-        else {
-          deferred.resolve(res);
-        }
-      });
+      if (processDefinition) {
+        return getDefinition($q, ProcessDefinition, processDefinition)
+          .then(function(xml) {
+            return xml.bpmn20Xml;
+          });
+      }
 
-      return deferred.promise;
+      return getDefinition($q, CaseDefinition, caseDefinition)
+        .then(function(xml) {
+          return xml.cmmnXml;
+        });
     }]);
 
-    diagramData.provide('processDiagram', ['bpmn20xml', 'processDefinition', 'task', function(bpmn20xml, processDefinition, task) {
-      var processDiagram = {};
-
-      processDiagram.processDefinition = processDefinition;
-      processDiagram.task = task;
-      processDiagram.bpmn20xml = (bpmn20xml || {}).bpmn20Xml;
-
-      return processDiagram;
-    }]);
+    diagramData.provide('diagram',
+      ['xml', 'task', 'caseDefinition', 'processDefinition', function(xml, task, caseDefinition, processDefinition) {
+        return {
+          xml: xml,
+          task: task,
+          definition: processDefinition || caseDefinition
+        };
+      }]
+    );
 
     // observer /////////////////////////////////////////////////////////
 
@@ -55,17 +55,35 @@ var Controller = [
       $scope.processDefinition = processDefinition;
     });
 
-    $scope.processDiagramState = diagramData.observe('processDiagram', function(processDiagram) {
-      $scope.processDiagram = processDiagram;
+    diagramData.observe('caseDefinition', function(caseDefinition) {
+      $scope.caseDefinition = caseDefinition;
+    });
+
+    $scope.diagramState = diagramData.observe('diagram', function(diagram) {
+      $scope.diagram = diagram;
     });
 
     $scope.control = {};
 
     $scope.highlightTask = function() {
-      $scope.control.highlight($scope.processDiagram.task.taskDefinitionKey);
+      $scope.control.highlight($scope.diagram.task.taskDefinitionKey);
     };
-
   }];
+
+function getDefinition($q, DefinitionApi, definition) {
+  var deferred = $q.defer();
+
+  DefinitionApi.xml(definition, function(err, res) {
+    if(err) {
+      deferred.reject(err);
+    }
+    else {
+      deferred.resolve(res);
+    }
+  });
+
+  return deferred.promise;
+}
 
 var Configuration = function PluginConfiguration(ViewsProvider) {
 
