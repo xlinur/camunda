@@ -54,10 +54,18 @@
         <div class="inner">
           <header>
             <div class="row">
-              <h1 class="col-xs-4 section-title">Metrics</h1>
+              <h1 class="col-xs-3 section-title">Metrics</h1>
 
-              <div class="col-xs-8 text-right">
+              <div class="col-xs-9 text-right">
                 <ul class="nav nav-tabs">
+                  <li ng-class="{active: metricsPeriod === 'minute'}">
+                    <a ng-click="setMetricsPeriod('minute')">Last minute</a>
+                  </li>
+
+                  <li ng-class="{active: metricsPeriod === 'hour'}">
+                    <a ng-click="setMetricsPeriod('hour')">Last hour</a>
+                  </li>
+
                   <li ng-class="{active: metricsPeriod === 'day'}">
                     <a ng-click="setMetricsPeriod('day')">Today</a>
                   </li>

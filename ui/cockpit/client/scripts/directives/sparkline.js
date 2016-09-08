@@ -1,12 +1,11 @@
 'use strict';
 
-function Sparkline(width, height, lineColors, dotColor) {
+function Sparkline(width, height, lineColors) {
   this.canvas = document.createElement('canvas');
   this.canvas.width = width;
   this.canvas.height = height;
 
   this.lineColors = lineColors;
-  this.dotColor = dotColor;
 
   this.lineWidth = 1;
   this.ctx = this.canvas.getContext('2d');
@@ -62,14 +61,14 @@ proto.avg = function(index, round) {
   }
   return avg;
 };
-
+/*
 proto.legend = function() {
   var avg = Math.round(this.avg() * 100) / 100;
   var min = this.min();
   var max = this.max();
   return 'Min: ' + min + ', Max: ' + max + ', Avg: ' + avg;
 };
-
+*/
 proto.draw = function() {
   var self = this;
   var lineWidth = self.lineWidth;
@@ -85,6 +84,7 @@ proto.draw = function() {
     var step = innerW / (set.length - 1);
     var max = self.max(index);
     var avg = self.avg(index);
+    var color = self.lineColors[index];
 
     function toPx(val) {
       return (innerH - ((innerH / max) * val)) + padding;
@@ -93,7 +93,7 @@ proto.draw = function() {
     ctx.lineWidth = lineWidth;
     ctx.lineCap = 'round';
     ctx.lineJoin = 'round';
-    ctx.strokeStyle = self.lineColors[index];
+    ctx.strokeStyle = color;
 
     // var _debug = [];
     ctx.moveTo(innerW + padding, toPx(set[0]));
@@ -112,14 +112,14 @@ proto.draw = function() {
     // console.table(_debug);//es-lint-disable-line
 
     ctx.beginPath();
-    ctx.fillStyle = self.dotColor;
+    ctx.fillStyle = color;
     ctx.arc(innerW + padding, toPx(set[0]), lineWidth * 2, 0, 2 * Math.PI);
     ctx.fill();
 
     var avgH = toPx(avg);
     ctx.beginPath();
     ctx.lineWidth = 1;
-    ctx.strokeStyle = '#A00';
+    ctx.strokeStyle = color;
     ctx.moveTo(0, avgH);
     ctx.lineTo(innerW + padding, avgH);
     ctx.stroke();
@@ -142,19 +142,19 @@ module.exports = function() {
     },
 
     link: function($scope, $element) {
-      $scope.colors = $scope.colors || ['#333'];
+      $scope.colors = $scope.colors || ['#333', '#454545', '#606060'];
       $scope.width = $scope.width || $element[0].clientWidth || 80;
       $scope.height = $scope.height || $element[0].clientHeight || 20;
       $scope.tooltip = '';
 
-      var sparkline = new Sparkline($scope.width, $scope.height, $scope.colors, '#b5152b');
+      var sparkline = new Sparkline($scope.width, $scope.height, $scope.colors);
       $scope.$watch('values', function() {
         sparkline.setData($scope.values);
 
         if ($scope.$parent) {
           $scope.$parent.sparkline = sparkline;
         }
-      }, true);
+      });
 
       $element[0].appendChild(sparkline.canvas);
     },
