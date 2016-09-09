@@ -9,13 +9,17 @@
         <div class="inner">
           <header>
             <div class="row">
-              <h1 class="col-xs-4 section-title">Now</h1>
+              <h1 class="col-xs-4 section-title">Actual</h1>
             </div>
           </header>
 
           <div class="row stats">
             <div class="col-xs-6 col-lg-3">
-              <div>Running Process Inst.</div>
+              <div class="stats-label"
+                   ng-if="!hasProcessSearch">Running Process Inst.</div>
+              <a class="stats-label"
+                 href="#/processes?searchQuery=%5B%7B%22type%22:%22PIunfinished%22,%22operator%22:%22eq%22,%22value%22:%22%22,%22name%22:%22%22%7D%5D"
+                 ng-if="hasProcessSearch">Running Process Inst.</a>
               <span class="value">
                 {{ (!data.actual.runningProcessInstances ? 0 : '') }}
                 {{ data.actual.runningProcessInstances | abbreviateNumber }}
@@ -23,7 +27,7 @@
             </div>
 
             <div class="col-xs-6 col-lg-3">
-              <div>Open Incidents</div>
+              <div class="stats-label">Open Incidents</div>
               <span class="value">
                 {{ (!data.actual.openIncidents ? 0 : '') }}
                 {{ data.actual.openIncidents | abbreviateNumber }}
@@ -31,7 +35,11 @@
             </div>
 
             <div class="col-xs-6 col-lg-3">
-              <div>Open Cases</div>
+              <div class="stats-label"
+                   ng-if="!hasCaseSearch">Open Cases</div>
+              <a class="stats-label"
+                 ng-if="hasCaseSearch"
+                 href="#/cases?searchQuery=%5B%7B%22type%22:%22notClosed%22,%22operator%22:%22eq%22,%22value%22:%22%22,%22name%22:%22%22%7D%5D">Open Cases</a>
               <span class="value">
                 {{ (!data.actual.caseInstances ? 0 : '') }}
                 {{ data.actual.caseInstances | abbreviateNumber }}
@@ -39,7 +47,11 @@
             </div>
 
             <div class="col-xs-6 col-lg-3">
-              <div>Open Human Tasks</div>
+              <div class="stats-label"
+                   ng-if="!hasTaskSearch">Open Human Tasks</div>
+              <a class="stats-label"
+                 ng-if="hasTaskSearch"
+                 href="#/tasks?searchQuery=%5B%7B%22type%22:%22TAunfinished%22,%22operator%22:%22eq%22,%22value%22:%22%22,%22name%22:%22%22%7D%5D">Open Human Tasks</a>
               <span class="value">
                 {{ (!data.actual.tasks ? 0 : '') }}
                 {{ data.actual.tasks | abbreviateNumber }}
@@ -50,7 +62,8 @@
       </section>
 
 
-      <section class="metrics">
+      <section class="metrics"
+               ng-if="metricsPlugins.length">
         <div class="inner">
           <header>
             <div class="row">
@@ -58,14 +71,6 @@
 
               <div class="col-xs-9 text-right">
                 <ul class="nav nav-tabs">
-                  <li ng-class="{active: metricsPeriod === 'minute'}">
-                    <a ng-click="setMetricsPeriod('minute')">Last minute</a>
-                  </li>
-
-                  <li ng-class="{active: metricsPeriod === 'hour'}">
-                    <a ng-click="setMetricsPeriod('hour')">Last hour</a>
-                  </li>
-
                   <li ng-class="{active: metricsPeriod === 'day'}">
                     <a ng-click="setMetricsPeriod('day')">Today</a>
                   </li>
@@ -110,7 +115,8 @@
 
         <div class="row stats">
           <div class="col-sm-12 col-md-6 col-lg-12">
-            <div>Process Definitions</div>
+            <a class="stats-label"
+               href="#/processes">Process Definitions</a>
             <span class="value">
               {{ (!data.deployed.processDefinitions ? 0 : '') }}
               {{ data.deployed.processDefinitions | abbreviateNumber }}
@@ -118,7 +124,8 @@
           </div>
 
           <div class="col-sm-12 col-md-6 col-lg-12">
-            <div>Decision Definitions</div>
+            <a class="stats-label"
+               href="#/decisions">Decision Definitions</a>
             <span class="value">
               {{ (!data.deployed.decisionDefinitions ? 0 : '') }}
               {{ data.deployed.decisionDefinitions | abbreviateNumber }}
@@ -126,7 +133,8 @@
           </div>
 
           <div class="col-sm-12 col-md-6 col-lg-12">
-            <div>Case Definitions</div>
+            <a class="stats-label"
+               href="#/cases">Case Definitions</a>
             <span class="value">
               {{ (!data.deployed.caseDefinitions ? 0 : '') }}
               {{ data.deployed.caseDefinitions | abbreviateNumber }}
@@ -134,7 +142,8 @@
           </div>
 
           <div class="col-sm-12 col-md-6 col-lg-12">
-            <div>Deployments</div>
+            <a class="stats-label"
+               href="#/repository">Deployments</a>
             <span class="value">
               {{ (!data.deployed.deploymentDefinitions ? 0 : '') }}
               {{ data.deployed.deploymentDefinitions | abbreviateNumber }}

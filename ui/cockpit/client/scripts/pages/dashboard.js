@@ -20,14 +20,20 @@ var Controller = [
   'camAPI',
   '$injector',
   'Views',
+  'hasPlugin',
   'page',
   function(
   $scope,
   camAPI,
   $injector,
   Views,
+  hasPlugin,
   page
 ) {
+    $scope.hasProcessSearch = hasPlugin('cockpit.processes.dashboard', 'search-process-instances');
+    $scope.hasCaseSearch = hasPlugin('cockpit.cases.dashboard', 'case-instances-search');
+    $scope.hasTaskSearch = hasPlugin('cockpit.tasks.dashboard', 'search-tasks');
+
     $scope.mainPlugins = [];
     $scope.miscPlugins = [];
 
