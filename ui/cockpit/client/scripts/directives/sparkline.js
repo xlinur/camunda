@@ -190,8 +190,6 @@ module.exports = function() {
       sparkline.ondraw = $scope.drawn;
       $scope.$watch('values', function() {
         sparkline.setData($scope.values);
-        // if ($scope.values.length === 2) console.info('max1 %s, max2 %s, max %s', sparkline.max(0), sparkline.max(1), sparkline.max());//es-lint-disbale-line
-        // if ($scope.values.length === 2) console.info('min1 %s, min2 %s, min %s', sparkline.min(0), sparkline.min(1), sparkline.min());//es-lint-disbale-line
       });
 
       container.appendChild(sparkline.canvas);
@@ -203,7 +201,7 @@ module.exports = function() {
       win.addEventListener('resize', resize);
 
       $scope.$on('$destroy', function() {
-        win.removeEventListener(resize);
+        win.removeEventListener('resize', resize);
       });
     },
 
