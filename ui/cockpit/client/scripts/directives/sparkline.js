@@ -3,20 +3,35 @@
 var throttle = require('lodash').throttle;
 var moment = require('moment');
 
+
+
+
+
+function roundUp(v, x) {
+  var stepWidth = Math.ceil(v / x);
+  var stepWidthStr = '' + stepWidth;
+  stepWidth = (parseInt(stepWidthStr[0], 10) + 1) * Math.pow(10, stepWidthStr.length - 1);
+  return stepWidth * x;
+}
+
+
+
 function Sparkline(options) {
   this.resize(options.width, options.height);
 
   this.lineColors = options.lineColors;
 
-  this.rulesColor = options.rulesColor || '#666';
+  this.rulersColor = options.rulersColor || '#666';
 
   this.fontSize = options.fontSize || 12;
 
-  this.duration = options.duration;
-
   this.lineWidth = options.lineWidth || 1;
 
-  this.labelsH = options.labels && options.labels.length > 1 ? options.labels : [];
+  this.valueLabelsCount = 8;
+
+  this.timespan = options.timespan || 'day';
+
+  this.timestampFormat = 'YYYY-MM-DDTHH:mm:ss';
 }
 
 var proto = Sparkline.prototype;
@@ -31,67 +46,6 @@ proto.resize = function(width, height) {
   return this;
 };
 
-// proto.setLabels = function(labels) {
-//   this.labelsH = labels;
-//   this.draw();
-// };
-
-proto.setData = function(data) {
-  data = data || [[{value: 0}, {value: 0}]];
-
-  this.rawData = data;
-  this.data = data.map(function(set) {
-    if (!set || !set.length) {
-      set = [{value: 0}];
-    }
-
-    if (set.length === 1) {
-      set = [set[0], set[0]];
-    }
-
-    return set.map(function(item) {
-      return item.value ? item.value : item;
-    });
-  });
-
-  var max = this.max();
-  this.labelsV = [
-    max,
-    max * 0.75,
-    max * 0.5,
-    max * 0.25,
-    0
-  ].map(Math.round);
-
-  this.labelsH = [];
-  if (data.length && data[0] && data[0].length && data[0][0].timestamp) {
-    var set = data[0];
-    var to = moment(set[0].timestamp, 'YYYY-MM-DDTHH:mm:ss');
-    var from = moment(set[set.length - 1].timestamp, 'YYYY-MM-DDTHH:mm:ss');
-    var milliDiff = from - to;
-    var diff = moment.duration(milliDiff);
-
-    var cc = 12;
-    var format = 'HH:mm';
-    if (Math.round(diff.as('months')) >= 1) {
-      cc = 4;
-      format = 'MM-DD';
-    }
-    else if (Math.round(diff.as('weeks')) >= 1) {
-      cc = 7;
-      format = 'MM-DD HH:mm';
-    }
-
-    for (var c = 0; c <= cc; c++) {
-      this.labelsH.push(from.clone().subtract((milliDiff / cc) * c, 'milliseconds').format(format));
-    }
-
-    console.info('time labels %s > %s', to.format('MM-DD HH:mm'), from.format('MM-DD HH:mm'), cc, moment.duration(milliDiff / cc).humanize(), Math.round(diff.as('months')), Math.round(diff.as('weeks')));
-  }
-
-  return this.draw();
-};
-
 proto.max = function(index) {
   var self = this;
 
@@ -104,7 +58,7 @@ proto.max = function(index) {
   }
 
   self.data[index].forEach(function(d) {
-    val = Math.max(d, val);
+    val = Math.max(d.value, val);
   });
 
   return val;
@@ -123,7 +77,7 @@ proto.min = function(index) {
 
   val = self.max(index);
   self.data[index].forEach(function(d) {
-    val = Math.min(d, val);
+    val = Math.min(d.value, val);
   });
 
   return val;
@@ -149,149 +103,286 @@ proto.legend = function(index) {
 };
 
 
+
+
+
+
+
+
+proto.setData = function(data, newTimespan) {
+  if (newTimespan) {
+    this.timespan = newTimespan;
+  }
+  data = data || [[{value: 0}, {value: 0}]];
+  this.data = data;
+
+  var timestampFormat = this.timestampFormat;
+  var max = this.max();
+  var rounded = roundUp(max, this.valueLabelsCount);
+
+
+  this.valueLabels = [];
+  for (var l = this.valueLabelsCount; l >= 0; l--) {
+    this.valueLabels.push((l * rounded) / this.valueLabelsCount);
+  }
+
+
+  var timespan = this.timespan;
+  var labelsStart;
+
+
+  this.timeLabels = [];
+  if (data.length && data[0] && data[0].length && data[0][0].timestamp) {
+    var set = data[0];
+    var to = moment(set[set.length - 1].timestamp, timestampFormat);
+
+    var labelTo = this.labelTo = to.clone();
+    if (timespan === 'day') {
+      labelTo.startOf('hour').add(1, 'hour');
+    }
+    else if (timespan === 'week') {
+      labelTo.startOf('day').add(1, 'day');
+    }
+    else if (timespan === 'month') {
+      labelTo.startOf('week').add(1, 'week');
+    }
+    var labelFrom = this.labelFrom = labelTo.clone().subtract(1, timespan);
+
+    var count;
+    var unit;
+    var unitCount = 1;
+    var format;
+    if (this.timespan === 'day') {
+      count = 12;
+      unit = 'hour';
+      unitCount = 2;
+      format = 'HH:mm';
+    }
+    else if (this.timespan === 'week') {
+      count = 7;
+      unit = 'day';
+      format = 'dd Do MMM';
+    }
+    else if (this.timespan === 'month') {
+      count = 4;
+      unit = 'week';
+      format = 'dd Do MMM';
+    }
+
+    for (var c = 0; c <= count; c++) {
+      this.timeLabels.push(labelFrom.clone().add(c * unitCount, unit).format(format));
+    }
+  }
+
+
+  this.data = data.map(function(set) {
+    if (!set || !set.length) {
+      set = [{value: 0}];
+    }
+
+    if (set.length === 1) {
+      set = [set[0], set[0]];
+    }
+
+    var to = moment(set[set.length - 1].timestamp, timestampFormat);
+    var milliDiff = to - labelsStart;
+
+    return set.map(function(item) {
+      var millis = moment(item.timestamp, timestampFormat);
+      item.positionPercent = (to - millis) / milliDiff;
+      return item;
+    });
+  });
+
+  return this.draw();
+};
+
+
 proto.draw = function() {
   var self = this;
   var lineWidth = self.lineWidth;
   var ctx = self.ctx;
   var padding = Math.max(2 * lineWidth, 10);
-  var textPadding = 3;
 
-  ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
-
-
-  ctx.strokeStyle = this.rulesColor;
-  ctx.fillStyle = this.rulesColor;
-  ctx.lineWidth = 1;
-
-  var scaleVx = 0;
-  var scaleHy = 0;
-  var scaleLength = 10;
+  var timeLabels = this.timeLabels;
+  var valueLabels = this.valueLabels;
   var fontSize = this.fontSize;
-  ctx.font = fontSize + 'px Arial';
 
-  var labelsH = this.labelsH;
-  var labelsV = this.labelsV;
-
-  labelsV.forEach(function(l) {
-    scaleVx = Math.max(scaleVx, ctx.measureText(l).width + (textPadding * 2) + scaleLength);
-  });
-  scaleVx = Math.round(Math.max(scaleVx, scaleLength + textPadding)) + 0.5;
-  var innerW = ctx.canvas.width - ((1 * padding) + scaleVx);
-
-  labelsH.forEach(function(l) {
-    scaleHy = Math.max(scaleHy, ctx.measureText(l).width + (textPadding * 2) + scaleLength);
-  });
-  scaleHy = Math.round(Math.max(scaleHy, scaleLength + textPadding)) + 0.5;
-  var innerH = ctx.canvas.height - ((1 * padding) + scaleHy);
+  var textPadding = 3;
+  var verticalScaleX = 0;
+  var horizontalScaleY = 0;
+  var tickSize = 10;
 
   var step;
   var c;
 
+  ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
+
+
+  ctx.strokeStyle = this.rulersColor;
+  ctx.fillStyle = this.rulersColor;
+  ctx.lineWidth = 1;
+  ctx.font = fontSize + 'px Arial';
+
+  valueLabels.forEach(function(l) {
+    verticalScaleX = Math.max(verticalScaleX, ctx.measureText(l).width + (textPadding * 2) + tickSize);
+  });
+  verticalScaleX = Math.round(Math.max(verticalScaleX, tickSize + textPadding)) + 0.5;
+
+
+  var innerW = ctx.canvas.width - (padding + verticalScaleX);
+  var innerH = ctx.canvas.height - padding;
+
+  var tt = 0;
+  var tm = 0;
+  timeLabels.forEach(function(l) {
+    tt += ctx.measureText(l).width + (textPadding * 2);
+    tm = Math.max(tm, ctx.measureText(l).width + (textPadding * 2));// + tickSize);
+  });
+
+
+  var vertLabel = tt > innerW;
+  if (vertLabel) {
+    timeLabels.forEach(function(l) {
+      horizontalScaleY = Math.max(horizontalScaleY, ctx.measureText(l).width + (textPadding * 2) + tickSize);
+    });
+    horizontalScaleY = Math.round(Math.max(horizontalScaleY, tickSize + textPadding)) + 0.5;
+  }
+  else {
+    horizontalScaleY = fontSize + (textPadding * 2) + tickSize;
+    innerW -= tm / 2;
+  }
+  innerH -= horizontalScaleY;
+
+
+
+  // var fill = ctx.fillStyle;
+  // ctx.fillStyle = 'blue';
+  // ctx.fillRect(verticalScaleX, padding, innerW, innerH);
+  // ctx.fillStyle = fill;
+
+
 
 
   // draw horizontal (time) scale
-  var t = ctx.canvas.height - scaleHy;
+  var t = ctx.canvas.height - horizontalScaleY - 0.5;
   ctx.beginPath();
-  ctx.moveTo(scaleVx - scaleLength, t);
-  ctx.lineTo(ctx.canvas.width - padding, t);
+  ctx.moveTo(verticalScaleX - tickSize, t);
+  ctx.lineTo(verticalScaleX + innerW, t);
   ctx.stroke();
-
-
-
-  if (labelsH.length > 1) {
-    step = innerW / (labelsH.length - 1);
-    ctx.textAlign = 'right';
-    ctx.textBaseline = 'bottom';
-
-    // ctx.textAlign = 'center';
-    // ctx.textBaseline = 'top';
-    for (c = 0; c < labelsH.length; c++) {
-      var tx = Math.round((ctx.canvas.width - padding) - (step * c)) - 0.5;
-      ctx.save();
-      ctx.translate(tx, ctx.canvas.height - (scaleHy - (scaleLength + textPadding)));
-      ctx.rotate(-Math.PI / 2);
-      ctx.fillText(labelsH[c], 0, fontSize / 2);
-      ctx.restore();
-
-      // ctx.fillText(labelsH[c], tx, ctx.canvas.height - (scaleHy - (scaleLength + textPadding)));
-
-      if (c < labelsH.length - 1) {
-        ctx.beginPath();
-        ctx.moveTo(tx, t);
-        ctx.lineTo(tx, t + scaleLength);
-        ctx.stroke();
-      }
-    }
-  }
-
 
 
 
   // draw vertical (value) scale
   ctx.beginPath();
-  ctx.moveTo(scaleVx, padding);
-  ctx.lineTo(scaleVx, t + scaleLength);
+  ctx.moveTo(verticalScaleX, padding);
+  ctx.lineTo(verticalScaleX, t + tickSize);
   ctx.stroke();
 
-  if (labelsV.length > 1) {
-    step = innerH / (labelsV.length - 1);
-    ctx.textAlign = 'right';
-    ctx.textBaseline = 'middle';
-    for (c = 0; c < labelsV.length; c++) {
-      var ty = Math.round(padding + (step * c)) - 0.5;
-      // ctx.fillText(labelsV[c], scaleVx - (scaleLength + textPadding), Math.round(ty + (fontSize / 2)) - 0.5);
-      ctx.fillText(labelsV[c], scaleVx - (scaleLength + textPadding), ty);
 
-      if (c < labelsV.length - 1) {
-        ctx.beginPath();
-        ctx.moveTo(scaleVx - scaleLength, ty);
-        ctx.lineTo(scaleVx, ty);
-        ctx.stroke();
-      }
+
+
+  if (vertLabel) {
+    ctx.textAlign = 'right';
+    ctx.textBaseline = 'bottom';
+  }
+  else {
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'top';
+  }
+
+  timeLabels.forEach(function(label, l) {
+    var tx = verticalScaleX + (l * (innerW / (timeLabels.length - 1)));
+
+    ctx.beginPath();
+    ctx.moveTo(tx, t);
+    ctx.lineTo(tx, t + tickSize);
+    ctx.stroke();
+
+    if (vertLabel) {
+      ctx.save();
+      ctx.translate(tx, ctx.canvas.height - (horizontalScaleY - (tickSize + textPadding)));
+      ctx.rotate(-Math.PI / 2);
+      ctx.fillText(timeLabels[l], 0, fontSize / 2);
+      ctx.restore();
+    }
+    else {
+      ctx.fillText(timeLabels[l], tx, ctx.canvas.height - (horizontalScaleY - (tickSize + textPadding)));
+    }
+  });
+
+
+
+  step = innerH / (valueLabels.length - 1);
+  ctx.textAlign = 'right';
+  ctx.textBaseline = 'middle';
+  for (c = 0; c < valueLabels.length; c++) {
+    var ty = Math.round(padding + (step * c)) - 0.5;
+    ctx.fillText(valueLabels[c], verticalScaleX - (tickSize + textPadding), ty);
+
+    if (c < valueLabels.length - 1) {
+      ctx.beginPath();
+      ctx.moveTo(verticalScaleX - tickSize, ty);
+      ctx.lineTo(verticalScaleX, ty);
+      ctx.stroke();
     }
   }
 
 
 
+  var rounded = this.valueLabels[0];
+  function toPx(val) {
+    return (innerH - ((innerH / rounded) * val)) + padding;
+  }
+
+  var labelFrom = this.labelFrom;
+  var labelTo = this.labelTo;
+  var labelDiff = labelTo - labelFrom;
+
+
   // draw the data
   this.data.forEach(function(set, index) {
-    step = innerW / (set.length - 1);
-    var max = self.max();
-
     var color = self.lineColors[index];
-    var farX = ctx.canvas.width - padding;
-
-    function toPx(val) {
-      return (innerH - ((innerH / max) * val)) + padding;
-    }
 
     ctx.lineWidth = lineWidth;
     ctx.lineCap = 'round';
     ctx.lineJoin = 'round';
     ctx.strokeStyle = color;
 
-    // var _debug = [];
-    ctx.moveTo(farX, toPx(set[0]));
+    var right;
+    var top;
+    var skipped;
+
     ctx.beginPath();
-    set.forEach(function(d, i) {
-      var right = (farX - (step * i));
-      var top = toPx(d);
+    set.forEach(function(d) {
+      var mom = moment(d.timestamp);
+      if (mom <= labelFrom) {
+        skipped = d;
+        return;
+      }
+
+      if (skipped) {
+        right = verticalScaleX;
+        top = toPx(skipped.value);
+        ctx.lineTo(right, top);
+        skipped = null;
+      }
+
+      right = verticalScaleX + ((mom - labelFrom) / (labelDiff)) * innerW;
+      top = toPx(d.value);
       ctx.lineTo(right, top);
-      // _debug.push({
-      //   top: top,
-      //   right: right,
-      //   d: d
-      // });
     });
     ctx.stroke();
-    // console.table(_debug);//es-lint-disable-line
+
 
     // draw the starting point
     ctx.beginPath();
     ctx.fillStyle = color;
-    ctx.arc(farX, toPx(set[0]), lineWidth * 2, 0, 2 * Math.PI);
+    ctx.arc(right, top, lineWidth * 2, 0, 2 * Math.PI);
     ctx.fill();
     ctx.closePath();
+
+
 
     /*
     // draw the average line
@@ -300,12 +391,11 @@ proto.draw = function() {
     ctx.beginPath();
     ctx.lineWidth = 1;
     ctx.strokeStyle = color;
-    ctx.moveTo(scaleVx, avgH);
+    ctx.moveTo(verticalScaleX, avgH);
     ctx.lineTo(farX, avgH);
     ctx.stroke();
     */
   });
-
 
 
 
@@ -325,13 +415,14 @@ module.exports = function() {
 
     scope: {
       values: '=',
-      colors: '=',
+      colors: '=?',
+      timespan: '=?',
       drawn: '&onDraw'
     },
 
     link: function($scope, $element) {
       $scope.colors = $scope.colors || ['#333', '#454545', '#606060'];
-      $scope.labels = $scope.labels || [];
+      $scope.timespan = $scope.timespan || 'day';
 
       var container = $element[0];
       var win = container.ownerDocument.defaultView;
@@ -344,7 +435,7 @@ module.exports = function() {
 
       // sparkline.ondraw = $scope.drawn;
       $scope.$watch('values', function() {
-        sparkline.setData($scope.values);
+        sparkline.setData($scope.values, $scope.timespan);
       });
 
       container.appendChild(sparkline.canvas);
