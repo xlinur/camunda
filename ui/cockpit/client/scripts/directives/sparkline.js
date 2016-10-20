@@ -32,6 +32,12 @@ function Sparkline(options) {
   this.timespan = options.timespan || 'day';
 
   this.timestampFormat = 'YYYY-MM-DDTHH:mm:ss';
+
+  this.timeLabelFormats = {
+    day: 'HH:mm',
+    week: 'dd DD',
+    month: 'dd DD MMM'
+  };
 }
 
 var proto = Sparkline.prototype;
@@ -83,26 +89,6 @@ proto.min = function(index) {
   return val;
 };
 
-proto.avg = function(index, round) {
-  var tt = 0;
-  this.data[index].forEach(function(v) {
-    tt += v;
-  });
-  var avg = tt / (this.data[index].length);
-  if (round) {
-    return Math.round(avg * round) / round;
-  }
-  return avg;
-};
-
-proto.legend = function(index) {
-  var avg = Math.round(this.avg(index) * 100) / 100;
-  var min = this.min(index);
-  var max = this.max(index);
-  return 'Min: ' + min + ', Max: ' + max + ', Avg: ' + avg;
-};
-
-
 
 
 
@@ -116,19 +102,19 @@ proto.setData = function(data, newTimespan) {
   data = data || [[{value: 0}, {value: 0}]];
   this.data = data;
 
+
+  var timespan = this.timespan;
+  var labelsStart;
   var timestampFormat = this.timestampFormat;
   var max = this.max();
   var rounded = roundUp(max, this.valueLabelsCount);
+  var timeLabelFormats = this.timeLabelFormats;
 
 
   this.valueLabels = [];
   for (var l = this.valueLabelsCount; l >= 0; l--) {
     this.valueLabels.push((l * rounded) / this.valueLabelsCount);
   }
-
-
-  var timespan = this.timespan;
-  var labelsStart;
 
 
   this.timeLabels = [];
@@ -151,26 +137,22 @@ proto.setData = function(data, newTimespan) {
     var count;
     var unit;
     var unitCount = 1;
-    var format;
-    if (this.timespan === 'day') {
+    if (timespan === 'day') {
       count = 12;
       unit = 'hour';
       unitCount = 2;
-      format = 'HH:mm';
     }
-    else if (this.timespan === 'week') {
+    else if (timespan === 'week') {
       count = 7;
       unit = 'day';
-      format = 'dd Do MMM';
     }
-    else if (this.timespan === 'month') {
+    else if (timespan === 'month') {
       count = 4;
       unit = 'week';
-      format = 'dd Do MMM';
     }
 
     for (var c = 0; c <= count; c++) {
-      this.timeLabels.push(labelFrom.clone().add(c * unitCount, unit).format(format));
+      this.timeLabels.push(labelFrom.clone().add(c * unitCount, unit).format(timeLabelFormats[timespan]));
     }
   }
 
@@ -229,7 +211,6 @@ proto.draw = function() {
   });
   verticalScaleX = Math.round(Math.max(verticalScaleX, tickSize + textPadding)) + 0.5;
 
-
   var innerW = ctx.canvas.width - (padding + verticalScaleX);
   var innerH = ctx.canvas.height - padding;
 
@@ -254,12 +235,6 @@ proto.draw = function() {
   }
   innerH -= horizontalScaleY;
 
-
-
-  // var fill = ctx.fillStyle;
-  // ctx.fillStyle = 'blue';
-  // ctx.fillRect(verticalScaleX, padding, innerW, innerH);
-  // ctx.fillStyle = fill;
 
 
 
@@ -342,16 +317,15 @@ proto.draw = function() {
 
   // draw the data
   this.data.forEach(function(set, index) {
+    var right;
+    var top;
+    var skipped;
     var color = self.lineColors[index];
 
     ctx.lineWidth = lineWidth;
     ctx.lineCap = 'round';
     ctx.lineJoin = 'round';
     ctx.strokeStyle = color;
-
-    var right;
-    var top;
-    var skipped;
 
     ctx.beginPath();
     set.forEach(function(d) {
@@ -381,30 +355,8 @@ proto.draw = function() {
     ctx.arc(right, top, lineWidth * 2, 0, 2 * Math.PI);
     ctx.fill();
     ctx.closePath();
-
-
-
-    /*
-    // draw the average line
-    var avg = self.avg(index);
-    var avgH = Math.round(toPx(avg)) + 0.5;
-    ctx.beginPath();
-    ctx.lineWidth = 1;
-    ctx.strokeStyle = color;
-    ctx.moveTo(verticalScaleX, avgH);
-    ctx.lineTo(farX, avgH);
-    ctx.stroke();
-    */
   });
 
-
-
-
-
-
-  if (typeof this.ondraw === 'function') {
-    this.ondraw();
-  }
   return self;
 };
 
@@ -416,12 +368,11 @@ module.exports = function() {
     scope: {
       values: '=',
       colors: '=?',
-      timespan: '=?',
-      drawn: '&onDraw'
+      timespan: '=?'
     },
 
     link: function($scope, $element) {
-      $scope.colors = $scope.colors || ['#333', '#454545', '#606060'];
+      $scope.colors = $scope.colors || ['#b5152b', '#F39A32', '#7f32f3'];
       $scope.timespan = $scope.timespan || 'day';
 
       var container = $element[0];
@@ -433,7 +384,6 @@ module.exports = function() {
         lineColors: $scope.colors
       });
 
-      // sparkline.ondraw = $scope.drawn;
       $scope.$watch('values', function() {
         sparkline.setData($scope.values, $scope.timespan);
       });
