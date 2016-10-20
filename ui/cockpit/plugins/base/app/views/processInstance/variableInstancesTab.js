@@ -3,7 +3,8 @@
 var angular = require('angular');
 var fs = require('fs');
 
-var createSearchQueryForSearchWidget = require('../../../../../../common/scripts/util/create-search-query-for-search-widget');
+var searchWidgetUtils = require('../../../../../../common/scripts/util/search-widget-utils');
+var paginationUtils = require('../../../../../../common/scripts/util/pagination-utils');
 var variableInstancesTabSearchConfig = JSON.parse(fs.readFileSync(__dirname + '/variable-instances-tab-search-config.json', 'utf8'));
 
 var instancesTemplate = fs.readFileSync(__dirname + '/variable-instances-tab.html', 'utf8');
@@ -26,36 +27,39 @@ module.exports = function(ngModule) {
       var executionService = camAPI.resource('execution'),
           taskService = camAPI.resource('task');
 
+      var pages = paginationUtils.initializePaginationInController($scope, search, function(newValue, oldValue) {
+        if (!angular.equals(newValue, oldValue)) {
+          updateView($scope.instanceIdToInstanceMap, $scope.searchConfig.searches);
+        }
+      });
 
-      var DEFAULT_PAGES = { size: 50, total: 0, current: 1 };
-
-      var pages = $scope.pages = angular.copy(DEFAULT_PAGES);
-
-      var filter = null;
+      variableInstanceData.provide('pages', pages);
 
       $scope.searchConfig = angular.copy(variableInstancesTabSearchConfig);
       variableInstanceData.provide('searches', angular.copy($scope.searchConfig.searches));
 
       $scope.$watch('searchConfig.searches', function(newValue, oldValue) {
-        if (newValue !== oldValue) {
+        if (!angular.equals(newValue, oldValue)) {
           variableInstanceData.set('searches', angular.copy($scope.searchConfig.searches));
         }
       });
 
-      $scope.$watch('pages.current', function(newValue, oldValue) {
-        if (newValue == oldValue) {
-          return;
-        }
+      variableInstanceData.observe('instanceIdToInstanceMap', function(instanceIdToInstanceMap) {
+        $scope.instanceIdToInstanceMap = instanceIdToInstanceMap;
+      });
 
-        search('page', !newValue || newValue == 1 ? null : newValue);
+      $scope.getSearchQueryForSearchType = searchWidgetUtils.getSearchQueryForSearchType.bind(null, 'activityInstanceIdIn');
+
+      $scope.$on('addVariableNotification', function() {
+        updateView($scope.instanceIdToInstanceMap, $scope.searchConfig.searches);
       });
 
       variableInstanceData.observe(
-        [ 'filter', 'instanceIdToInstanceMap', 'searches' ],
-        function(newFilter, instanceIdToInstanceMap, searches) {
-          pages.current = newFilter.page || 1;
-
-          updateView(newFilter, instanceIdToInstanceMap, searches);
+        ['instanceIdToInstanceMap', 'searches'],
+        function(instanceIdToInstanceMap, searches) {
+          if (searches) {
+            updateView(instanceIdToInstanceMap, searches);
+          }
         }
       );
 
@@ -209,13 +213,7 @@ module.exports = function(ngModule) {
         return 'engine://engine/:engine/execution/' + variable.executionId + '/localVariables/' + variable.name;
       }
 
-      function updateView(newFilter, instanceIdToInstanceMap, searches) {
-        filter = $scope.filter = angular.copy(newFilter);
-
-        delete filter.page;
-        delete filter.activityIds;
-        delete filter.scrollToBpmnElement;
-
+      function updateView(instanceIdToInstanceMap, searches) {
         var page = pages.current,
             count = pages.size,
             firstResult = (page - 1) * count;
@@ -230,13 +228,9 @@ module.exports = function(ngModule) {
           deserializeValues: false
         };
 
-        var variableQuery = createSearchQueryForSearchWidget(searches);
+        var variableQuery = searchWidgetUtils.createSearchQueryForSearchWidget(searches, ['activityInstanceIdIn'], ['variableValues']);
 
-        var params = angular.extend({}, filter, defaultParams, variableQuery);
-
-          // fix missmatch -> activityInstanceIds -> activityInstanceIdIn
-        params.activityInstanceIdIn = params.activityInstanceIds;
-        delete params.activityInstanceIds;
+        var params = angular.extend({}, defaultParams, variableQuery);
 
         $scope.variables = null;
         $scope.loadingState = 'LOADING';
@@ -259,12 +253,9 @@ module.exports = function(ngModule) {
               // prevents the list to throw an error when the activity instance is missing
             var activityInstanceLink = '';
             if(instance) {
-              activityInstanceLink = '<a cam-select-activity-instance="\'' +
-                  instance.id +
-                  '\'" ng-href="#/process-instance/' +
-                  processInstance.id +
-                  '?detailsTab=variables-tab&activityInstanceIds=' +
-                  instance.id +
+              activityInstanceLink = '<a ng-href="#/process-instance/' +
+                  processInstance.id + '/runtime' +
+                  '?detailsTab=variables-tab&'+ $scope.getSearchQueryForSearchType(instance.id) +
                   '" title="' +
                   instance.id +
                   '">' +

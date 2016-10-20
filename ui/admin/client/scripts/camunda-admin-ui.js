@@ -70,26 +70,27 @@ module.exports = function(pluginDependencies) {
 
   appNgModule.config(ModuleConfig);
 
-
   appNgModule.controller('camAdminAppCtrl', [
     '$scope',
     '$route',
-    'UserResource',
+    'camAPI',
     function(
       $scope,
       $route,
-      UserResource
+      camAPI
     ) {
+      var userService = camAPI.resource('user');
+
       function getUserProfile(auth) {
         if (!auth || !auth.name) {
           $scope.userFullName = null;
           return;
         }
 
-        UserResource.profile({
-          userId: auth.name
-        }).$promise.then(function(info) {
-          $scope.userFullName = info.firstName + ' ' + info.lastName;
+        userService.profile(auth.name, function(err, info) {
+          if (!err) {
+            $scope.userFullName = info.firstName + ' ' + info.lastName;
+          }
         });
       }
 
@@ -104,7 +105,6 @@ module.exports = function(pluginDependencies) {
 
       getUserProfile($scope.authentication);
     }]);
-
 
   if (typeof window.adminConf !== 'undefined' && window.adminConf.polyfills) {
     var polyfills = window.adminConf.polyfills;

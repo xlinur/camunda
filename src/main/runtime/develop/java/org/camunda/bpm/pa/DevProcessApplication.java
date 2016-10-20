@@ -27,7 +27,6 @@ import org.camunda.bpm.engine.impl.util.IoUtil;
 import org.camunda.bpm.engine.rest.dto.identity.UserCredentialsDto;
 import org.camunda.bpm.engine.rest.dto.identity.UserDto;
 import org.camunda.bpm.engine.rest.dto.identity.UserProfileDto;
-import org.camunda.bpm.engine.runtime.CaseExecutionQuery;
 import org.camunda.bpm.engine.runtime.ProcessInstance;
 import org.camunda.bpm.engine.task.Task;
 import org.camunda.bpm.model.bpmn.Bpmn;
@@ -216,6 +215,8 @@ public class DevProcessApplication extends ServletProcessApplication {
       .setVariable("aVariable", "abc")
       .setVariable("anotherVariable", "xyz")
       .create();
+
+    caseService.createCaseInstanceByKey("CallingCase");
 
     Task standaloneTask = taskService.newTask();
     standaloneTask.setName("A Standalone Task");

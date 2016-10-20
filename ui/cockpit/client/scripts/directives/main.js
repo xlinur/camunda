@@ -19,7 +19,8 @@ var angular = require('camunda-commons-ui/vendor/angular'),
     selectActivityInstance = require('./selectActivityInstance'),
     processVariable = require('./processVariable'),
     dynamicName = require('./dynamicName'),
-    quickFilter = require('./quickFilter');
+    quickFilter = require('./quickFilter'),
+    diagramStatisticsLoader = require('./diagramStatisticsLoader');
 
 var directivesModule = angular.module('cam.cockpit.directives', []);
 
@@ -41,5 +42,6 @@ directivesModule.directive('camSelectActivityInstance', selectActivityInstance);
 directivesModule.directive('processVariable', processVariable);
 directivesModule.directive('camDynamicName', dynamicName);
 directivesModule.directive('camQuickFilter', quickFilter);
+directivesModule.directive('diagramStatisticsLoader', diagramStatisticsLoader);
 
 module.exports = directivesModule;

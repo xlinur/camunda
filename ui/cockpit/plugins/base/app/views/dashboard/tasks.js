@@ -69,7 +69,7 @@ module.exports = [
 
           $scope.finishedSearchQuery = function() {
             var searchObject = [{
-              type: 'TAfinished',
+              type: 'finished',
               operator: 'eq',
               value: '',
               name: ''

@@ -1,9 +1,12 @@
 'use strict';
 
 var fs = require('fs');
+var angular = require('angular');
+var searchWidgetUtils = require('../../../../../../common/scripts/util/search-widget-utils');
+var paginationUtils = require('../../../../../../common/scripts/util/pagination-utils');
 
 var template = fs.readFileSync(__dirname + '/process-instance-table.html', 'utf8');
-var angular = require('angular');
+var searchConfig = JSON.parse(fs.readFileSync(__dirname + '/process-instance-search-config.json', 'utf8'));
 
 module.exports = [ 'ViewsProvider', function(ViewsProvider) {
 
@@ -14,38 +17,22 @@ module.exports = [ 'ViewsProvider', function(ViewsProvider) {
     controller: [
       '$scope', '$location', 'search', 'routeUtil', 'PluginProcessInstanceResource',
       function($scope,   $location,   search,   routeUtil,   PluginProcessInstanceResource) {
-
-        var processData = $scope.processData.newChild($scope);
-
         var processDefinition = $scope.processDefinition;
-
-        var DEFAULT_PAGES = { size: 50, total: 0, current: 1 };
-
-        var pages = $scope.pages = angular.copy(DEFAULT_PAGES);
-
-        var filter = null;
-
-        $scope.$watch('pages.current', function(newValue, oldValue) {
-          if (newValue == oldValue) {
-            return;
+        var pages = paginationUtils.initializePaginationInController($scope, search, function(newValue, oldValue) {
+          if (!angular.equals(newValue, oldValue)) {
+            updateView($scope.searchConfig.searches);
           }
-
-          search('page', !newValue || newValue == 1 ? null : newValue);
         });
 
-        processData.observe('filter', function(newFilter) {
-          pages.current = newFilter.page || 1;
+        $scope.searchConfig = angular.copy(searchConfig);
 
-          updateView(newFilter);
-        });
+        $scope.$watch('searchConfig.searches', function(newValue, oldValue) {
+          if (!angular.equals(newValue, oldValue)) {
+            updateView($scope.searchConfig.searches);
+          }
+        }, true);
 
-        function updateView(newFilter) {
-
-          filter = angular.copy(newFilter);
-
-          delete filter.page;
-          delete filter.scrollToBpmnElement;
-
+        function updateView(searches) {
           var page = pages.current,
               count = pages.size,
               firstResult = (page - 1) * count;
@@ -61,25 +48,8 @@ module.exports = [ 'ViewsProvider', function(ViewsProvider) {
             sortOrder: 'desc'
           };
 
-          var countParams = angular.extend({}, filter, defaultParams);
-
-          // fix missmatch -> activityIds -> activityIdIn
-          countParams.activityIdIn = countParams.activityIds;
-          delete countParams.activityIds;
-
-          // fix missmatch -> start -> startedAfter/startedBefore
-          angular.forEach(countParams.start, function(dateFilter) {
-            if (dateFilter.value) {
-              if (dateFilter.type === 'after') {
-                countParams.startedAfter = dateFilter.value;
-              } else if (dateFilter.type === 'before') {
-                countParams.startedBefore = dateFilter.value;
-              }
-            }
-          });
-          delete countParams.start;
-
-          var params = angular.extend({}, countParams, pagingParams);
+          var query = searchWidgetUtils.createSearchQueryForSearchWidget(searches, ['activityIdIn']);
+          var params = angular.extend({}, query, pagingParams, defaultParams);
 
           $scope.processInstances = null;
           $scope.loadingState = 'LOADING';
@@ -88,6 +58,8 @@ module.exports = [ 'ViewsProvider', function(ViewsProvider) {
             $scope.processInstances = data;
             $scope.loadingState = data.length ? 'LOADED' : 'EMPTY';
           });
+
+          var countParams = angular.extend({}, query, defaultParams);
 
           PluginProcessInstanceResource.count(countParams).$promise.then(function(data) {
             pages.total = data.count;
