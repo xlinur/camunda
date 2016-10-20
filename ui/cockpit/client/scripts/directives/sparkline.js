@@ -218,7 +218,7 @@ proto.draw = function() {
   var tm = 0;
   timeLabels.forEach(function(l) {
     tt += ctx.measureText(l).width + (textPadding * 2);
-    tm = Math.max(tm, ctx.measureText(l).width + (textPadding * 2));// + tickSize);
+    tm = Math.max(tm, ctx.measureText(l).width + (textPadding * 2));
   });
 
 
