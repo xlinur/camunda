@@ -15,8 +15,11 @@ describe('Cockpit Dashboard Spec', function() {
   });
 
   it('should display all sections of the page in the header', function() {
-    expect(dashboardPage.navbarItem(0).getText()).to.eventually.eql('Processes');
-    expect(dashboardPage.navbarItem(1).getText()).to.eventually.eql('Decisions');
-    expect(dashboardPage.navbarItem(2).getText()).to.eventually.eql('Human Tasks');
+    expect(dashboardPage.navbarItem(0).getText()).to.eventually.eql('More');
+
+    dashboardPage.navbarDropDown().click();
+    expect(dashboardPage.navBarDropDownItem(0)).to.eventually.eql('Reports');
+    expect(dashboardPage.navBarDropDownItem(1)).to.eventually.eql('Deployments');
+    expect(dashboardPage.navBarDropDownItem(2)).to.eventually.eql('Batches');
   });
 });
