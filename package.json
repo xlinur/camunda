@@ -31,6 +31,7 @@
     "bpmn-font": "0.2.0",
     "camunda-bpm-sdk-js": "git://github.com/camunda/camunda-bpm-sdk-js.git#master",
     "camunda-commons-ui": "git://github.com/camunda/camunda-commons-ui#CAM-5466",
+    "diagram-js": "0.18.2",
     "dmn-js": "0.8.3",
     "events": "1.1.0",
     "jquery": "2.1.1",
