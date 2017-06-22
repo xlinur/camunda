@@ -301,7 +301,7 @@ describe('Cockpit Variable Spec', function() {
 
         // then
         expect(instancePage.addVariable.addButton().isEnabled()).to.eventually.be.false;
-        expect(instancePage.addVariable.variableValueInfoLabel().getText()).to.eventually.eql('Supported pattern \'yyyy-MM-ddTHH:mm:ss\'.');
+        expect(instancePage.addVariable.variableValueInfoLabel().getText()).to.eventually.eql('Supported pattern \'yyyy-MM-ddTHH:mm:ss.SSSZ\'.');
       });
 
 
