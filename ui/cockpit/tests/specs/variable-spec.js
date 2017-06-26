@@ -174,7 +174,7 @@ describe('Cockpit Variable Spec', function() {
       var variable = instancePage.variablesTab.variableByName('myDate');
 
       expect(variable.type().getText()).to.eventually.eql('Date');
-      expect(variable.value().getText()).to.eventually.eql('2011-11-11T11:11:11');
+      expect(variable.value().getText()).to.eventually.eql('2011-11-11T11:11:11.000+0200');
 
       // when
       variable.enterEditMode();
