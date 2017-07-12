@@ -29,7 +29,7 @@
     position: relative;
     top: -1px;
     margin-left: 10px;
-    display: inline-block !important;
+    display: inline-block;
   }
 }
 
@@ -46,11 +46,6 @@
 .task-card-details .shutter {
   background-image: none;
 }
-
-//.btn-default {
-//  background-color: #93cf52;
-//  color: #fff;
-//}
 
 .task-filters {
   .btn-link:not(.region-toggle) {
@@ -84,6 +79,10 @@
     background-color: #0072c1;
     color: #fff;
 
+    &:hover {
+      color: #fff;
+    }
+
     a {
       color: inherit;
     }
@@ -99,4 +98,45 @@
   a {
     color: inherit;
   }
+}
+
+.nav-tabs {
+  li.active {
+    a {
+      background-color: #e2f3f8 !important;
+    }
+  }
+}
+
+.panel-default > .panel-heading {
+  background-color: #b7dde8;
+}
+
+.row-action > a[ng-click] {
+  padding: 3px;
+  background-color: #0072c1;
+  border-radius: 5px;
+}
+
+.row-action>a[ng-click]>span,
+.row-action .btn-link>span {
+  vertical-align: middle;
+  color: #fff;
+}
+
+.brand-logo {
+  display: block;
+  margin-top: 8px;
+  width: 120px;
+  height: 30px;
+  background-image: url('../assets/images/alfa-logo.png');
+  background-size: cover;
+
+  &:before {
+    display: none !important;
+  }
+}
+
+.brand-name {
+  display: none;
 }
