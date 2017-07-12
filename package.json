@@ -3,8 +3,8 @@
   "private": true,
   "version": "7.8.0-SNAPSHOT",
   "gruntConfig": {
-    "connectPort": 8020,
-    "livereloadPort": 8021,
+    "connectPort": 3331,
+    "livereloadPort": 3333,
     "welcomeBuildTarget": "target/webapp/app/welcome",
     "welcomeSourceDir": "ui/welcome/client",
     "adminBuildTarget": "target/webapp/app/admin",
