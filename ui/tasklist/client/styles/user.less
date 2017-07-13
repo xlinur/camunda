@@ -1,6 +1,30 @@
 [cam-widget-header] {
+  display: flex;
   border-top: none;
   background-color: #f2f2f2;
+
+  [ng-transclude] {
+    border-right: none;
+  }
+
+  .sections-menu>ul {
+    float: none;
+  }
+
+  .cam-nav {
+    order: 1;
+  }
+
+  .sections-menu {
+    flex-grow: 1;
+    display: flex !important;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .shortcut-help {
+    display: none !important;
+  }
 
   .account .dropdown-toggle {
     padding: 4px;
@@ -186,14 +210,18 @@
 }
 
 .toggler {
+  padding-left: 12px;
+  padding-right: 8px;
+  display: inline-block;
+  vertical-align: middle;
   font-size: 0;
 
   &__item {
     display: inline-block;
     vertical-align: top;
-    padding: 4px 8px;
+    padding: 5px 10px;
     line-height: 1;
-    font-size: 12px;
+    font-size: 13px;
     background-color: #fff;
 
     &_active {
@@ -201,4 +229,17 @@
       color: #fff !important;
     }
   }
+}
+
+.info {
+  display: inline-block;
+  vertical-align: middle;
+  color: #8CB2E2;
+  border: 2px solid currentColor;
+  border-radius: 50%;
+  width: 20px;
+  height: 20px;
+  text-align: center;
+  line-height: 18px;
+  font-size: 13px;
 }
