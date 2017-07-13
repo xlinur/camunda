@@ -22,6 +22,10 @@
     align-items: center;
     height: 42px;
   }
+
+  .app-switch {
+    display: none !important;
+  }
 }
 
 .region-toggle, .maximize {
@@ -61,7 +65,7 @@
 }
 
 .task-card-details .shutter {
-  background-image: none;
+  //background-image: none;
 }
 
 .task-filters {
@@ -172,6 +176,28 @@
     }
 
     &:hover {
+      color: #fff !important;
+    }
+  }
+}
+
+[cam-widget-footer] {
+  display: none;
+}
+
+.toggler {
+  font-size: 0;
+
+  &__item {
+    display: inline-block;
+    vertical-align: top;
+    padding: 4px 8px;
+    line-height: 1;
+    font-size: 12px;
+    background-color: #fff;
+
+    &_active {
+      background-color: #8CB2E2;
       color: #fff !important;
     }
   }
