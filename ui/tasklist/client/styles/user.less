@@ -3,6 +3,18 @@
   border-top: none;
   background-color: #f2f2f2;
 
+  .create-task-action {
+    a {
+      background-color: #0072c1 !important;
+      color: #fff;
+      display: block;
+      height: auto !important;
+      line-height: 26px !important;
+      border-radius: 5px;
+      padding: 0 6px;
+    }
+  }
+
   .left-controls {
     padding-left: 10px;
 
@@ -15,7 +27,8 @@
 
     li {
       display: inline-block;
-      vertical-align: top;
+      vertical-align: middle;
+      margin-right: 5px;
     }
   }
 
@@ -60,7 +73,8 @@
   .account.dropdown {
     display: inline-flex;
     align-items: center;
-    height: 42px;
+    height: 45px;
+    font-size: 13px;
   }
 
   .app-switch {
@@ -265,6 +279,9 @@
 }
 
 .tasks-btn {
+  display: inline-block;
+  vertical-align: middle;
+
   &__count {
     margin-left: 3px;
     padding: 1px 6px;
