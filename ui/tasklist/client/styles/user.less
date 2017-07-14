@@ -96,15 +96,21 @@
 
 .task-filter {
   .counter {
-    background-color: #2d88a3;
-    color: #fff;
-    border-radius: 13px;
-    font-size: 13px;
-    padding: 0 8px;
     position: relative;
     top: -1px;
-    margin-left: 10px;
     display: inline-block;
+    padding: 0 8px;
+    margin-left: 10px;
+    border-radius: 13px;
+    font-size: 13px;
+    line-height: 1.5;
+    background-color: #2d88a3;
+    color: #fff;
+
+    &:before,
+    &:after {
+      display: none;
+    }
   }
 }
 
