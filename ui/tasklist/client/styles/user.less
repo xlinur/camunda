@@ -3,6 +3,22 @@
   border-top: none;
   background-color: #f2f2f2;
 
+  .left-controls {
+    padding-left: 10px;
+
+    ul {
+      margin-left: 15px;
+      display: inline-block;
+      vertical-align: middle;
+      list-style: none;
+    }
+
+    li {
+      display: inline-block;
+      vertical-align: top;
+    }
+  }
+
   [ng-transclude] {
     border-right: none;
   }
@@ -85,11 +101,11 @@
 .task {
   &.active {
     background-color: #e2f3f8;
-  }
-}
 
-.task-card-details .shutter {
-  //background-image: none;
+    .shutter {
+      background-image: none;
+    }
+  }
 }
 
 .task-filters {
@@ -242,4 +258,22 @@
   text-align: center;
   line-height: 18px;
   font-size: 13px;
+}
+
+.btn-primary {
+  background-color: #bf0100;
+}
+
+.tasks-btn {
+  &__count {
+    margin-left: 3px;
+    padding: 1px 6px;
+    background-color: #28899A;
+    color: #fff;
+    border-radius: 8px;
+
+    &:empty {
+      display: none;
+    }
+  }
 }

@@ -54,16 +54,19 @@
        my-profile="{{ 'MY_PROFILE' | translate }}"
        brand-name="{{ appVendor }} {{ appName }}"
        ng-cloak>
-   <ul cam-if-logged-in
-       ng-controller="camHeaderViewsCtrl">
-      <li ng-repeat="actionProvider in navbarActions"
-          ng-class="actionProvider.id">
-        <view ng-cloak
-              provider="actionProvider"
-              vars="navbarVars">
-        </view>
-      </li>
-    </ul>
+    <div class="left-controls">
+      <a href="#" class="tasks-btn"><span class="tasks-btn__text">Tasks</span> <span class="tasks-btn__count">5</span></a>
+      <ul cam-if-logged-in
+         ng-controller="camHeaderViewsCtrl">
+        <li ng-repeat="actionProvider in navbarActions"
+            ng-class="actionProvider.id">
+          <view ng-cloak
+                provider="actionProvider"
+                vars="navbarVars">
+          </view>
+        </li>
+      </ul>
+    </div>
     <div class="custom-controls">
       <a href="#" class="info">?</a>
 
