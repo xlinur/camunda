@@ -150,6 +150,12 @@
       content: '\e019';
     }
   }
+
+  .item {
+    a {
+      color: #0072c1 !important;
+    }
+  }
 }
 
 .createCommentLink {
@@ -239,10 +245,6 @@
     background-color: #0072c1;
     color: #fff !important;
 
-    span {
-      vertical-align: middle;
-    }
-
     &:hover {
       color: #fff !important;
     }
@@ -307,4 +309,30 @@
       display: none;
     }
   }
+}
+
+.glyphicon {
+  font-weight: 500;
+}
+
+.new-sort {
+  order: -1;
+  margin-right: 5px;
+
+  .dropdown-toggle {
+    width: 20px;
+    text-align: center;
+    display: block;
+    background-color: #0072c1;
+    color: #fff !important;
+    border-radius: 4px;
+
+    .glyphicon {
+      top: -1px;
+    }
+  }
+}
+
+.sorting-choice {
+  display: flex;
 }
