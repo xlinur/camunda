@@ -1,84 +1,107 @@
+.brand-logo {
+  display: block;
+  margin-top: 8px;
+  width: 102px;
+  height: 30px;
+  background-image: url('../assets/images/alfa-logo.png');
+  background-size: cover;
+
+  &:before {
+    display: none !important;
+  }
+}
+
+.brand-name {
+  display: none;
+}
+
+textarea {
+  min-height: 260px;
+}
+
 [cam-widget-header] {
-  display: flex;
-  border-top: none;
-  background-color: #f2f2f2;
+  @media (min-width: 843px) {
+    display: flex;
+    border-top: none;
+    background-color: #f2f2f2;
 
-  .create-task-action {
-    a {
-      background-color: #0072c1 !important;
-      color: #fff;
-      display: block;
-      height: auto !important;
-      line-height: 26px !important;
-      border-radius: 5px;
-      padding: 0 6px;
+    .create-task-action {
+      a {
+        background-color: #0072c1 !important;
+        color: #fff;
+        display: block;
+        height: auto !important;
+        line-height: 26px !important;
+        border-radius: 5px;
+        padding: 0 6px;
+      }
     }
-  }
 
-  .left-controls {
-    padding-left: 10px;
+    .left-controls {
+      padding-left: 10px;
 
-    ul {
+      ul {
+        margin-left: 15px;
+        display: inline-block;
+        vertical-align: middle;
+        list-style: none;
+      }
+
+      li {
+        display: inline-block;
+        vertical-align: middle;
+        margin-right: 5px;
+      }
+    }
+
+    [ng-transclude] {
+      border-right: none;
+    }
+
+    .sections-menu>ul {
+      float: none;
+    }
+
+    .cam-nav {
+      order: 1;
+    }
+
+    .sections-menu {
+      flex-grow: 1;
+      display: flex !important;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .shortcut-help {
+      display: none !important;
+    }
+
+    .account .dropdown-toggle {
+      padding: 4px;
+      border-radius: 4px;
       margin-left: 15px;
-      display: inline-block;
-      vertical-align: middle;
-      list-style: none;
+      margin-right: 8px;
+      height: auto;
+      line-height: 1;
+      background-color: #35bad9 !important;
+      color: #fff;
+
+      &:hover {
+        background-color: #35bad9;
+      }
     }
 
-    li {
-      display: inline-block;
-      vertical-align: middle;
-      margin-right: 5px;
+    .account.dropdown {
+      display: inline-flex;
+      align-items: center;
+      height: 45px;
+      font-size: 13px;
     }
-  }
 
-  [ng-transclude] {
-    border-right: none;
-  }
-
-  .sections-menu>ul {
-    float: none;
-  }
-
-  .cam-nav {
-    order: 1;
-  }
-
-  .sections-menu {
-    flex-grow: 1;
-    display: flex !important;
-    justify-content: space-between;
-    align-items: center;
-  }
-
-  .shortcut-help {
-    display: none !important;
-  }
-
-  .account .dropdown-toggle {
-    padding: 4px;
-    border-radius: 4px;
-    margin-left: 15px;
-    margin-right: 8px;
-    height: auto;
-    line-height: 1;
-    background-color: #35bad9 !important;
-    color: #fff;
-
-    &:hover {
-      background-color: #35bad9;
+    .app-switch {
+      display: none !important;
     }
-  }
-
-  .account.dropdown {
-    display: inline-flex;
-    align-items: center;
-    height: 45px;
-    font-size: 13px;
-  }
-
-  .app-switch {
-    display: none !important;
   }
 }
 
@@ -221,23 +244,6 @@
   color: #fff;
 }
 
-.brand-logo {
-  display: block;
-  margin-top: 8px;
-  width: 102px;
-  height: 30px;
-  background-image: url('../assets/images/alfa-logo.png');
-  background-size: cover;
-
-  &:before {
-    display: none !important;
-  }
-}
-
-.brand-name {
-  display: none;
-}
-
 .form-group {
   .btn-link {
     padding: 2px 4px;
@@ -351,4 +357,8 @@
     position: relative;
     top: -2px;
   }
+}
+
+[cam-tasklist-filter-modal-form] .user-read-permissions .btn-link>span {
+  vertical-align: middle;
 }
