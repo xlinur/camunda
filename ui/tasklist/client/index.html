@@ -55,7 +55,8 @@
        brand-name="{{ appVendor }} {{ appName }}"
        ng-cloak>
     <div class="left-controls">
-      <a href="#" class="tasks-btn"><span class="tasks-btn__text">Tasks</span> <span class="tasks-btn__count">5</span></a>
+      <a href="#" class="tasks-btn"><span class="tasks-btn__text">Tasks</span> <span class="tasks-btn__count"></span></a>
+      <a href="#" class="tasks-btn"><span class="tasks-btn__text">Processes</span> <span class="tasks-btn__count"></span></a>
       <ul cam-if-logged-in
          ng-controller="camHeaderViewsCtrl">
         <li ng-repeat="actionProvider in navbarActions"
